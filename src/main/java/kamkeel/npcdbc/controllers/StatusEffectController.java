@@ -108,7 +108,7 @@ public class StatusEffectController implements IStatusEffectHandler {
         effect.name = name;
 
         if (effect.id == -1) {
-            int id = effect.id;
+            int  id = getUnusedId();
             while (customEffects.containsKey(id)) {
                 id = getUnusedId();
             }
@@ -129,6 +129,13 @@ public class StatusEffectController implements IStatusEffectHandler {
         if (effect != null)
             customEffects.remove(effect.getId());
     }
+
+    public void delete(int id) {
+        IStatusEffect effect = get(id);
+        if (effect != null)
+            customEffects.remove(effect.getId());
+    }
+
 
     public int getUnusedId() {
         for (int catid : customEffects.keySet()) {
