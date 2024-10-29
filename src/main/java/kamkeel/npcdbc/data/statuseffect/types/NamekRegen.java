@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class NamekRegen extends StatusEffect {
 
     public NamekRegen() {
-        name = "NamekRegen";
+        name = "Namek Regen";
         id = Effects.NAMEK_REGEN;
         icon = CustomNpcPlusDBC.ID + ":textures/gui/icons.png";
         iconX = 48;
