@@ -854,6 +854,9 @@ public class StatSheetGui extends AbstractJRMCGui implements GuiYesNoCallback {
             button.width = fontRendererObj.getStringWidth(name)+8;
         }
 
+        if (id == 30998) {
+            mc.displayGuiScreen(new GuiConfirmOpenLink(this, "https://dragon-xeno.tebex.io/", 1, true));
+        }
     }
 
     protected void drawAlignmentBar(int x, int y){
@@ -1018,14 +1021,23 @@ public class StatSheetGui extends AbstractJRMCGui implements GuiYesNoCallback {
 
     public void confirmClicked(boolean flag, int i) {
         if (flag) {
-            if (i == 0) {
-                String link = ConfigDBCGeneral.getDiscordURL();
-                try{
-                    Class oclass = java.lang.Class.forName("java.awt.Desktop");
-                    Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
-                    oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI(link)});
-                }
-                catch (Throwable ignored) {}
+            String link = null;
+            switch (i) {
+                case 0:
+                    link = "https://discord.com/invite/pQqRTvFeJ5";
+                    break;
+                case 1:
+                    link = "https://dragon-xeno.tebex.io/";
+                    break;
+                default:
+                    return;
+            }
+
+            try {
+                java.lang.Class<?> oclass = java.lang.Class.forName("java.awt.Desktop");
+                Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
+                oclass.getMethod("browse", new Class[]{URI.class}).invoke(object, new Object[]{new URI(link)});
+            } catch (Throwable ignored) {
             }
         }
 

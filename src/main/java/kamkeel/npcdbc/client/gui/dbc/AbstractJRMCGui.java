@@ -175,13 +175,14 @@ public abstract class AbstractJRMCGui extends GuiScreen implements GuiYesNoCallb
 
     protected void addServerButtons(){
         String s = "DBC Server";
+        String shop = "Dragon Xeno Shop";
         int i = this.fontRendererObj.getStringWidth(s);
         this.buttonList.add(new JRMCoreGuiButtons00(GuiInfo.SERVER_SITE_ID, guiWidthOffset + 260, guiHeightOffset + 3, i + 8, 20, s, 0));
 
-        if (!JRMCoreConfig.ssurl.contains("empty") && JRMCoreConfig.ssurl.contains("ttp")) {
-            s = GuiInfo.ReferenceIDs.SERVER_SHOP.getTranslation();
+        if (!JRMCoreConfig.ssurl.contains("empty") && JRMCoreConfig.ssurl.contains("dx")) {
+            s = shop;
             i = this.fontRendererObj.getStringWidth(s);
-            this.buttonList.add(new JRMCoreGuiButtons00(GuiInfo.ReferenceIDs.SERVER_SHOP.getButtonId(), guiWidthOffset + 260, guiHeightOffset + 25, i + 8, 20, s, 0));
+            this.buttonList.add(new JRMCoreGuiButtons00(30998, guiWidthOffset + 260, guiHeightOffset + 25, i + 8, 20, s, 0));
         }
     }
 
