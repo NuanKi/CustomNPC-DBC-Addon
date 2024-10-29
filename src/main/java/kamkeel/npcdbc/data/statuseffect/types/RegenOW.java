@@ -22,7 +22,7 @@ public class RegenOW extends StatusEffect {
     @Override
     public void onTick(EntityPlayer player, PlayerEffect playerEffect) {
         DBCData dbcData = DBCData.get(player);
-        int percentToRegen = ConfigDBCEffects.HealthRegenPercent * playerEffect.level;
+        int percentToRegen = ConfigDBCEffects.HealthRegenPercent;
         if (!JRMCoreHDBC.isAlive(player)) {
             if (dbcData.Body > 0)
                 dbcData.stats.restoreHealthPercent(percentToRegen);
