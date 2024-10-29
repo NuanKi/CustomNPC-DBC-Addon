@@ -51,6 +51,12 @@ public class ConfigDBCEffects
     public static double ZenkaiHALFWil = 1.0f;
     public static int ZenkaiHALFLength = 180;
 
+    public final static String BROKEN_SPIRIT = "Broken_Spirit";
+    public static double BrokenSpiritStr = -0.2;
+    public static double BrokenSpiritDex = -0.2;
+    public static double BrokenSpiritWil = -0.2;
+    public static int BrokenSpiritLength = 180;
+
     public final static String Meditation = "Meditation";
     public static int MeditationSpiBoostPercent = 20;
 
@@ -146,6 +152,14 @@ public class ConfigDBCEffects
             ZenkaiHALFDex = config.get(ZENKAI, "Half Saiyan Dex Multi", 1.2f, "Amount added to Dex Multi").getDouble(1.0f);
             ZenkaiHALFWil = config.get(ZENKAI, "Half Saiyan Will Multi", 1.2f, "Amount added to Will Multi").getDouble(1.0f);
             ZenkaiHALFLength = config.get(ZENKAI, "Half Saiyan Zenkai Length", 180, "Time of Zenkai in Seconds").getInt(180);
+
+            config.addCustomCategoryComment(BROKEN_SPIRIT,
+                "Weakened Spirit is applied when a player is revived. This can be disabled in the DBC Gameplay Config." +
+                    "\nAll multis are ADDED multis.");
+            BrokenSpiritStr = config.get(BROKEN_SPIRIT, "Strength Multi", -0.2, "Amount added to Strength Multi").getDouble(-0.2);
+            BrokenSpiritDex = config.get(BROKEN_SPIRIT, "Dex Multi", -0.2, "Amount added to Dex Multi").getDouble(-0.2);
+            BrokenSpiritWil = config.get(BROKEN_SPIRIT, "Will Multi", -0.2, "Amount added to Will Multi").getDouble(-0.2);
+            BrokenSpiritLength = config.get(BROKEN_SPIRIT, "Weakened Spirit Length", 180, "Time of Weakened Spirit in Seconds").getInt(180);
 
             config.addCustomCategoryComment(Meditation,
                 "Meditation Spirit Bonus is always added AFTER all other calculations");

@@ -16,7 +16,6 @@ import kamkeel.npcdbc.data.IAuraData;
 import kamkeel.npcdbc.data.PlayerDBCInfo;
 import kamkeel.npcdbc.data.dbcdata.DBCData;
 import kamkeel.npcdbc.data.form.Form;
-import kamkeel.npcdbc.data.form.FormMastery;
 import kamkeel.npcdbc.data.npc.DBCDisplay;
 import kamkeel.npcdbc.entity.EntityAura;
 import kamkeel.npcdbc.mixins.late.INPCDisplay;
@@ -164,6 +163,10 @@ public class ServerEventHandler {
             dbcData.addonFormID = -1;
             dbcInfo.currentForm = -1;
             dbcInfo.updateClient();
+
+            if (ConfigDBCGameplay.WeakenedSpirit) {
+                StatusEffectController.getInstance().applyEffect(dbcData.player, Effects.BROKEN_SPIRIT, ConfigDBCEffects.BrokenSpiritLength);
+            }
         }
     }
 

@@ -47,6 +47,9 @@ public class ConfigDBCGameplay
     public static boolean SaiyanZenkai = true;
     public static boolean HalfSaiyanZenkai = true;
 
+    public final static String Weakened_Spirit = "Weakened_Spirit";
+    public static boolean WeakenedSpirit = true;
+
     public final static String KiCharge = "Ki_Charge";
     public static boolean RevampKiCharging = true;
     public static boolean KiPotentialUnlock = true;
@@ -88,6 +91,8 @@ public class ConfigDBCGameplay
 
             SaiyanZenkai = config.get(Zenkai, "Enable Saiyan Zenkai", true, "Enables Zenkai for Saiyans after Revive").getBoolean(true);
             HalfSaiyanZenkai = config.get(Zenkai, "Enable Half Saiyan Zenkai", true, "Enables Zenkai for Half Saiyans after Revive").getBoolean(true);
+
+            WeakenedSpirit = config.get(Weakened_Spirit, "Enable Weakened Spirit", true, "Enables Weakened Spirit when dying").getBoolean(true);
 
             InstantTransform = config.get(Forms, "Instant Transform Bypass Parent", true,
                 "Allows Instant Transform to Bypass the Parent Only Check\n" +
