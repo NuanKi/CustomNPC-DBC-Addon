@@ -22,4 +22,5 @@ public class Effects {
 
     // NuanKi added effects
     public static final int MAJIN_REGEN = 100;
+    public static final int OW_REGEN = 101;
 }

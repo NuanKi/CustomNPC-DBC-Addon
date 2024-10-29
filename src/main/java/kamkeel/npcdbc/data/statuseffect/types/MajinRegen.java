@@ -14,8 +14,8 @@ public class MajinRegen extends StatusEffect {
         name = "Majin Regen";
         id = Effects.MAJIN_REGEN;
         icon = CustomNpcPlusDBC.ID + ":textures/gui/icons.png";
-        iconX = 48;
-        iconY = 0;
+        iconX = 16;
+        iconY = 32;
     }
 
     @Override

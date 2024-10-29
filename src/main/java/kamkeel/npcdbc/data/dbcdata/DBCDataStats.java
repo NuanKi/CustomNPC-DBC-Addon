@@ -2,6 +2,7 @@ package kamkeel.npcdbc.data.dbcdata;
 
 import JinRyuu.JRMCore.JRMCoreConfig;
 import JinRyuu.JRMCore.JRMCoreH;
+import JinRyuu.JRMCore.JRMCoreHDBC;
 import JinRyuu.JRMCore.i.ExtendedPlayer;
 import JinRyuu.JRMCore.server.config.dbc.JGConfigRaces;
 import JinRyuu.JRMCore.server.config.dbc.JGConfigUltraInstinct;
@@ -379,6 +380,17 @@ public class DBCDataStats {
         if (getCurrentBodyPercentage() < 100) {
             if (!StatusEffectController.getInstance().hasEffect(data.player, Effects.MAJIN_REGEN)) {
                 StatusEffectController.getInstance().applyEffect(data.player, Effects.MAJIN_REGEN, -100);
+            }
+        }
+    }
+
+    public void applyOWRegen() {
+        if (data.player == null)
+            return;
+
+        if (!JRMCoreHDBC.isAlive(data.player)) {
+            if (!StatusEffectController.getInstance().hasEffect(data.player, Effects.OW_REGEN)) {
+                StatusEffectController.getInstance().applyEffect(data.player, Effects.OW_REGEN, -100);
             }
         }
     }

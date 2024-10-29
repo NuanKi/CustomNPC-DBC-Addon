@@ -60,6 +60,7 @@ public class StatusEffectController implements IStatusEffectHandler {
 
         // NuanKi added effects
         standardEffects.put(Effects.MAJIN_REGEN, new MajinRegen());
+        standardEffects.put(Effects.OW_REGEN, new RegenOW());
     }
 
     public void runEffects(EntityPlayer player) {

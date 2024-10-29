@@ -33,6 +33,9 @@ public class ConfigDBCGameplay
     public final static String MajinRegeneration = "Majin_Regen";
     public static boolean EnableMajinRegen = true;
 
+    public final static String OWRegeneration = "Otherworld_Regen";
+    public static boolean EnableOWRegen = true;
+
     public final static String PotaraFusion = "Potara_Fusion";
     public static boolean UniqueEarrings = true;
     public static boolean WearableEarrings = true;
@@ -80,6 +83,9 @@ public class ConfigDBCGameplay
             EnableMajinRegen = config.get(MajinRegeneration, "Enable Majin Regeneration", true,
                 "Majin Regeneration will automatically apply the Majin Regen Effect (dbc/effects.cfg), " +
                     "\nwhen the Player falls below 100% Health and will stop continue to MAX Health.").getBoolean(true);
+            EnableOWRegen = config.get(OWRegeneration, "Enable Otherworld Regeneration", true,
+                "Otherworld Regeneration will automatically apply the Otherworld Regen Effect (dbc/effects.cfg),").getBoolean(true);
+
             SaiyanZenkai = config.get(Zenkai, "Enable Saiyan Zenkai", true, "Enables Zenkai for Saiyans after Revive").getBoolean(true);
             HalfSaiyanZenkai = config.get(Zenkai, "Enable Half Saiyan Zenkai", true, "Enables Zenkai for Half Saiyans after Revive").getBoolean(true);
 

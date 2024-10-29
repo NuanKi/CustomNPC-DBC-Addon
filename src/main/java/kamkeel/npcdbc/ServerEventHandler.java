@@ -114,6 +114,9 @@ public class ServerEventHandler {
                 if (ConfigDBCGameplay.EnableMajinRegen && dbcData.Race == DBCRace.MAJIN)
                     dbcData.stats.applyMajinRegen();
 
+                if (ConfigDBCGameplay.EnableOWRegen)
+                    dbcData.stats.applyOWRegen();
+
                 if (player.ticksExisted % 20 == 0)
                     StatusEffectController.Instance.decrementEffects(dbcData.player);
 
