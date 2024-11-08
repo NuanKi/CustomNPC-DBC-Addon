@@ -21,7 +21,8 @@ public class Effects {
     public static final int KI_DEFENSE = 16;
 
     // NuanKi added effects
-    public static final int MAJIN_REGEN = 100;
-    public static final int OW_REGEN = 101;
-    public static final int BROKEN_SPIRIT = 102;
+    public static final int MAJIN_REGEN = 20;
+    public static final int OW_REGEN = 21;
+    public static final int BROKEN_SPIRIT = 22;
+    public static final int IKARI = 23;
 }
