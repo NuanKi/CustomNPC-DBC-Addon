@@ -26,7 +26,6 @@ import kamkeel.npcdbc.data.form.Form;
 import kamkeel.npcdbc.data.outline.Outline;
 import kamkeel.npcdbc.data.statuseffect.PlayerEffect;
 import kamkeel.npcdbc.entity.EntityAura;
-import kamkeel.npcdbc.mixins.late.IPlayerDBCInfo;
 import kamkeel.npcdbc.network.PacketHandler;
 import kamkeel.npcdbc.network.packets.DBCSetFlight;
 import kamkeel.npcdbc.network.packets.DBCUpdateLockOn;
@@ -55,7 +54,7 @@ public class DBCData extends DBCDataUniversal implements IAuraData {
     public EntityPlayer player;
 
     // Original DBC
-    public int STR, DEX, CON, WIL, MND, SPI, TP, Body, Ki, Stamina, KOforXSeconds, Rage, Heat, Pain, AuraColor, ArcReserve, hasSSJ4;
+    public int STR, DEX, CON, WIL, MND, SPI, TP, Body, Ki, Stamina, KOforXSeconds, Rage, Heat, Pain, AuraColor, ArcReserve, hasSSJ4, OPLevel;
     public byte Class, Race, Powertype, Accept, State, State2, Release, Alignment, Tail;
     public boolean Alive, isKO;
     public String Skills = "", RacialSkills = "", StatusEffects = "", Settings = "", FormMasteryRacial = "", FormMasteryNR = "", DNS = "", DNSHair = "", MajinAbsorptionData = "", Fusion = "";
@@ -154,6 +153,7 @@ public class DBCData extends DBCDataUniversal implements IAuraData {
         comp.setInteger("addonFormID", addonFormID);
         comp.setInteger("auraID", auraID);
         comp.setInteger("outlineID", outlineID);
+        comp.setInteger("OverChargeCheck", OPLevel);
 
         comp.setFloat("addonFormLevel", addonFormLevel);
         comp.setFloat("addonCurrentHeat", addonCurrentHeat);
@@ -191,6 +191,7 @@ public class DBCData extends DBCDataUniversal implements IAuraData {
         hasSSJ4 = c.getInteger("jrmcAfGFtStFT");
         AuraColor = c.getInteger("jrmcAuraColor");
         ArcReserve = c.getInteger("jrmcArcRsrv");
+        OPLevel = c.getInteger("OverChargeCheck");
 
         State = c.getByte("jrmcState");
         State2 = c.getByte("jrmcState2");

@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import static JinRyuu.JRMCore.JRMCoreH.getMajinAbsorptionValueS;
 import static JinRyuu.JRMCore.JRMCoreH.nbt;
+import static kamkeel.npcdbc.controllers.TransformController.dbcData;
 
 public class DBCDataStats {
     private final DBCData data;
@@ -391,6 +392,17 @@ public class DBCDataStats {
         if (!JRMCoreHDBC.isAlive(data.player)) {
             if (!StatusEffectController.getInstance().hasEffect(data.player, Effects.OW_REGEN)) {
                 StatusEffectController.getInstance().applyEffect(data.player, Effects.OW_REGEN, -100);
+            }
+        }
+    }
+
+    public void applyOverPower() {
+        if (data.player == null)
+            return;
+
+        if (data.OPLevel > 0) {
+            if (!StatusEffectController.getInstance().hasEffect(data.player, Effects.OVERPOWER)) {
+                StatusEffectController.getInstance().applyEffect(data.player, Effects.OVERPOWER, -100);
             }
         }
     }

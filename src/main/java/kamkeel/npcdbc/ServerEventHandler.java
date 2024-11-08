@@ -116,6 +116,8 @@ public class ServerEventHandler {
                 if (ConfigDBCGameplay.EnableOWRegen)
                     dbcData.stats.applyOWRegen();
 
+                dbcData.stats.applyOverPower();
+
                 if (player.ticksExisted % 20 == 0)
                     StatusEffectController.Instance.decrementEffects(dbcData.player);
 
@@ -144,7 +146,7 @@ public class ServerEventHandler {
         boolean powerDown = dbcData.isFnPressed;
         byte release = dbcData.Release;
 
-        byte maxRelease = (byte) ((byte) (50 + dbcData.stats.getPotentialUnlockLevel() * 5) + (byte) (StatusEffectController.Instance.hasEffect(player, Effects.OVERPOWER) ? ConfigDBCEffects.OVERPOWER_AMOUNT : 0));
+        byte maxRelease = (byte) ((byte) (50 + dbcData.stats.getPotentialUnlockLevel() * 5) + (byte) (StatusEffectController.Instance.hasEffect(player, Effects.OVERPOWER) ? dbcData.OPLevel * 5 : 0));
 
         int newRelease = ValueUtil.clamp(!powerDown ? release + releaseFactor : release - releaseFactor, (byte) releaseFactor, maxRelease);
         dbcData.getRawCompound().setByte("jrmcRelease", (byte) newRelease);
