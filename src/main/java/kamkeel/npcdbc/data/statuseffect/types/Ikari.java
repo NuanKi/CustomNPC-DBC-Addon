@@ -58,6 +58,7 @@ public class Ikari extends StatusEffect {
             } else {
                 if (dbcInfo.currentForm != -1) {
                     dbcInfo.currentForm = -1;
+                    dbcInfo.updateClient();
                 }
             }
         }
