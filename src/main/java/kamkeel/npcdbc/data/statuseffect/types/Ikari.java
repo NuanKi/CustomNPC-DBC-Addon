@@ -30,10 +30,12 @@ public class Ikari extends StatusEffect {
         DBCData dbcData = DBCData.get(player);
         PlayerDBCInfo dbcInfo = PlayerDataUtil.getDBCInfo(player);
         Form form = (Form) DBCAPI.Instance().getForm(FORM_NAME);
-        if (form == null) {
+
+        if (dbcData == null || dbcInfo == null || form == null) {
             playerEffect.kill();
             return;
         }
+
         if (dbcData.Race == DBCRace.SAIYAN || dbcData.Race == DBCRace.HALFSAIYAN) {
             if (dbcData.getState() == 0) {
                 dbcInfo.currentForm = form.id;
@@ -49,6 +51,12 @@ public class Ikari extends StatusEffect {
         DBCData dbcData = DBCData.get(player);
         PlayerDBCInfo dbcInfo = PlayerDataUtil.getDBCInfo(player);
         Form form = (Form) DBCAPI.Instance().getForm(FORM_NAME);
+
+        if (dbcData == null || dbcInfo == null || form == null) {
+            playerEffect.kill();
+            return;
+        }
+
         if (dbcData.Race == DBCRace.SAIYAN || dbcData.Race == DBCRace.HALFSAIYAN) {
             if (dbcData.getState() == 0) {
                 dbcData.stats.restoreKiPercent(kiToDrain);
@@ -58,6 +66,7 @@ public class Ikari extends StatusEffect {
             } else {
                 if (dbcInfo.currentForm != -1) {
                     dbcInfo.currentForm = -1;
+                    dbcInfo.updateClient();
                 }
             }
         }
@@ -67,6 +76,11 @@ public class Ikari extends StatusEffect {
     public void onRemoved(EntityPlayer player, PlayerEffect playerEffect) {
         DBCData dbcData = DBCData.get(player);
         PlayerDBCInfo dbcInfo = PlayerDataUtil.getDBCInfo(player);
+
+        if (dbcData == null || dbcInfo == null) {
+            return;
+        }
+
         if (dbcData.Race == DBCRace.SAIYAN || dbcData.Race == DBCRace.HALFSAIYAN) {
             dbcInfo.currentForm = -1;
             dbcInfo.updateClient();
