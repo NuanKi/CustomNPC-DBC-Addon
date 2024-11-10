@@ -933,19 +933,19 @@ public class StatSheetGui extends AbstractJRMCGui implements GuiYesNoCallback {
     public String getAddonBonus(int attributeID) {
         String description = "";
         DBCData dbcData = DBCData.get(Minecraft.getMinecraft().thePlayer);
-        if(!dbcData.bonus.getCurrentBonuses().isEmpty()){
+        if (!dbcData.bonus.getCurrentBonuses().isEmpty()) {
             description += "\nBonus Stats:";
-            for(PlayerBonus playerBonus : dbcData.bonus.getCurrentBonuses().values()){
-                if(attributeID == DBCAttribute.Strength && playerBonus.strength != 0){
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? " " : "x ") + playerBonus.strength;
-                } else if(attributeID == DBCAttribute.Dexterity && playerBonus.dexterity != 0){
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? " " : "x ") + playerBonus.dexterity;
-                } else if(attributeID == DBCAttribute.Constitution && playerBonus.constituion != 0){
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? " " : "x ") + playerBonus.constituion;
-                } else if(attributeID == DBCAttribute.Willpower && playerBonus.willpower != 0){
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? " " : "x ") + playerBonus.willpower;
-                } else if(attributeID == DBCAttribute.Spirit && playerBonus.spirit != 0){
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? " " : "x ") + playerBonus.spirit;
+            for (PlayerBonus playerBonus : dbcData.bonus.getCurrentBonuses().values()) {
+                if (attributeID == DBCAttribute.Strength && playerBonus.strength != 0) {
+                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.strength > 0 ? "+ " : "- ") : (playerBonus.strength > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.strength);
+                } else if (attributeID == DBCAttribute.Dexterity && playerBonus.dexterity != 0) {
+                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.dexterity > 0 ? "+ " : "- ") : (playerBonus.dexterity > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.dexterity);
+                } else if (attributeID == DBCAttribute.Constitution && playerBonus.constituion != 0) {
+                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.constituion > 0 ? "+ " : "- ") : (playerBonus.constituion > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.constituion);
+                } else if (attributeID == DBCAttribute.Willpower && playerBonus.willpower != 0) {
+                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.willpower > 0 ? "+ " : "- ") : (playerBonus.willpower > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.willpower);
+                } else if (attributeID == DBCAttribute.Spirit && playerBonus.spirit != 0) {
+                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.spirit > 0 ? "+ " : "- ") : (playerBonus.spirit > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.spirit);
                 }
             }
         }
