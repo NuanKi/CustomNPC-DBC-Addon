@@ -58,6 +58,8 @@ public class StatusEffectController implements IStatusEffectHandler {
         standardEffects.put(Effects.HUMAN_SPIRIT, new Exhausted()); // TODO: Finish it
         standardEffects.put(Effects.COLD_BLOODED, new Exhausted()); // TODO: Finish it
         standardEffects.put(Effects.KI_DEFENSE, new Exhausted()); // TODO: Finish it
+
+        standardEffects.put(Effects.IMPACT_C_DEATH_PENALTY, new DeathEffect());
     }
 
     public void runEffects(EntityPlayer player) {

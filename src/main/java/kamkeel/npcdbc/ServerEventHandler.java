@@ -157,6 +157,8 @@ public class ServerEventHandler {
             dbcData.addonFormID = -1;
             dbcInfo.currentForm = -1;
             dbcInfo.updateClient();
+
+
         }
     }
 

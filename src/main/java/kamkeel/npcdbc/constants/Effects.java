@@ -17,4 +17,7 @@ public class Effects {
     public static final int HUMAN_SPIRIT = 14;
     public static final int COLD_BLOODED = 15;
     public static final int KI_DEFENSE = 16;
+
+    //Impact C
+    public static final int IMPACT_C_DEATH_PENALTY = 40;
 }
