@@ -11,27 +11,40 @@ import kamkeel.npcdbc.data.statuseffect.StatusEffect;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DeathEffect extends StatusEffect {
+    private static final String bonusName = "RupturaDeAlma";
 
     public DeathEffect() {
-        name = "Death Penalty";
-        id = Effects.MEDITATION;
+        name = "Ruptura de Alma";
+        id = Effects.DEATH_PENALTY;
         icon = CustomNpcPlusDBC.ID + ":textures/gui/icons.png";
-        iconX = 112;
-        iconY = 0;
+        iconX = 0;
+        iconY = 16;
     }
 
     @Override
     public void init(EntityPlayer player, PlayerEffect playerEffect){
         DBCData dbcData = DBCData.get(player);
-        PlayerBonus medBonus = new PlayerBonus(name, (byte) 1);
-        medBonus.spirit = -dbcData.SPI * ((float) ConfigDBCEffects.MeditationSpiBoostPercent / 100);
-        medBonus.constituion = -dbcData.CON * ((float) ConfigDBCEffects.MeditationSpiBoostPercent / 100);
-        medBonus.strength = -dbcData.STR * ((float) ConfigDBCEffects.MeditationSpiBoostPercent / 100);
-        BonusController.getInstance().applyBonus(player, medBonus);
+        PlayerBonus deathBonus = new PlayerBonus(bonusName, (byte) 1);
+        if (ConfigDBCEffects.DeathPenaltyStr) {
+            deathBonus.strength = -dbcData.STR * ((float) ConfigDBCEffects.DeathPenaltyPercent / 200);
+        }
+        if (ConfigDBCEffects.DeathPenaltyDex) {
+            deathBonus.dexterity = -dbcData.DEX * ((float) ConfigDBCEffects.DeathPenaltyPercent / 200);
+        }
+        if (ConfigDBCEffects.DeathPenaltyCon) {
+            deathBonus.constituion = -dbcData.CON * ((float) ConfigDBCEffects.DeathPenaltyPercent / 100);
+        }
+        if (ConfigDBCEffects.DeathPenaltyWil) {
+            deathBonus.willpower = -dbcData.WIL * ((float) ConfigDBCEffects.DeathPenaltyPercent / 200);
+        }
+        if (ConfigDBCEffects.DeathPenaltySpi) {
+            deathBonus.spirit = -dbcData.SPI * ((float) ConfigDBCEffects.DeathPenaltyPercent / 100);
+        }
+        BonusController.getInstance().applyBonus(player, deathBonus);
     }
 
     @Override
     public void kill(EntityPlayer player, PlayerEffect playerEffect) {
-        BonusController.getInstance().removeBonus(player, name);
+        BonusController.getInstance().removeBonus(player, bonusName);
     }
 }

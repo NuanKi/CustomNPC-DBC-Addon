@@ -19,5 +19,5 @@ public class Effects {
     public static final int KI_DEFENSE = 16;
 
     //Impact C
-    public static final int IMPACT_C_DEATH_PENALTY = 40;
+    public static final int DEATH_PENALTY = 20;
 }

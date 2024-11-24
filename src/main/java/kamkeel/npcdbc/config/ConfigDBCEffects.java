@@ -47,6 +47,15 @@ public class ConfigDBCEffects
     public static double ZenkaiHALFWil = 1.0f;
     public static int ZenkaiHALFLength = 180;
 
+    public final static String DeathPenalty = "Death Penalty";
+    public static int DeathPenaltyPercent = 20;
+    public static int DeathPenaltyLength = 180;
+    public static boolean DeathPenaltyStr = true;
+    public static boolean DeathPenaltyDex = true;
+    public static boolean DeathPenaltyCon = true;
+    public static boolean DeathPenaltyWil = true;
+    public static boolean DeathPenaltySpi = true;
+
     public final static String Meditation = "Meditation";
     public static int MeditationSpiBoostPercent = 20;
 
@@ -138,6 +147,17 @@ public class ConfigDBCEffects
             ZenkaiHALFDex = config.get(ZENKAI, "Half Saiyan Dex Multi", 1.2f, "Amount added to Dex Multi").getDouble(1.0f);
             ZenkaiHALFWil = config.get(ZENKAI, "Half Saiyan Will Multi", 1.2f, "Amount added to Will Multi").getDouble(1.0f);
             ZenkaiHALFLength = config.get(ZENKAI, "Half Saiyan Zenkai Length", 180, "Time of Zenkai in Seconds").getInt(180);
+
+            config.addCustomCategoryComment(DeathPenalty,
+                "Death Penalty is applied when a player dies. This can be disabled in the DBC Gameplay Config." +
+                    "\nAll multis are ADDED multis.");
+            DeathPenaltyPercent = config.get(DeathPenalty, "Death Penalty Multi", 20, "Amount of percent to multiply Base Stats by").getInt(20);
+            DeathPenaltyLength = config.get(DeathPenalty, "Death Penalty Length", 180, "Time of Death Penalty in Seconds").getInt(180);
+            DeathPenaltyStr = config.get(DeathPenalty, "Apply Death Penalty to Str", true, "Enable or Disable Death Penalty to affect Str").getBoolean(true);
+            DeathPenaltyDex = config.get(DeathPenalty, "Apply Death Penalty to Dex", true, "Enable or Disable Death Penalty to affect Dex").getBoolean(true);
+            DeathPenaltyCon = config.get(DeathPenalty, "Apply Death Penalty to Con", true, "Enable or Disable Death Penalty to affect Con").getBoolean(true);
+            DeathPenaltyWil = config.get(DeathPenalty, "Apply Death Penalty to Wil", true, "Enable or Disable Death Penalty to affect Wil").getBoolean(true);
+            DeathPenaltySpi = config.get(DeathPenalty, "Apply Death Penalty to Spi", true, "Enable or Disable Death Penalty to affect Spi").getBoolean(true);
 
             config.addCustomCategoryComment(Meditation,
                 "Meditation Spirit Bonus is always added AFTER all other calculations");

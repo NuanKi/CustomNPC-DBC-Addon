@@ -1,14 +1,11 @@
 package kamkeel.npcdbc.controllers;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import kamkeel.npcdbc.api.effect.IStatusEffectHandler;
 import kamkeel.npcdbc.constants.Effects;
-import kamkeel.npcdbc.data.dbcdata.DBCData;
 import kamkeel.npcdbc.data.statuseffect.CustomEffect;
 import kamkeel.npcdbc.data.statuseffect.PlayerEffect;
 import kamkeel.npcdbc.data.statuseffect.StatusEffect;
 import kamkeel.npcdbc.data.statuseffect.types.*;
-import kamkeel.npcdbc.util.PlayerDataUtil;
 import kamkeel.npcdbc.util.Utility;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,7 +56,7 @@ public class StatusEffectController implements IStatusEffectHandler {
         standardEffects.put(Effects.COLD_BLOODED, new Exhausted()); // TODO: Finish it
         standardEffects.put(Effects.KI_DEFENSE, new Exhausted()); // TODO: Finish it
 
-        standardEffects.put(Effects.IMPACT_C_DEATH_PENALTY, new DeathEffect());
+        standardEffects.put(Effects.DEATH_PENALTY, new DeathEffect());
     }
 
     public void runEffects(EntityPlayer player) {

@@ -41,6 +41,9 @@ public class ConfigDBCGameplay
     public static boolean SaiyanZenkai = true;
     public static boolean HalfSaiyanZenkai = true;
 
+    public final static String DeathPenalty = "Death_Penalty";
+    public static boolean EnableDeathPenalty = true;
+
     public final static String KiCharge = "Ki_Charge";
     public static boolean RevampKiCharging = true;
     public static boolean KiPotentialUnlock = true;
@@ -49,8 +52,7 @@ public class ConfigDBCGameplay
     {
         config = new Configuration(configFile);
 
-        try
-        {
+        try {
             config.load();
 
             CheckEffectsTick = config.get(StatusEffects, "Run Effects Every X Tick", 10, "This will check effects every X ticks. All registered effects must be multiple of 10. [10, 20, 30...] Max: 100").getInt(10);
@@ -59,8 +61,8 @@ public class ConfigDBCGameplay
 
             EnableChargingDex = config.get(ChargingDex, "0. Enable Charging Dex", true,
                 "Charging Dex -> Percent of Total Defense Activated while Charging Ki Attacks. " +
-                "\nActive Defense [Blocking], Passive [Not Blocking](Takes Percent of Active in JRMCore Configs.) " +
-                "\nCharging Defense [Charging Ki Attack](Percent of Active)[0 - 100]").getBoolean(true);
+                    "\nActive Defense [Blocking], Passive [Not Blocking](Takes Percent of Active in JRMCore Configs.) " +
+                    "\nCharging Defense [Charging Ki Attack](Percent of Active)[0 - 100]").getBoolean(true);
             MartialArtistCharge = config.get(ChargingDex, "1. Martial Artist Percent", 60).getInt(60);
             SpiritualistCharge = config.get(ChargingDex, "2. Spiritualist Percent", 60).getInt(60);
             WarriorCharge = config.get(ChargingDex, "3. Warrior Percent", 60).getInt(60);
@@ -77,6 +79,8 @@ public class ConfigDBCGameplay
 
             SaiyanZenkai = config.get(Zenkai, "Enable Saiyan Zenkai", true, "Enables Zenkai for Saiyans after Revive").getBoolean(true);
             HalfSaiyanZenkai = config.get(Zenkai, "Enable Half Saiyan Zenkai", true, "Enables Zenkai for Half Saiyans after Revive").getBoolean(true);
+
+            EnableDeathPenalty = config.get(DeathPenalty, "Enable Death Penalty", true, "Enables Death Penalty for players after Revive").getBoolean(true);
 
             InstantTransform = config.get(Forms, "Instant Transform Bypass Parent", false,
                 "Allows Instant Transform to Bypass the Parent Only Check\n" +
