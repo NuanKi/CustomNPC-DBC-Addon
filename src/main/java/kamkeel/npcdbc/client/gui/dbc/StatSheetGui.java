@@ -937,19 +937,30 @@ public class StatSheetGui extends AbstractJRMCGui implements GuiYesNoCallback {
             description += "\nBonus Stats:";
             for (PlayerBonus playerBonus : dbcData.bonus.getCurrentBonuses().values()) {
                 if (attributeID == DBCAttribute.Strength && playerBonus.strength != 0) {
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.strength > 0 ? "+ " : "- ") : (playerBonus.strength > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.strength);
+                    description += "\n>> " + playerBonus.name + ": " + getBonusString(playerBonus.type, playerBonus.strength);
                 } else if (attributeID == DBCAttribute.Dexterity && playerBonus.dexterity != 0) {
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.dexterity > 0 ? "+ " : "- ") : (playerBonus.dexterity > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.dexterity);
+                    description += "\n>> " + playerBonus.name + ": " + getBonusString(playerBonus.type, playerBonus.dexterity);
                 } else if (attributeID == DBCAttribute.Constitution && playerBonus.constituion != 0) {
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.constituion > 0 ? "+ " : "- ") : (playerBonus.constituion > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.constituion);
+                    description += "\n>> " + playerBonus.name + ": " + getBonusString(playerBonus.type, playerBonus.constituion);
                 } else if (attributeID == DBCAttribute.Willpower && playerBonus.willpower != 0) {
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.willpower > 0 ? "+ " : "- ") : (playerBonus.willpower > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.willpower);
+                    description += "\n>> " + playerBonus.name + ": " + getBonusString(playerBonus.type, playerBonus.willpower);
                 } else if (attributeID == DBCAttribute.Spirit && playerBonus.spirit != 0) {
-                    description += "\n>> " + playerBonus.name + ": " + (playerBonus.type == 1 ? (playerBonus.spirit > 0 ? "+ " : "- ") : (playerBonus.spirit > 0 ? "+ x " : "- x")) + Math.abs(playerBonus.spirit);
+                    description += "\n>> " + playerBonus.name + ": " + getBonusString(playerBonus.type, playerBonus.spirit);
                 }
             }
         }
         return description;
+    }
+
+    private String getBonusString(int type, float value) {
+        switch (type) {
+            case 1:
+                return (value > 0 ? "+ " : "- ") + Math.abs(value);
+            case 0:
+                return (value > 0 ? "+ x" : "- x") + Math.abs(value);
+            default:
+                return (" ") + Math.abs(value);
+        }
     }
 
     public long getAddonBonusStat(int attributeID) {
