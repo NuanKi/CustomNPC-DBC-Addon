@@ -424,3 +424,28 @@ item.npcdbc:three_potara.name=Supreme Potara Earring
 
 
 message.death.shields=¡Ten cuidado! Te quedan %s escudos de vida. Después de eso, se aplicará la penalización por muerte.
+dbcimpactgui.rcdes=Description
+
+dbcimpactgui.rcH1=The human race focuses
+dbcimpactgui.rcH2=on ki control and stamina.
+dbcimpactgui.rcH3=  §6§l[DEX]  §e§l[SPI]
+
+dbcimpactgui.rcSaL1=Saiyan race stands out
+dbcimpactgui.rcSaL2=on strength and endurance.
+dbcimpactgui.rcSaL3=  §c§l[STR]  §6§l[DEX]
+
+dbcimpactgui.rcHsL1=The hybrid focus on
+dbcimpactgui.rcHsL2=strength and health.
+dbcimpactgui.rcHsL3=  §c§l[STR]  §a§l[CON]
+
+dbcimpactgui.rcNaL1=Namekians are a race that
+dbcimpactgui.rcNaL2=has ki and health control.
+dbcimpactgui.rcNaL3=  §b§l[WIL]  §a§l[CON]
+
+dbcimpactgui.rcArL1=The Arcrosian race focuses
+dbcimpactgui.rcArL2=on strength and ki control.
+dbcimpactgui.rcArL3=  §a§l[STR]  §e§l[SPI]
+
+dbcimpactgui.rcMaL1=The majin are a race 
+dbcimpactgui.rcMaL2=with resistance and health.
+dbcimpactgui.rcMaL3=  §a§l[CON]  §6§l[DEX]

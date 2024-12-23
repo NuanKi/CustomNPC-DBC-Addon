@@ -30,7 +30,9 @@ public class GuiInfo {
         SERVER_SHOP(80, "Server Shop"),
         CLIENT_SETTINGS(10000, 9, "jrmc:CltSettings"),
         HELP_MENU(10001, 8, "jrmc:Help"),
-        NOTIFICATIONS(10011, 10, "jrmc:Notifications");
+        NOTIFICATIONS(10011, 10, "jrmc:Notifications"),
+        TESTING(5008, ""),
+        TESTING2(-5008, "");
 
         private final int guiIDReference;
         private final int iconID;

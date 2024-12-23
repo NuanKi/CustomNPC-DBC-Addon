@@ -57,6 +57,7 @@ public class StatusEffectController implements IStatusEffectHandler {
         standardEffects.put(Effects.KI_DEFENSE, new Exhausted()); // TODO: Finish it
 
         standardEffects.put(Effects.DEATH_PENALTY, new DeathEffect());
+        standardEffects.put(Effects.SNACK_BONUS, new SnackBonus());
     }
 
     public void runEffects(EntityPlayer player) {

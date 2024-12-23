@@ -20,4 +20,5 @@ public class Effects {
 
     //Impact C
     public static final int DEATH_PENALTY = 20;
+    public static final int SNACK_BONUS = 21;
 }

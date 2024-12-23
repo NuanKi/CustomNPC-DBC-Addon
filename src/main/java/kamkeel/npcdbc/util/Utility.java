@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -236,4 +237,9 @@ public class Utility {
     public static void playClientSound(String directory, Entity entity, boolean all){
         new ClientSound(new SoundSource(directory, entity)).play(all);
     }
+
+    public static String t(String TranslationKey) {
+        return StatCollector.translateToLocal(TranslationKey);
+    }
+
 }
