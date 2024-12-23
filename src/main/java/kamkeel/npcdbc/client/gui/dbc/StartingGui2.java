@@ -2,6 +2,10 @@ package kamkeel.npcdbc.client.gui.dbc;
 
 
 import JinRyuu.JRMCore.*;
+import JinRyuu.JRMCore.client.minigame.MiniGameAirBoxing;
+import JinRyuu.JRMCore.client.minigame.MiniGameConcentration;
+import JinRyuu.JRMCore.entity.EntityAuraFlat;
+import JinRyuu.JRMCore.entity.EntityNull;
 import JinRyuu.JRMCore.items.ItemBarberSnC;
 import JinRyuu.JRMCore.server.config.dbc.JGConfigRaces;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -12,6 +16,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,11 +25,15 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 import java.awt.*;
+import java.net.URI;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,19 +41,129 @@ import java.util.List;
 
 import static kamkeel.npcdbc.util.Utility.t;
 
-public class StartingGui extends AbstractJRMCGui2 {
-    public static final Minecraft mc = Minecraft.getMinecraft();
+public class StartingGui2 extends AbstractJRMCGui2 {
+    public static final int ID_APPERANCE = 0;
+    public static final int ID_APPERANCE_ARCO = 19;
+    public static final int ID_COLOR_PICKER = 1;
+    public static final int ID_POWER_CLASS_SELECT = 2;
+    public static final int ID_FINALIZING = 3;
+    public static final int ID_BARBER = 8;
+    public static final int ID_ATTRIBUTES = 10;
+    public static final int ID_SKILLS = 11;
+    public static final int ID_TECHNIQUES = 12;
+    public static final int ID_ATTACK_CREATOR = 13;
+    public static final int ID_DIFFICULTY = 14;
+    public static final int ID_LEARN_ATTACKS_AND_JUTSUS = 15;
+    public static final int ID_LEARN_SKILLS = 16;
+    public static final int ID_TRAINING = 17;
+    public static final int ID_MINIGAME_CONCENTRATION = 18;
+    public static final int ID_NEWS = 30;
+    public static final int ID_NO_CONNECTION = 31;
+    public static final int ID_SERVER_INFO = 40;
+    public static final int ID_UPDATE_INFO = 50;
+    public static final int ID_MISSION_SYSTEM_MIN = 60;
+    public static final int ID_MISSION_SYSTEM_MAX = 70;
+    public static final int ID_MAIN_MISSION = 60;
+    public static final int ID_SIDE_MISSION = 61;
+    public static final int ID_GROUP_SYSTEM = 70;
+    public static final int ID_SERVER_DONATION = 80;
+    public static final int ID_CLIENT_SETTINGS = 10000;
+    public static final int ID_HELP = 10001;
+    public static final int ID_MINIGAME_AIRBOXING = 10002;
+    public static final int ID_INSTANT_TRANSMISSION_GROUP_PICK = 10100;
+    public static final int ID_NOTIFICATIONS = 10011;
+    private static final int cs_mode_GRAPHIC_SETTINGS = 0;
+    private static final int cs_mode_USER_INTERFACE = 1;
+    private static final Logger logger = LogManager.getLogger();
+    public static final String News = "News";
+    public static Minecraft mc = Minecraft.getMinecraft();
+    public static StartingGui2 instance;
+    public MiniGameConcentration miniGameConcentration = new MiniGameConcentration();
+    public MiniGameAirBoxing miniGameAirBoxing = new MiniGameAirBoxing();
+    private EntityNull entityTest;
+    private ArrayList<EntityAuraFlat> entityTests2;
+    private Instant timer;
+    public boolean guiUp = false;
     public int guiID = 0;
+    public int guiIDprev = 0;
     public int guiIDprev2 = 0;
+    public int guiIDprev3 = 0;
+    public int guiLeft;
+    public int guiTop;
+    public int xSize = 256;
+    public int ySize = 159;
     public float xSize_lo;
     public float ySize_lo;
+    public List Modsnews;
+    public int site = 0;
+    public int sip = 0;
+    private int diff = 0;
+    private int attCrtPg = 0;
+    private int attViwPg = 0;
+    private int pgSkls = 0;
+    private int smd;
+    private int ipg;
+    private int inv;
+    private int lp;
+    private int sscl;
+    private int[] hbt;
+    private int[] dfa = new int[5];
+    private URI clickedURI;
+    private int mcu = 0;
+    public static String urlToOpen = "";
+    private static float ptch = 0.0F;
+    public static float scrollSide = 0.0F;
+    public static int hairPreview = 0;
+    public static int[] hairPreviewStates = new int[]{0, 4, 5, 6};
+    private static boolean headRoton = false;
+    private static int headRotX = 0;
+    private static int headRotY = 0;
+    private static int headRotZ = 0;
+    private static final int gui_help_descs = 13;
+    private static final int help_guides = 13;
+    private static int help_page_id = 0;
+    private static int help_mode = 0;
+    private static final int[] cs_pages = new int[]{9, 3};
+    private static int cs_page = 0;
+    private static int cs_mode = 0;
     public static boolean CanRace = true;
     public static boolean CanGender = true;
     public static boolean CanYears = true;
     public static boolean CanHair = true;
     public static boolean CanColor = true;
     public static boolean canCustom = true;
-    public static final String button1;
+    public static boolean CanSpecial = true;
+    public static boolean CanPwr = true;
+    public static boolean CanClass = true;
+    private static boolean[] CanUpgrade = new boolean[]{true, true, true, true, true, true};
+    public static byte EnAttNum = 0;
+    public static String name = "Attack";
+    public static int acquired = 1;
+    public static String owner;
+    public static int type;
+    public static int speed;
+    public static int dam;
+    public static int effect;
+    public static int cost;
+    public static int casttime;
+    public static int cooldown;
+    public static int color;
+    public static int density;
+    public static int sincantation;
+    public static int sfire;
+    public static int smove;
+    public static int[] techCrt;
+    public static String button1;
+    public static String button2;
+    public static String wish;
+    public static String guiBG2;
+    public static String pc;
+    public static String gui_help_tabs;
+    public static String wishsep;
+    public static String icons;
+    String SideMsn = "";
+    int ss = -1;
+    boolean ssb = false;
     public static int colorType;
     public static int StateSlcted;
     public static int RaceSlcted;
@@ -71,7 +190,11 @@ public class StartingGui extends AbstractJRMCGui2 {
     public static int BodyauColSub1Slcted;
     public static int BodyauColSub2Slcted;
     public static int BodyauColSub3Slcted;
+    public static int HairPrstsSlcted;
+    public static boolean canSavePreset;
     public static float BrghtSlcted;
+    public static int PwrtypSlcted;
+    public static int ClassSlcted;
     public static boolean tail;
     public static int KiColorSlcted;
     public static ArrayList<String> PresetList;
@@ -79,15 +202,47 @@ public class StartingGui extends AbstractJRMCGui2 {
     private static String dnsau;
     private static String dns;
     private static String dnsSent;
+    private static String dnsOrig;
     private static String dnsH;
-    private static final String dnsHSent;
-    protected static final List detailList;
+    private static String dnsHbu;
+    private static String dnsHSent;
+    private static String dnsHOrig;
+    protected static List detailList;
+    public int x = 0;
+    public int y = 0;
+    private byte pwr = 0;
     public int scroll;
     public int scrollMouseJump = 1;
+    public boolean mousePressed;
+    private int IDtoProcessConfirmFor = -1;
+    private boolean confirmationWindow = false;
     private int kdf;
+    private static String ssc;
+    private static int sscr;
+    public static boolean ufc;
+    final byte HELP_MODE_SELECT = 0;
+    final byte HELP_GUIDE_PICK = 1;
+    final byte HELP_CRAFTING = 2;
+    final byte HELP_GUIDE = 3;
+    private int gui_recipe_mod = -1;
+    private int gui_recipe_category = 0;
+    private int text = 0;
     protected GuiTextField inputField;
-    protected final GuiTextField[] inputField2 = new GuiTextField[3];
+    protected GuiTextField[] inputField2 = new GuiTextField[3];
+    private String defaultInputFieldText = "Attack";
+    private boolean inputField2Ch = false;
     private int inputField2Cl = 0;
+    ModelRenderer[] hairall;
+    public static int count;
+    public static int warn;
+    public static int startcount;
+    private String Process = "Something is Wrong";
+    private int wid = 0;
+    private int hei = 0;
+    private String textureFile = "jinryuudragonbc:sagas.png";
+    private int curPage = 0;
+    private int[] hcl = new int[]{0, 4, 14, 24, 40, 56};
+    public static int scrlld;
     private ResourceLocation field_110351_G;
     private int panoramaTimer;
     private static final ResourceLocation[] titlePanoramaPaths;
@@ -96,39 +251,113 @@ public class StartingGui extends AbstractJRMCGui2 {
         return id == this.guiID;
     }
 
-    public StartingGui() {
+    public StartingGui2() {
         JRMCoreGuiSliderX00.sliderValue = 0.0F;
         this.scroll = 0;
     }
 
     @Override
     public void initGui() {
+        this.guiUp = false;
         DynamicTexture viewportTexture = new DynamicTexture(256, 256);
         this.field_110351_G = mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
 
-        int posX;
-        int posY;
-        for (posX = 0; posX < this.inputField2.length; ++posX) {
-            (this.inputField2[posX] = new GuiTextField(mc.fontRenderer, 0, 0, 50, 12)).setText("255");
+        for(int i = 0; i < this.inputField2.length; ++i) {
+            this.inputField2[i] = new GuiTextField(mc.fontRenderer, 0, 0, 50, 12);
+            this.inputField2[i].setText("255");
         }
 
+        pc = JRMCoreH.tjjrmc + ":gui_pc.png";
+        button1 = JRMCoreH.tjjrmc + ":button1.png";
+        icons = JRMCoreH.tjjrmc + ":icons.png";
+        instance = this;
+        if (JRMCoreH.Pwrtyp == 2) {
+            int type = JRMCoreH.techNCBase[3];
+            int speed = JRMCoreH.techNCBase[4];
+            int dam = JRMCoreH.techNCBase[5];
+            int effect = JRMCoreH.techNCBase[6];
+            int cost = JRMCoreH.techNCBase[7];
+            int casttime = JRMCoreH.techNCBase[8];
+            int cooldown = JRMCoreH.techNCBase[9];
+            int color = JRMCoreH.techNCBase[10];
+            int density = JRMCoreH.techNCBase[11];
+            int sincantation = JRMCoreH.techNCBase[12];
+            int sfire = JRMCoreH.techNCBase[13];
+            int smove = JRMCoreH.techNCBase[14];
+            int[] techCrtN = new int[]{1, acquired, 1, type, speed, dam, effect, cost, casttime, cooldown, color, density, sincantation, sfire, smove};
+            techCrt = techCrtN;
+        }
+
+        if (JRMCoreH.Pwrtyp == 1) {
+            int type = JRMCoreH.techBase[3];
+            int speed = JRMCoreH.techBase[4];
+            int dam = JRMCoreH.techBase[5];
+            int effect = JRMCoreH.techBase[6];
+            int cost = JRMCoreH.techBase[7];
+            int casttime = JRMCoreH.techBase[8];
+            int cooldown = JRMCoreH.techBase[9];
+            int color = JRMCoreH.techBase[10];
+            int density = JRMCoreH.techBase[11];
+            int sincantation = JRMCoreH.techBase[12];
+            int sfire = JRMCoreH.techBase[13];
+            int smove = JRMCoreH.techBase[14];
+            int[] techCrtN = new int[]{1, acquired, 1, type, speed, dam, effect, cost, casttime, cooldown, color, density, sincantation, sfire, smove};
+            techCrt = techCrtN;
+        }
 
         this.buttonList.clear();
+        this.guiLeft = (this.width - this.xSize) / 2;
+        this.guiTop = (this.height - this.ySize) / 2;
+        int posX = this.width / 2;
+        int posY = this.height / 2;
         JRMCoreGuiSliderX00.sliderValue = 0.0F;
         this.scroll = 0;
+        scrollSide = 0.0F;
+        this.SideMsn = "";
+        this.site = 0;
         JRMCoreH.jrmct(1);
         JRMCoreH.jrmct(3);
+        this.smd = 0;
+        this.ipg = 0;
+        this.inv = 0;
+        if (JRMCoreH.Accepted == 2) {
+            this.guiID = 31;
+        }
 
+        if (JRMCoreH.Accepted == 1 && (this.guiID > 50 || this.guiID < 30) && this.guiID != 8 && this.guiID != 10001 && this.guiID != 10010 && (this.guiID < 60 || this.guiID > 70) && this.guiID != 10100) {
+            this.guiID = 10;
+        }
 
-        dns = JRMCoreH.dns;
-        dnsH = JRMCoreH.dnsH;
-        RaceSlcted = JRMCoreH.Race;
-        HairSlcted = JRMCoreH.dnsHairB(dns);
-        Hair2Slcted = JRMCoreH.dnsHairF(dns);
-        ColorSlcted = JRMCoreH.dnsHairC(dns);
+        if (JRMCoreH.Accepted == 0 && this.guiID == 8) {
+            this.guiID = 0;
+        }
 
+        if (this.guiID == 8) {
+            if (JRMCoreH.JFC() && ItemBarberSnC.barberTarget != null) {
+                if (JRMCoreHJFC.isChildNPC(ItemBarberSnC.barberTarget)) {
+                    dns = JRMCoreHJFC.childDNS(ItemBarberSnC.barberTarget);
+                    dnsH = JRMCoreHJFC.childDNSH(ItemBarberSnC.barberTarget);
+                    dnsOrig = JRMCoreHJFC.childDNS(ItemBarberSnC.barberTarget);
+                    dnsHOrig = JRMCoreHJFC.childDNSH(ItemBarberSnC.barberTarget);
+                    RaceSlcted = JRMCoreH.Race;
+                    HairSlcted = JRMCoreH.dnsHairB(dns);
+                    Hair2Slcted = JRMCoreH.dnsHairF(dns);
+                    ColorSlcted = JRMCoreH.dnsHairC(dns);
+                }
+            } else {
+                dns = JRMCoreH.dns;
+                dnsH = JRMCoreH.dnsH;
+                dnsOrig = JRMCoreH.dns;
+                dnsHOrig = JRMCoreH.dnsH;
+                RaceSlcted = JRMCoreH.Race;
+                HairSlcted = JRMCoreH.dnsHairB(dns);
+                Hair2Slcted = JRMCoreH.dnsHairF(dns);
+                ColorSlcted = JRMCoreH.dnsHairC(dns);
+            }
+        }
 
         if (this.guiID == 0) {
+            RaceSlcted = JRMCoreH.Race;
             if (JRMCoreH.dns.length() > 3) {
                 dns = JRMCoreH.dns;
             } else {
@@ -139,6 +368,8 @@ public class StartingGui extends AbstractJRMCGui2 {
                 dnsH = JRMCoreH.dnsH;
             }
 
+            dnsOrig = JRMCoreH.dns;
+            dnsHOrig = JRMCoreH.dnsH;
             GenderSlcted = JRMCoreH.dnsGender(dns);
             HairSlcted = JRMCoreH.dnsHairB(dns);
             Hair2Slcted = JRMCoreH.dnsHairF(dns);
@@ -156,10 +387,9 @@ public class StartingGui extends AbstractJRMCGui2 {
             EyeCol2Slcted = JRMCoreH.dnsEyeC2(dns);
         }
 
-
         csau_d();
         String s = JRMCoreH.rld("HairPresets", "jinryuujrmcore.dat");
-        List<String> stooges = Collections.emptyList();
+        List<String> stooges = Arrays.asList();
         if (s.length() > 3) {
             stooges = Arrays.asList(s.split(","));
         }
@@ -168,7 +398,9 @@ public class StartingGui extends AbstractJRMCGui2 {
         ArrayList<String> defpres = new ArrayList();
         ArrayList<String> presets = new ArrayList();
 
-        Collections.addAll(defpres, JRMCoreH.defHairPrsts);
+        for(String def : JRMCoreH.defHairPrsts) {
+            defpres.add(def);
+        }
 
         saves.removeAll(defpres);
         presets.addAll(defpres);
@@ -177,12 +409,9 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         for(int i = 0; i < PresetList.size(); ++i) {
             if ((PresetList.get(i)).equals(dnsH)) {
+                HairPrstsSlcted = i;
                 break;
             }
-        }
-
-        if (JRMCoreH.SAOC()) {
-            JRMCoreHSAC.initGui();
         }
     }
 
@@ -507,22 +736,25 @@ public class StartingGui extends AbstractJRMCGui2 {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void drawScreen(int x, int y, float f) {
 
-        if (this.kdf < 2000) {
+        int ar = 2000;
+        if (this.kdf < ar) {
             ++this.kdf;
         }
 
         if (Mouse.isButtonDown(0)) {
+            this.mousePressed = true;
+            scrollSide = JRMCoreGuiSliderX00.sliderValue;
         } else {
+            this.mousePressed = false;
 
-            while (Mouse.next()) {
+            while(Mouse.next()) {
                 int mw = Mouse.getEventDWheel();
                 if (mw != 0) {
                     if (mw < 0) {
                         this.scroll += this.scrollMouseJump;
-                    } else if (this.scroll > 0) {
+                    } else if (mw > 0 && this.scroll > 0) {
                         this.scroll -= this.scrollMouseJump;
                     }
 
@@ -530,6 +762,17 @@ public class StartingGui extends AbstractJRMCGui2 {
                 }
             }
         }
+
+        if (JRMCoreH.Accepted == 0 && this.guiID == 10) {
+            this.guiID = 0;
+        }
+
+        this.x = x;
+        this.y = y;
+        if (this.guiID == 31 && JRMCoreH.Accepted != 2) {
+            this.guiID = 30;
+        }
+
         if (this.guiIDprev2 != 0) {
             this.guiID = this.guiIDprev2;
             this.guiIDprev2 = 0;
@@ -550,8 +793,42 @@ public class StartingGui extends AbstractJRMCGui2 {
             dnsH = JRMCoreH.dnsHairG1toG2(dnsH);
         }
 
-        this.xSize_lo = (float) x;
-        this.ySize_lo = (float) y;
+        if (dnsH.length() == 786 && !dnsH.equals(dnsHSent)) {
+            dnsHSent = dnsH;
+            if (JRMCoreH.JFC() && ItemBarberSnC.barberTarget != null) {
+                if (JRMCoreHJFC.isChildNPC(ItemBarberSnC.barberTarget)) {
+                    JRMCoreHJFC.childDNSHset(ItemBarberSnC.barberTarget, dnsHSent);
+                }
+            } else {
+                JRMCoreH.jrmcDataFC(1, dnsHSent);
+            }
+        }
+
+        if (dnsH.length() < 3) {
+            if (JRMCoreH.JFC() && ItemBarberSnC.barberTarget != null) {
+                if (JRMCoreHJFC.isChildNPC(ItemBarberSnC.barberTarget)) {
+                    dnsH = JRMCoreHJFC.childDNSH(ItemBarberSnC.barberTarget);
+                }
+            } else {
+                dnsH = JRMCoreH.dnsH;
+            }
+        }
+
+        if (dns.length() < 3) {
+            if (JRMCoreH.JFC() && ItemBarberSnC.barberTarget != null) {
+                if (JRMCoreHJFC.isChildNPC(ItemBarberSnC.barberTarget)) {
+                    dns = JRMCoreHJFC.childDNS(ItemBarberSnC.barberTarget);
+                }
+            } else {
+                dns = JRMCoreH.dns;
+            }
+        }
+
+        this.xSize_lo = (float)x;
+        this.ySize_lo = (float)y;
+        ScaledResolution var5 = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+        int var6 = var5.getScaledWidth();
+        int var7 = var5.getScaledHeight();
         FontRenderer var8 = mc.fontRenderer;
         this.buttonList.clear();
         ++tick;
@@ -561,60 +838,33 @@ public class StartingGui extends AbstractJRMCGui2 {
             JRMCoreH.jrmct(3);
         }
 
+        this.guiLeft = (this.width - this.xSize) / 2;
+        this.guiTop = (this.height - this.ySize) / 2;
         int posX = this.width / 2;
         int posY = this.height / 2;
-        int guiLeft;
-        int guiLeft2;
-        int guiTop2;
-        int i8;
-        String mod3;
-        int limit2;
-        int ni3;
-        String s13;
-        int i5;
-        String className2;
-        int xPos2;
-        int sw5;
-        String ln;
-        int gender;
-        int i22;
-        String ClassDesc2;
-        String Level;
-        String buttonText;
-        int i9;
-        String TRState2;
-        float h18;
-        float h19;
-        String powerType;
-        String raceName;
-        String Race2;
-        String[] j3;
-        String StatIncreaseDesc3;
-        int sw6;
-        String StatIncreaseDesc6;
+        this.pwr = JRMCoreH.Pwrtyp;
         this.renderSkybox(f);
         if (this.isGUIOpen(0)) {
-            guiLeft = (this.width - 80) / 2;
-            guiLeft2 = (this.height - 107) / 2;
+            int xSize = 80;
+            int ySize = 107;
+            int guiLeft = (this.width - xSize) / 2;
+            int guiTop = (this.height - ySize) / 2;
+            int buttonLeft = guiLeft - 130;
+            int buttonRight = guiLeft - 20;
+            int buttonText = guiLeft - 70;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
+            ResourceLocation guiLocation = new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui.png");
+            mc.renderEngine.bindTexture(guiLocation);
+            this.drawTexturedModalRect(guiLeft, guiTop, 123, 1, 80, 120);
+            this.drawTexturedModalRect(guiLeft - 131, guiTop - 20, 1, 1, 120, 140);
+            this.drawTexturedModalRect(guiLeft + 101, guiTop - 20, 1, 143, 160, 100);
+            this.buttonList.add(new JRMCoreGuiButtons00(10, posX - 150, posY + 65, 20, 20, "X", 0));
+            String n = JRMCoreH.trl("jrmc", "Next");
+            int nw = this.fontRendererObj.getStringWidth(n) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(11, posX + 130, posY + 65, nw, 20, n, 0));
 
-            int gui2Left = guiLeft - 131;
-            int gui2Left2 = guiLeft2 - 20;
-
-            mc.renderEngine.bindTexture(new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui.png"));
-            this.drawTexturedModalRect(guiLeft, guiLeft2, 123, 1, 80, 120);
-            this.drawTexturedModalRect(gui2Left, gui2Left2, 1, 1, 120, 140);
-            this.drawTexturedModalRect(guiLeft + 101, guiLeft2 - 20, 1, 143, 160, 100);
-            this.buttonList.add(new JRMCoreGuiButtons00(10, guiLeft + 140, guiLeft2 + 88, 20, 20, "X", 4210752));
-
-            ln = JRMCoreH.trl("jrmc", "Next");
-            i8 = this.fontRendererObj.getStringWidth(ln) + 8;
             String rct = t("dbcimpactgui.rcdes");
-            //var8.drawString(rct, guiLeft + 106, guiLeft2 - 15, 20);
-            var8.drawString(rct, guiLeft + 106, guiLeft2 - 19, 20);
-
+            var8.drawString(rct, guiLeft + 106, guiTop - 19, 20);
             String rdt1 = t("dbcimpactgui.rcH1");
             switch (JRMCoreH.Races[RaceSlcted]) {
                 case "Saiyan":
@@ -633,7 +883,7 @@ public class StartingGui extends AbstractJRMCGui2 {
                     rdt1 = t("dbcimpactgui.rcMaL1");
                     break;
             }
-            var8.drawString(rdt1, guiLeft + 103, guiLeft2 - 5, 20);
+            var8.drawString(rdt1, guiLeft + 106, guiTop - 5, 20);
 
             rdt1 = t("dbcimpactgui.rcH2");
             switch (JRMCoreH.Races[RaceSlcted]) {
@@ -653,7 +903,7 @@ public class StartingGui extends AbstractJRMCGui2 {
                     rdt1 = t("dbcimpactgui.rcMaL2");
                     break;
             }
-            var8.drawString(rdt1, guiLeft + 103, guiLeft2 + 5, 20);
+            var8.drawString(rdt1, guiLeft + 106, guiTop + 5, 20);
 
             rdt1 = t("dbcimpactgui.rcH3");
             switch (JRMCoreH.Races[RaceSlcted]) {
@@ -673,9 +923,8 @@ public class StartingGui extends AbstractJRMCGui2 {
                     rdt1 = t("dbcimpactgui.rcMaL3");
                     break;
             }
-            var8.drawString(rdt1, guiLeft + 103, guiLeft2 + 15, 20);
+            var8.drawString(rdt1, guiLeft + 106, guiTop + 15, 20);
 
-            this.buttonList.add(new JRMCoreGuiButtons00(11, guiLeft + 184, guiLeft2 + 88, i8, 20, ln, 4210752));
             int race = JRMCoreH.dnsRace("dns");
             if (JRMCoreH.Allow(JRMCoreH.RaceAllow[RaceSlcted])) {
                 CanRace = true;
@@ -754,29 +1003,30 @@ public class StartingGui extends AbstractJRMCGui2 {
             String Tail = JRMCoreH.trl("jrmc", "Tail");
             int i = 0;
             if (CanRace) {
-                this.buttonList.add(new DBCImpactGUIButtonsA(-1, guiLeft - 21, guiLeft2 + 122, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(1, guiLeft + 91, guiLeft2 + 122, ">"));
-            }
-            var8.drawString(Race, guiLeft + 41 - var8.getStringWidth(Race) / 2, guiLeft2 + 123, 0);
-            ++i;
-            if (CanGender) {
-                this.buttonList.add(new DBCImpactGUIButtonsA(-2, guiLeft - 11, guiLeft2 + 135, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(2, guiLeft + 81, guiLeft2 + 135, ">"));
-                var8.drawString(Gender, guiLeft + 41 - var8.getStringWidth(Gender) / 2, guiLeft2 + 136, 0);
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-1, guiLeft - 21, guiTop + 5 + 120, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(1, guiLeft + 91, guiTop + 5 + 120, ">"));
             }
 
-            ++i;
+            var8.drawString(Race, guiLeft + 41 - var8.getStringWidth(Race) / 2, guiTop + 5 + 120, 0);
+
+            if (CanGender) {
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-2, guiLeft -11, guiTop + 5 + 130, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(2, guiLeft + 81, guiTop + 5 + 130, ">"));
+                var8.drawString(Gender, guiLeft + 41 - var8.getStringWidth(Gender) / 2, guiTop + 5 + 130, 0);
+            }
+
+
             if (CanHair) {
-                this.buttonList.add(new DBCImpactGUIButtonsA(-3, gui2Left, gui2Left2, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(3, gui2Left + 110, gui2Left2, ">"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-3, buttonLeft, guiTop - 5 + i * 10, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(3, buttonRight, guiTop - 5 + i * 10, ">"));
                 if (HairSlcted != 12) {
-                    var8.drawString(Hair, gui2Left + 60 - var8.getStringWidth(Hair) / 2, gui2Left2 + 1, 0);
+                    var8.drawString(Hair, buttonText - var8.getStringWidth(Hair) / 2, guiTop - 5 + i * 10, 0);
                 }
 
                 String s = JRMCoreH.trl("jrmc", "CustomHair");
                 int sw = this.fontRendererObj.getStringWidth(s) / 2;
                 if (HairSlcted == 12) {
-                    this.buttonList.add((new JRMCoreGuiButtons01(5100, gui2Left + 60 - sw, gui2Left2 + 1, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
+                    this.buttonList.add((new JRMCoreGuiButtons01(5100, buttonText - sw, guiTop - 5 + i * 10, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
                 }
             }
 
@@ -784,7 +1034,7 @@ public class StartingGui extends AbstractJRMCGui2 {
             if (CanColor) {
                 String s = JRMCoreH.trl("jrmc", "Color");
                 int sw = this.fontRendererObj.getStringWidth(s) / 2;
-                this.buttonList.add((new JRMCoreGuiButtons01(4, gui2Left + 60 - sw, gui2Left2 + 11, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
+                this.buttonList.add((new JRMCoreGuiButtons01(4, buttonText - sw, guiTop - 5 + i * 10, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
             }
 
             if (RaceSlcted != 4 && RaceSlcted != 3) {
@@ -794,110 +1044,109 @@ public class StartingGui extends AbstractJRMCGui2 {
                 float h1 = 1.0F;
                 GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
                 mc.renderEngine.bindTexture(new ResourceLocation(button1));
-                this.drawTexturedModalRect(gui2Left + 60 - 25, gui2Left2 + 10, 0, 0, 50, 10);
+                this.drawTexturedModalRect(buttonText - 25, guiTop + 4 + i * 10, 0, 0, 50, 10);
             } else if (RaceSlcted == 4) {
                 String TransNms = TRState + ": " + JRMCoreH.cldgy + JRMCoreH.trl("jrmc", JRMCoreH.TransNms[RaceSlcted][JRMCoreH.State]);
-                this.buttonList.add(new DBCImpactGUIButtonsA(-4999, gui2Left, gui2Left2 + 10, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(4999, gui2Left + 110, gui2Left2 + 10, ">"));
-                var8.drawString(TransNms, gui2Left + 60 - var8.getStringWidth(TransNms) / 2, gui2Left2 + 11, 0);
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-4999, buttonLeft, guiTop - 5 + i * 10 - 1, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(4999, buttonRight, guiTop - 5 + i * 10 - 1, ">"));
+                var8.drawString(TransNms, buttonText - var8.getStringWidth(TransNms) / 2, guiTop - 5 + i * 10, 0);
             }
 
             ++i;
             if (GenderSlcted == 1) {
-                this.buttonList.add(new JRMCoreGuiSlider01(5001, guiLeft + 31 - 25 / 2, guiLeft2 + 146, 50, 10, "", (float) BreastSizeSlcted * 0.1F, 1.0F));
+                this.buttonList.add(new JRMCoreGuiSlider01(5001, guiLeft + 40 - 25, guiTop + 5 + 140, 50, 10, "", (float)BreastSizeSlcted * 0.1F, 1.0F));
             }
 
-            ++i;
             if (CanYears) {
-                this.buttonList.add(new DBCImpactGUIButtonsA(-8, gui2Left, gui2Left2 + 20, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(8, gui2Left + 110, gui2Left2 + 20, ">"));
-                var8.drawString(Years, gui2Left + 60 - var8.getStringWidth(Years) / 2, gui2Left2 + 21, 0);
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-8, buttonLeft, guiTop - 5 + i * 10, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(8, buttonRight, guiTop - 5 + i * 10, ">"));
+                var8.drawString(Years, buttonText - var8.getStringWidth(Years) / 2, guiTop - 5 + i * 10, 0);
             }
 
             ++i;
             if (RaceSlcted == 2) {
                 String s = Tail + " " + (tail ? JRMCoreH.trl("jrmc", "Enabled") : JRMCoreH.trl("jrmc", "Disabled"));
                 int sw = this.fontRendererObj.getStringWidth(s) / 2;
-                this.buttonList.add((new JRMCoreGuiButtons01(106, gui2Left + 60 - sw, gui2Left2 + 31, sw, s, tail ? 3452672 : 4210752)).setShadow(false));
+                this.buttonList.add((new JRMCoreGuiButtons01(106, buttonText - sw, guiTop - 5 + i * 10, sw, s, tail ? 3452672 : 4210752)).setShadow(false));
             }
 
             ++i;
             if (canCustom) {
-                this.buttonList.add(new DBCImpactGUIButtonsA(-5002, gui2Left, gui2Left2 + 40, "<"));
-                this.buttonList.add(new DBCImpactGUIButtonsA(5002, gui2Left + 110, gui2Left2 + 40, ">"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-5002, buttonLeft, guiTop - 5 + i * 10, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(5002, buttonRight, guiTop - 5 + i * 10, ">"));
             }
 
-            var8.drawString(SkinTyp, gui2Left + 60 - var8.getStringWidth(SkinTyp) / 2, gui2Left2 + 41, 0);
+            var8.drawString(SkinTyp, buttonText - var8.getStringWidth(SkinTyp) / 2, guiTop - 5 + i * 10, 0);
             ++i;
             boolean fc = false;
             if (SkinTypeSlcted == 1) {
                 if (SkinTypeSlcted == 1) {
                     String Special = JRMCoreH.trl("jrmc", "BodyType") + " " + (BodyTypeSlcted + 1);
-                    var8.drawString(Special, guiLeft + 85, guiLeft2 + 16, 0);
-                    this.buttonList.add(new DBCImpactGUIButtonsA(-5, guiLeft + 82, guiLeft2 + 2, "^"));
-                    this.buttonList.add(new DBCImpactGUIButtonsA(5, guiLeft + 82, guiLeft2 + 26, "v"));
+                    var8.drawString(Special, buttonText - var8.getStringWidth(Special) / 2, guiTop - 5 + i * 10, 0);
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-5, buttonLeft, guiTop - 5 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(5, buttonRight, guiTop - 5 + i * 10, ">"));
                     ++i;
-                    this.buttonList.add(new DBCImpactGUIButtonsA(-5012, guiLeft + 82, guiLeft2 + 2, "^"));
-                    this.buttonList.add(new DBCImpactGUIButtonsA(5012, guiLeft + 82, guiLeft2 + 26, "v"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-5012, buttonLeft, guiTop - 5 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(5012, buttonRight, guiTop - 5 + i * 10, ">"));
                     int cls = JRMCoreH.customSknLimits[RaceSlcted][1];
                     if (cls >= 1) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5003, (guiLeft + 190 - 10 + ((cls - 1) * -10 - (cls > 1 ? cls - 2 : 0))) - 150, (guiLeft2 + 5 - 1 + i * 10) - 109, 20, 10, "", BodyColMainSlcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5003, buttonText - 10 + ((cls - 1) * -10 - (cls > 1 ? cls - 2 : 0)), guiTop - 5 - 1 + i * 10, 20, 10, "", BodyColMainSlcted));
                     }
 
                     if (cls >= 2) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5004, guiLeft + 190 - 10 + (cls - 1) * -10 - (cls - 2) + 21 - 150, (guiLeft2 + 5 - 1 + i * 10) - 109, 20, 10, "", BodyColSub1Slcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5004, buttonText - 10 + (cls - 1) * -10 - (cls > 1 ? cls - 2 : 0) + 21, guiTop - 5 - 1 + i * 10, 20, 10, "", BodyColSub1Slcted));
                     }
 
                     if (cls >= 3) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5005, guiLeft + 190 - 10 + (cls - 1) * -10 - (cls - 2) + 42 - 150, (guiLeft2 + 5 - 1 + i * 10) - 109, 20, 10, "", BodyColSub2Slcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5005, buttonText - 10 + (cls - 1) * -10 - (cls > 1 ? cls - 2 : 0) + 42, guiTop - 5 - 1 + i * 10, 20, 10, "", BodyColSub2Slcted));
                     }
 
                     if (cls >= 4) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5014, guiLeft + 190 - 10 + (cls - 1) * -10 - (cls - 2) + 63 - 150, (guiLeft2 + 5 - 1 + i * 10) - 109, 20, 10, "", BodyColSub3Slcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5014, buttonText - 10 + (cls - 1) * -10 - (cls > 1 ? cls - 2 : 0) + 63, guiTop - 5 - 1 + i * 10, 20, 10, "", BodyColSub3Slcted));
                     }
 
                     ++i;
                     int fcs = i;
-                    this.buttonList.add(new DBCImpactGUIButtonsA(-5006, gui2Left, gui2Left2 + 70, "<"));
-                    this.buttonList.add(new DBCImpactGUIButtonsA(5006, gui2Left + 110, gui2Left2 + 70, ">"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-5006, buttonLeft, guiTop - 5 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(5006, buttonRight, guiTop - 5 + i * 10, ">"));
                     Special = JRMCoreH.trl("jrmc", "Nose") + " " + (FaceNoseSlcted + 1);
-                    var8.drawString(Special, gui2Left + 60 - var8.getStringWidth(Special) / 2, gui2Left2 + 71, 0);
+                    var8.drawString(Special, buttonText - var8.getStringWidth(Special) / 2, guiTop - 5 + i * 10, 0);
                     ++i;
                     Special = JRMCoreH.trl("jrmc", "Mouth") + " " + (FaceMouthSlcted + 1);
-                    var8.drawString(Special, gui2Left + 60 - var8.getStringWidth(Special) / 2, gui2Left2 + 91, 0);
-                    this.buttonList.add(new DBCImpactGUIButtonsA(-5007, gui2Left, gui2Left2 + 90, "<"));
-                    this.buttonList.add(new DBCImpactGUIButtonsA(5007, gui2Left + 110, gui2Left2 + 90, ">"));
+                    var8.drawString(Special, buttonText - var8.getStringWidth(Special) / 2, guiTop - 5 + i * 10, 0);
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-5007, buttonLeft, guiTop - 5 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(5007, buttonRight, guiTop - 5 + i * 10, ">"));
                     ++i;
                     Special = JRMCoreH.trl("jrmc", "Eyes") + " " + (EyesSlcted + 1);
-                    var8.drawString(Special, gui2Left + 60 - var8.getStringWidth(Special) / 2, gui2Left2 + 101, 0);
-                    this.buttonList.add(new DBCImpactGUIButtonsA(-5008, gui2Left, gui2Left2 + 100, "<"));
-                    this.buttonList.add(new DBCImpactGUIButtonsA(5008, gui2Left + 110, gui2Left2 + 100, ">"));
+                    var8.drawString(Special, buttonText - var8.getStringWidth(Special) / 2, guiTop - 5 + i * 10, 0);
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-5008, buttonLeft, guiTop - 5 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(5008, buttonRight, guiTop - 5 + i * 10, ">"));
                     ++i;
                     cls = JRMCoreH.customSknLimits[RaceSlcted][5];
                     if (cls != 0) {
-                        this.buttonList.add(new DBCImpactGUIButtonsA(-5013, gui2Left, gui2Left2 + 110, "<"));
-                        this.buttonList.add(new DBCImpactGUIButtonsA(5013, gui2Left + 110, gui2Left2 + 110, ">"));
+                        this.buttonList.add(new JRMCoreGuiButtonsA2(-5013, buttonLeft, guiTop - 5 + i * 10, "<"));
+                        this.buttonList.add(new JRMCoreGuiButtonsA2(5013, buttonRight, guiTop - 5 + i * 10, ">"));
                     }
 
                     if (cls >= 1) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5009, (gui2Left + 190 - 10 + ((cls - 1) * -10 - (cls > 1 ? cls - 2 : 0))) - 131, (gui2Left2 + 5 - 1 + i * 10) - 24, 20, 10, "", EyeCol1Slcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5009, buttonText - 10 + ((cls - 1) * -10 - (cls > 1 ? cls - 2 : 0)), guiTop - 5 - 1 + i * 10, 20, 10, "", EyeCol1Slcted));
                     }
 
                     if (cls >= 2) {
-                        this.buttonList.add(new JRMCoreGuiButtonC1(5010, gui2Left + 190 - 10 + (cls - 1) * -10 - (cls - 2) + 21 - 131, (gui2Left2 + 5 - 1 + i * 10) - 24, 20, 10, "", EyeCol2Slcted));
+                        this.buttonList.add(new JRMCoreGuiButtonC1(5010, buttonText - 10 + (cls - 1) * -10 - (cls > 1 ? cls - 2 : 0) + 21, guiTop - 5 - 1 + i * 10, 20, 10, "", EyeCol2Slcted));
                         ++i;
                         Special = JRMCoreH.trl("jrmc", "Match");
                         int sw = this.fontRendererObj.getStringWidth(Special) / 2;
-                        this.buttonList.add((new JRMCoreGuiButtons01(5011, (gui2Left + 190 - sw) - 131, (gui2Left2 + 5 + i * 10) - 24, sw, Special, JRMCoreH.techNCCol[1])).setShadow(false));
+                        this.buttonList.add((new JRMCoreGuiButtons01(5011, buttonText - sw, guiTop - 5 + i * 10, sw, Special, JRMCoreH.techNCCol[1])).setShadow(false));
                     }
-                    ++i;
-                    fc = hovered(x, y, guiLeft + 130, gui2Left2 + 5 + fcs * 10 + 2, 120, 7 + i * 3);
 
+                    ++i;
+                    fc = hovered(x, y, buttonLeft, guiTop - 5 + fcs * 10 + 2, 120, 7 + i * 3);
                 }
             } else {
                 int cls = JRMCoreH.customSknLimits[RaceSlcted][1];
                 if (cls >= 2) {
-                    this.buttonList.add(new JRMCoreGuiButtonC1(5004, guiLeft + 30, guiLeft2 - 15, 20, 10, "", BodyColSub1Slcted));
+                    this.buttonList.add(new JRMCoreGuiButtonC1(5004, buttonText - 10 + (cls - 0) * -10 - (cls > 1 ? cls - 1 : 0) + 21, guiTop - 5 - 1 + i * 10, 20, 10, "", BodyColSub1Slcted));
                 }
             }
 
@@ -907,99 +1156,115 @@ public class StartingGui extends AbstractJRMCGui2 {
             }
 
             JRMCoreClient.mc.mouseHelper.mouseXYChange();
+            float posXm = (float)Mouse.getX() * 1.0F / ((float)JRMCoreClient.mc.displayWidth * 1.0F);
+            float posYm = (float)Mouse.getY() * 1.0F / ((float)JRMCoreClient.mc.displayHeight * 1.0F);
+            int var1387 = (int)((float)var6 * posXm);
+            var1387 = var7 - (int)((float)var7 * posYm);
+            if (fc) {
+                func_110423_a(guiLeft + 71, guiTop + 155 + 190, 180, (float)(guiLeft + 51) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer, false, false, false);
+            } else {
+                func_110423_a_I(guiLeft + 40, guiTop + 118, 60, (float)(guiLeft + 51) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer);
+            }
 
-            func_110423_a_I(guiLeft + 40, guiLeft2 + 118, 60, (float) (guiLeft + 51) - this.xSize_lo, (float) (guiLeft2 + 80) - this.ySize_lo, mc.thePlayer);
-
-            StatIncreaseDesc6 = JRMCoreH.trl("jrmc", "Appearance");
-            sw6 = this.fontRendererObj.getStringWidth(StatIncreaseDesc6) / 2;
-            var8.drawString(StatIncreaseDesc6, gui2Left + 60 - sw6, gui2Left2 - 12, 0);
+            String s = JRMCoreH.trl("jrmc", "Appearance");
+            int sw = this.fontRendererObj.getStringWidth(s) / 2;
+            var8.drawString(s, buttonText - sw, guiTop - 15, 0);
         }
+
+        ufc = false;
 
 
         if (this.isGUIOpen(1)) {
-            guiLeft2 = (this.width - 256) / 2;
-            guiTop2 = (this.height - 159) / 2;
+            int xSize = 256;
+            int ySize = 159;
+            int guiLeft = (this.width - xSize) / 2;
+            int guiTop = (this.height - ySize) / 2;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            mc.renderEngine.bindTexture(new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui_yellow.png"));
-            this.drawTexturedModalRect(guiLeft2, guiTop2, 0, 0, 256, 159);
+            ResourceLocation guiLocation = new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui_yellow.png");
+            mc.renderEngine.bindTexture(guiLocation);
+            this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+            int a = 0;
 
-            for (i5 = 0; i5 < 128; ++i5) {
-                for (gender = 0; gender < 128; ++gender) {
-                    Color i10 = Color.getHSBColor((float) i5 * 2.0F / 255.0F, (float) gender * 2.0F / 255.0F, BrghtSlcted);
-                    i22 = i10.getRed() * 65536 + i10.getGreen() * 256 + i10.getBlue();
-                    if (colorType == 5015 && i22 == 0) {
-                        i8 = 11075583;
+            for(int X = 0; X < 128; ++X) {
+                for(int Y = 0; Y < 128; ++Y) {
+                    Color i = Color.getHSBColor((float)X * 2.0F / 255.0F, (float)Y * 2.0F / 255.0F, BrghtSlcted);
+                    int cc = i.getRed() * 65536 + i.getGreen() * 256 + i.getBlue();
+                    if (colorType == 5015 && cc == 0) {
+                        a = 11075583;
                         if (JRMCoreH.align <= 66 && JRMCoreH.align >= 33) {
-                            i8 = 14526719;
+                            a = 14526719;
                         }
 
                         if (JRMCoreH.align < 33) {
-                            i8 = 16646144;
+                            a = 16646144;
                         }
 
-                        this.buttonList.add(new JRMCoreGuiButtonC(-4, guiLeft2 + 5 + i5, guiTop2 + 5 + gender, 1, 1, "", i22, i8));
+                        this.buttonList.add(new JRMCoreGuiButtonC(-4, guiLeft + 5 + X, guiTop + 5 + Y, 1, 1, "", cc, a));
                     } else {
-                        this.buttonList.add(new JRMCoreGuiButtonC(-4, guiLeft2 + 5 + i5, guiTop2 + 5 + gender, 1, 1, "", i22));
+                        this.buttonList.add(new JRMCoreGuiButtonC(-4, guiLeft + 5 + X, guiTop + 5 + Y, 1, 1, "", cc));
                     }
                 }
             }
 
             if (colorType == 5015 && BrghtSlcted == 0.0F) {
-                var8.drawString(JRMCoreH.trl("jrmc", "AlignmentBased"), guiLeft2 + 5, guiTop2 + 140, 0);
+                var8.drawString(JRMCoreH.trl("jrmc", "AlignmentBased"), guiLeft + 5, guiTop + 140, 0);
             }
 
-            this.buttonList.add(new JRMCoreGuiSlider00(20, guiLeft2 + 135, guiTop2 + 5, "", BrghtSlcted, 1.0F));
-            i5 = 0;
+            this.buttonList.add(new JRMCoreGuiSlider00(20, guiLeft + 135, guiTop + 5, "", BrghtSlcted, 1.0F));
+            int clr = 0;
             if (this.inputField2Cl == 4) {
-                i5 = ColorSlcted;
+                clr = ColorSlcted;
             } else if (this.inputField2Cl == 5015) {
-                i5 = KiColorSlcted;
+                clr = KiColorSlcted;
             } else if (this.inputField2Cl == 5003) {
-                i5 = BodyColMainSlcted;
+                clr = BodyColMainSlcted;
             } else if (this.inputField2Cl == 5004) {
-                i5 = BodyColSub1Slcted;
+                clr = BodyColSub1Slcted;
             } else if (this.inputField2Cl == 5005) {
-                i5 = BodyColSub2Slcted;
+                clr = BodyColSub2Slcted;
             } else if (this.inputField2Cl == 5014) {
-                i5 = BodyColSub3Slcted;
+                clr = BodyColSub3Slcted;
             } else if (this.inputField2Cl == 5009) {
-                i5 = EyeCol1Slcted;
+                clr = EyeCol1Slcted;
             } else if (this.inputField2Cl == 5010) {
-                i5 = EyeCol2Slcted;
+                clr = EyeCol2Slcted;
             } else if (this.inputField2Cl == 5016) {
-                i5 = BodyauColMainSlcted;
+                clr = BodyauColMainSlcted;
             } else if (this.inputField2Cl == 5017) {
-                i5 = BodyauColSub1Slcted;
+                clr = BodyauColSub1Slcted;
             } else if (this.inputField2Cl == 5018) {
-                i5 = BodyauColSub2Slcted;
+                clr = BodyauColSub2Slcted;
             } else if (this.inputField2Cl == 5019) {
-                i5 = BodyauColSub3Slcted;
+                clr = BodyauColSub3Slcted;
             }
 
-            float h6 = (float) (i5 >> 16 & 255) / 255.0F;
-            h18 = (float) (i5 >> 8 & 255) / 255.0F;
-            h19 = (float) (i5 & 255) / 255.0F;
-            GL11.glColor4f(h6, h18, h19, 1.0F);
+            float h2 = (float)(clr >> 16 & 255) / 255.0F;
+            float h3 = (float)(clr >> 8 & 255) / 255.0F;
+            float h4 = (float)(clr & 255) / 255.0F;
+            float h1 = 1.0F;
+            GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
             mc.renderEngine.bindTexture(new ResourceLocation(button1));
-            this.drawTexturedModalRect(guiLeft2 + 180, guiTop2 + 65, 0, 0, 50, 10);
-            j3 = new String[]{"Red", "Green", "Blue"};
+            this.drawTexturedModalRect(guiLeft + 180, guiTop + 65, 0, 0, 50, 10);
+            String[] rgb = new String[]{"Red", "Green", "Blue"};
 
-            for (xPos2 = 0; xPos2 < this.inputField2.length; ++xPos2) {
-                ClassDesc2 = j3[xPos2] + ":";
-                var8.drawString(ClassDesc2, guiLeft2 + 158, guiTop2 + 15 + xPos2 * 15, 0);
-                this.nametf(xPos2);
-                if (this.inputField2[xPos2] != null) {
-                    this.inputField2[xPos2].xPosition = guiLeft2 + 195;
-                    this.inputField2[xPos2].yPosition = guiTop2 + 15 + xPos2 * 15;
-                    this.inputField2[xPos2].drawTextBox();
+            for(int id = 0; id < this.inputField2.length; ++id) {
+                String s = rgb[id] + ":";
+                int sw = this.fontRendererObj.getStringWidth(s) / 2;
+                var8.drawString(s, guiLeft + 158, guiTop + 15 + id * 15, 0);
+                this.nametf(var8, id, 0, 0);
+                if (this.inputField2[id] != null) {
+                    this.inputField2[id].xPosition = guiLeft + 195;
+                    this.inputField2[id].yPosition = guiTop + 15 + id * 15;
+                    this.inputField2[id].drawTextBox();
                 }
             }
 
-            limit2 = this.fontRendererObj.getStringWidth("Get RGB Color") / 2;
-            this.buttonList.add((new JRMCoreGuiButtons01(33000, guiLeft2 + 205 - limit2, guiTop2 + 80, limit2, "Get RGB Color", JRMCoreH.techNCCol[1])).setShadow(false));
-            Level = JRMCoreH.trl("jrmc", "Back");
-            i9 = this.fontRendererObj.getStringWidth(Level) + 8;
-            this.buttonList.add(new JRMCoreGuiButtons00(0, posX - 130 - i9, posY + 65, i9, 20, Level, 0));
+            String s = "Get RGB Color";
+            int sw = this.fontRendererObj.getStringWidth(s) / 2;
+            this.buttonList.add((new JRMCoreGuiButtons01(33000, guiLeft + 205 - sw, guiTop + 80, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
+            s = JRMCoreH.trl("jrmc", "Back");
+            sw = this.fontRendererObj.getStringWidth(s) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(0, posX - 130 - sw, posY + 65, sw, 20, s, 0));
         }
 
         super.drawScreen(x, y, f);
@@ -1013,9 +1278,40 @@ public class StartingGui extends AbstractJRMCGui2 {
             this.inputField.updateCursorCounter();
         }
 
-        for (int id = 0; id < this.inputField2.length; ++id) {
-            if (this.inputField2[id] != null) {
+        for(int id = 0; id < this.inputField2.length; ++id) {
+            if (this.inputField2 != null && this.inputField2[id] != null) {
                 this.inputField2[id].updateCursorCounter();
+            }
+        }
+
+    }
+
+    @Override
+    protected void keyTyped(char c, int i) {
+        super.keyTyped(c, i);
+        if (this.inputField != null) {
+            this.inputField.textboxKeyTyped(c, i);
+        }
+
+        for(int id = 0; id < this.inputField2.length; ++id) {
+            if (this.inputField2 != null && this.inputField2[id] != null) {
+                this.inputField2Ch = true;
+                this.inputField2[id].textboxKeyTyped(c, i);
+            }
+        }
+
+    }
+
+    @Override
+    protected void mouseClicked(int i, int j, int k) {
+        super.mouseClicked(i, j, k);
+        if (this.inputField != null) {
+            this.inputField.mouseClicked(i, j, k);
+        }
+
+        for(int id = 0; id < this.inputField2.length; ++id) {
+            if (this.inputField2 != null && this.inputField2[id] != null) {
+                this.inputField2[id].mouseClicked(i, j, k);
             }
         }
 
@@ -1047,34 +1343,6 @@ public class StartingGui extends AbstractJRMCGui2 {
             this.drawTexturedModalRect(x + xp, y + 10 + yp, 5, 5, (Math.min(descw, ll)) + 10, desch * 10 + 10);
             JRMCoreH.txt(desc, (String) o[1], Integer.parseInt("" + o[2]), Boolean.parseBoolean("" + o[3]), Integer.parseInt("" + o[4]) + xp, Integer.parseInt("" + o[5]) + 10 + yp, ll);
             detailList.clear();
-        }
-
-    }
-
-    protected void keyTyped(char c, int i) {
-        super.keyTyped(c, i);
-        if (this.inputField != null) {
-            this.inputField.textboxKeyTyped(c, i);
-        }
-
-        for (int id = 0; id < this.inputField2.length; ++id) {
-            if (this.inputField2[id] != null) {
-                this.inputField2[id].textboxKeyTyped(c, i);
-            }
-        }
-
-    }
-
-    protected void mouseClicked(int i, int j, int k) {
-        super.mouseClicked(i, j, k);
-        if (this.inputField != null) {
-            this.inputField.mouseClicked(i, j, k);
-        }
-
-        for (int id = 0; id < this.inputField2.length; ++id) {
-            if (this.inputField2[id] != null) {
-                this.inputField2[id].mouseClicked(i, j, k);
-            }
         }
 
     }
@@ -1273,7 +1541,7 @@ public class StartingGui extends AbstractJRMCGui2 {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
-    private void nametf(int id) {
+    private void nametf(FontRenderer var8, int id, int i, int j) {
         this.inputField2[id].setMaxStringLength(3);
         this.inputField2[id].setEnableBackgroundDrawing(true);
         this.inputField2[id].setCanLoseFocus(true);
@@ -1498,7 +1766,10 @@ public class StartingGui extends AbstractJRMCGui2 {
     }
 
     static {
-        button1 = JRMCoreH.tjjrmc + ":button1.png";
+        pc = JRMCoreH.tjjrmc + ":gui_pc.png";
+        gui_help_tabs = JRMCoreH.tjjrmc + ":help/tab0.png";
+        wishsep = JRMCoreH.tjjrmc + ":guidev.png";
+        icons = JRMCoreH.tjjrmc + ":icons.png";
         colorType = 0;
         StateSlcted = 0;
         RaceSlcted = 0;
@@ -1525,7 +1796,11 @@ public class StartingGui extends AbstractJRMCGui2 {
         BodyauColSub1Slcted = 0;
         BodyauColSub2Slcted = 0;
         BodyauColSub3Slcted = 0;
+        HairPrstsSlcted = 0;
+        canSavePreset = true;
         BrghtSlcted = 0.8F;
+        PwrtypSlcted = 0;
+        ClassSlcted = 0;
         tail = true;
         KiColorSlcted = 0;
         PresetList = new ArrayList();
@@ -1533,9 +1808,17 @@ public class StartingGui extends AbstractJRMCGui2 {
         dnsau = JRMCoreH.dnsau;
         dns = JRMCoreH.dns;
         dnsSent = "";
+        dnsOrig = "";
         dnsH = JRMCoreH.dnsH;
         dnsHSent = "";
+        dnsHOrig = "";
         detailList = new ArrayList();
+        ssc = "";
+        sscr = 0;
+        count = 0;
+        warn = 0;
+        startcount = 0;
+        scrlld = 0;
         titlePanoramaPaths = new ResourceLocation[]{new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_0.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_1.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_2.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_3.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_4.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_5.png")};
     }
 }
