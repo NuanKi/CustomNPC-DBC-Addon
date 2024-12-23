@@ -3,16 +3,15 @@ package kamkeel.npcdbc.client.gui.dbc;
 
 import JinRyuu.JRMCore.*;
 import JinRyuu.JRMCore.items.ItemBarberSnC;
-import JinRyuu.JRMCore.p.DBC.DBCPdri;
-import JinRyuu.JRMCore.p.JRMCorePData2;
-import JinRyuu.JRMCore.p.PD;
 import JinRyuu.JRMCore.server.config.dbc.JGConfigRaces;
 import cpw.mods.fml.common.FMLCommonHandler;
 import kamkeel.npcdbc.CustomNpcPlusDBC;
 import kamkeel.npcdbc.mixins.late.IDBCGuiScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -30,98 +29,28 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 import java.awt.*;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-//import static JinRyuu.JRMCore.JRMCoreGuiScreen.*;
 import static kamkeel.npcdbc.util.Utility.t;
 
 public class StartingGui extends AbstractJRMCGui2 {
-    public static Minecraft mc = Minecraft.getMinecraft();
-    public static StartingGui instance;
-    public boolean guiUp = false;
+    public static final Minecraft mc = Minecraft.getMinecraft();
     public int guiID = 0;
-    public int guiIDprev = 0;
     public int guiIDprev2 = 0;
-    public int guiLeft;
-    public int guiTop;
-    public int xSize = 256;
-    public int ySize = 159;
+    public final int xSize = 256;
+    public final int ySize = 159;
     public float xSize_lo;
     public float ySize_lo;
-    public int site = 0;
-    public int sip = 0;
-    private int diff = 0;
-    private int attCrtPg = 0;
-    private int attViwPg = 0;
-    private int pgSkls = 0;
-    private int smd;
-    private int ipg;
-    private int inv;
-    private int lp;
-    private int sscl;
-    private int[] hbt;
-    private int[] dfa = new int[5];
-    private URI clickedURI;
-    private int mcu = 0;
-    public static String urlToOpen = "";
-    private static float ptch = 0.0F;
-    public static float scrollSide = 0.0F;
-    public static int hairPreview = 0;
-    public static int[] hairPreviewStates = new int[]{0, 4, 5, 6};
-    private static boolean headRoton = false;
-    private static int headRotX = 0;
-    private static int headRotY = 0;
-    private static int headRotZ = 0;
-    private static final int gui_help_descs = 13;
-    private static final int help_guides = 13;
-    public static int selectedColor = 0; // Add this line to store the selected color
-    private static int help_page_id = 0;
-    private static int help_mode = 0;
-    private static final int[] cs_pages = new int[]{9, 3};
-    private static int cs_page = 0;
-    private static int cs_mode = 0;
     public static boolean CanRace = true;
     public static boolean CanGender = true;
     public static boolean CanYears = true;
     public static boolean CanHair = true;
     public static boolean CanColor = true;
     public static boolean canCustom = true;
-    public static boolean CanSpecial = true;
-    public static boolean CanPwr = true;
-    public static boolean CanClass = true;
-    private static boolean[] CanUpgrade = new boolean[]{true, true, true, true, true, true};
-    public static byte EnAttNum = 0;
-    public static String name = "Attack";
-    public static int acquired = 1;
-    public static String owner;
-    public static int type;
-    public static int speed;
-    public static int dam;
-    public static int effect;
-    public static int cost;
-    public static int casttime;
-    public static int cooldown;
-    public static int color;
-    public static int density;
-    public static int sincantation;
-    public static int sfire;
-    public static int smove;
-    public static int[] techCrt;
-    public static String button1;
-    public static String button2;
-    public static String wish;
-    public static String guiBG2;
-    public static String pc;
-    public static String gui_help_tabs;
-    public static String wishsep;
-    public static String icons;
-    String SideMsn = "";
-    int ss = -1;
-    ResourceLocation guiLocation2;
-    boolean ssb = false;
+    public static final String button1;
     public static int colorType;
     public static int StateSlcted;
     public static int RaceSlcted;
@@ -148,11 +77,7 @@ public class StartingGui extends AbstractJRMCGui2 {
     public static int BodyauColSub1Slcted;
     public static int BodyauColSub2Slcted;
     public static int BodyauColSub3Slcted;
-    public static int HairPrstsSlcted;
-    public static boolean canSavePreset;
     public static float BrghtSlcted;
-    public static int PwrtypSlcted;
-    public static int ClassSlcted;
     public static boolean tail;
     public static int KiColorSlcted;
     public static ArrayList<String> PresetList;
@@ -160,59 +85,19 @@ public class StartingGui extends AbstractJRMCGui2 {
     private static String dnsau;
     private static String dns;
     private static String dnsSent;
-    private static String dnsOrig;
     private static String dnsH;
-    private static String dnsHbu;
-    private static String dnsHSent;
-    private static String dnsHOrig;
-    protected static List detailList;
-    public int x = 0;
-    public int y = 0;
-    private byte pwr = 0;
+    private static final String dnsHSent;
+    protected static final List detailList;
     public int scroll;
     public int scrollMouseJump = 1;
-    public boolean mousePressed;
-    private int IDtoProcessConfirmFor = -1;
-    private boolean confirmationWindow = false;
     private int kdf;
-    private static String ssc;
-    private static int sscr;
-    public static boolean ufc;
-    final byte HELP_MODE_SELECT = 0;
-    final byte HELP_GUIDE_PICK = 1;
-    final byte HELP_CRAFTING = 2;
-    final byte HELP_GUIDE = 3;
-    private int gui_recipe_mod = -1;
-    private int gui_recipe_category = 0;
-    private int text = 0;
     protected GuiTextField inputField;
-    protected GuiTextField[] inputField2 = new GuiTextField[3];
-    private String defaultInputFieldText = "Attack";
-    private boolean inputField2Ch = false;
+    protected final GuiTextField[] inputField2 = new GuiTextField[3];
     private int inputField2Cl = 0;
-    protected static final ResourceLocation field_110408_a;
-    ModelRenderer[] hairall;
-    public static int count;
-    public static int warn;
-    public static int startcount;
-    private String Process = "Something is Wrong";
-    private int wid = 0;
-    private int hei = 0;
-    private String textureFile = "jinryuudragonbc:sagas.png";
-    private int curPage = 0;
-    private int[] hcl = new int[]{0, 4, 14, 24, 40, 56};
-    public static int scrlld;
     private DynamicTexture viewportTexture;
     private ResourceLocation field_110351_G;
     private int panoramaTimer;
-    private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_0.png"),
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_1.png"),
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_2.png"),
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_3.png"),
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_4.png"),
-        new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_5.png")};
-
+    private static final ResourceLocation[] titlePanoramaPaths;
     public boolean isGUIOpen(int id) {
         return id == this.guiID;
     }
@@ -220,11 +105,6 @@ public class StartingGui extends AbstractJRMCGui2 {
     public StartingGui() {
         JRMCoreGuiSliderX00.sliderValue = 0.0F;
         this.scroll = 0;
-        scrollSide = 0.0F;
-        this.guiIDprev = this.guiID;
-        ssc = "";
-        this.confirmationWindow = false;
-        this.guiUp = false;
         if (JRMCoreConfig.ssc.contains("http://")) {
             JRMCoreH.turih.remove(JRMCoreConfig.ssc);
             JRMCoreH.tur(JRMCoreConfig.ssc);
@@ -234,99 +114,36 @@ public class StartingGui extends AbstractJRMCGui2 {
         JRMCoreH.BPMode = !bpmd.equalsIgnoreCase("Normal") && bpmd.equalsIgnoreCase("High") ? 1 : 0;
     }
 
+    @Override
     public void initGui() {
-        this.guiUp = false;
         this.viewportTexture = new DynamicTexture(256, 256);
-        this.field_110351_G = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
+        this.field_110351_G = mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
 
         int posX;
         for (posX = 0; posX < this.inputField2.length; ++posX) {
             (this.inputField2[posX] = new GuiTextField(mc.fontRenderer, 0, 0, 50, 12)).setText("255");
         }
 
-        instance = this;
         int posY;
-        int dam;
-        int effect;
-        int cost;
-        int casttime;
-        int cooldown;
         int j;
         int density;
-        int sincantation;
-        int sfire;
-        int smove;
-        if (JRMCoreH.Pwrtyp == 2) {
-            posX = JRMCoreH.techNCBase[3];
-            posY = JRMCoreH.techNCBase[4];
-            dam = JRMCoreH.techNCBase[5];
-            effect = JRMCoreH.techNCBase[6];
-            cost = JRMCoreH.techNCBase[7];
-            casttime = JRMCoreH.techNCBase[8];
-            cooldown = JRMCoreH.techNCBase[9];
-            j = JRMCoreH.techNCBase[10];
-            density = JRMCoreH.techNCBase[11];
-            sincantation = JRMCoreH.techNCBase[12];
-            sfire = JRMCoreH.techNCBase[13];
-            smove = JRMCoreH.techNCBase[14];
-            techCrt = new int[]{1, acquired, 1, posX, posY, dam, effect, cost, casttime, cooldown, j, density, sincantation, sfire, smove};
-        }
-
-        if (JRMCoreH.Pwrtyp == 1) {
-            posX = JRMCoreH.techBase[3];
-            posY = JRMCoreH.techBase[4];
-            dam = JRMCoreH.techBase[5];
-            effect = JRMCoreH.techBase[6];
-            cost = JRMCoreH.techBase[7];
-            casttime = JRMCoreH.techBase[8];
-            cooldown = JRMCoreH.techBase[9];
-            j = JRMCoreH.techBase[10];
-            density = JRMCoreH.techBase[11];
-            sincantation = JRMCoreH.techBase[12];
-            sfire = JRMCoreH.techBase[13];
-            smove = JRMCoreH.techBase[14];
-            techCrt = new int[]{1, acquired, 1, posX, posY, dam, effect, cost, casttime, cooldown, j, density, sincantation, sfire, smove};
-        }
 
         this.buttonList.clear();
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
         posX = this.width / 2;
         posY = this.height / 2;
         JRMCoreGuiSliderX00.sliderValue = 0.0F;
         this.scroll = 0;
-        scrollSide = 0.0F;
-        this.SideMsn = "";
-        this.site = 0;
         JRMCoreH.jrmct(1);
         JRMCoreH.jrmct(3);
-        this.smd = 0;
-        this.ipg = 0;
-        this.inv = 0;
 
-        if (this.guiID == 8) {
-            if (JRMCoreH.JFC() && ItemBarberSnC.barberTarget != null) {
-                if (JRMCoreHJFC.isChildNPC(ItemBarberSnC.barberTarget)) {
-                    dns = JRMCoreHJFC.childDNS(ItemBarberSnC.barberTarget);
-                    dnsH = JRMCoreHJFC.childDNSH(ItemBarberSnC.barberTarget);
-                    dnsOrig = JRMCoreHJFC.childDNS(ItemBarberSnC.barberTarget);
-                    dnsHOrig = JRMCoreHJFC.childDNSH(ItemBarberSnC.barberTarget);
-                    RaceSlcted = JRMCoreH.Race;
-                    HairSlcted = JRMCoreH.dnsHairB(dns);
-                    Hair2Slcted = JRMCoreH.dnsHairF(dns);
-                    ColorSlcted = JRMCoreH.dnsHairC(dns);
-                }
-            } else {
+
                 dns = JRMCoreH.dns;
                 dnsH = JRMCoreH.dnsH;
-                dnsOrig = JRMCoreH.dns;
-                dnsHOrig = JRMCoreH.dnsH;
                 RaceSlcted = JRMCoreH.Race;
                 HairSlcted = JRMCoreH.dnsHairB(dns);
                 Hair2Slcted = JRMCoreH.dnsHairF(dns);
                 ColorSlcted = JRMCoreH.dnsHairC(dns);
-            }
-        }
+
 
         if (this.guiID == 0) {
             RaceSlcted = JRMCoreH.Race;
@@ -340,8 +157,6 @@ public class StartingGui extends AbstractJRMCGui2 {
                 dnsH = JRMCoreH.dnsH;
             }
 
-            dnsOrig = JRMCoreH.dns;
-            dnsHOrig = JRMCoreH.dnsH;
             GenderSlcted = JRMCoreH.dnsGender(dns);
             HairSlcted = JRMCoreH.dnsHairB(dns);
             Hair2Slcted = JRMCoreH.dnsHairF(dns);
@@ -361,7 +176,7 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         csau_d();
         String s = JRMCoreH.rld("HairPresets", "jinryuujrmcore.dat");
-        List<String> stooges = Arrays.asList();
+        List<String> stooges = Collections.emptyList();
         if (s.length() > 3) {
             stooges = Arrays.asList(s.split(","));
         }
@@ -372,11 +187,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         String[] var19 = JRMCoreH.defHairPrsts;
         density = var19.length;
 
-        for (sincantation = 0; sincantation < density; ++sincantation) {
-            String def = var19[sincantation];
-            defpres.add(def);
-        }
-
         saves.removeAll(defpres);
         presets.addAll(defpres);
         presets.addAll(saves);
@@ -384,7 +194,6 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         for (j = 0; j < PresetList.size(); ++j) {
             if ((PresetList.get(j)).equals(dnsH)) {
-                HairPrstsSlcted = j;
                 break;
             }
         }
@@ -394,13 +203,7 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
     }
 
-    public Object actionPerformed(int par1, int par2, int par3, int par4, int par5, String par6Str) {
-        int selct = par1 - 20;
-        int KA;
-        GuiButton ret = new JRMCoreGuiButtons00(par1, par2, par3, par4, par5, par6Str, 0);
-        return ret;
-    }
-
+    @Override
     public void actionPerformed(GuiButton button) {
         super.actionPerformed(button);
         int id = button.id;
@@ -412,7 +215,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
 
         if (id == 11) {
-//            this.guiID = 2;
             JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
             ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(2);
             FMLCommonHandler.instance().showGuiScreen(DBCScreen);
@@ -453,7 +255,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
 
         if (button.id >= 5100 && button.id <= 5104) {
-            this.guiIDprev = this.guiID;
             dnsH = JRMCoreH.dnsH;
             int test = button.id - 5080;
             JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
@@ -489,11 +290,7 @@ public class StartingGui extends AbstractJRMCGui2 {
             JRMCoreH.Char((byte) 7, (byte) YearsSlcted);
         }
         if (button.id == 106) {
-            if (tail) {
-                tail = false;
-            } else {
-                tail = true;
-            }
+            tail = !tail;
 
             JRMCoreH.Char((byte) 103, (byte) (tail ? 1 : 0));
         }
@@ -535,7 +332,6 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         if (id == 4 || id == 5003 || id == 5004 || id == 5005 || id == 5009 || id == 5010 || id == 5014 || id == 5015 || id == 5016 || id == 5017 || id == 5018 || id == 5019) {
             this.inputField2Cl = id;
-            this.guiIDprev = this.guiID;
             this.guiID = 1;
             colorType = button.id;
         }
@@ -659,7 +455,6 @@ public class StartingGui extends AbstractJRMCGui2 {
             } catch (Exception var20) {
             }
 
-            this.inputField2Ch = false;
             this.updateMajinHairToBodyColor();
         }
 
@@ -727,8 +522,7 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
     }
 
-
-    @SuppressWarnings("unused")
+    @Override
     public void drawScreen(int x, int y, float f) {
 
         int ar;
@@ -737,10 +531,7 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
 
         if (Mouse.isButtonDown(0)) {
-            this.mousePressed = true;
-            scrollSide = JRMCoreGuiSliderX00.sliderValue;
         } else {
-            this.mousePressed = false;
 
             while (Mouse.next()) {
                 int mw = Mouse.getEventDWheel();
@@ -789,11 +580,8 @@ public class StartingGui extends AbstractJRMCGui2 {
             JRMCoreH.jrmct(3);
         }
 
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
         int posX = this.width / 2;
         int posY = this.height / 2;
-        this.pwr = JRMCoreH.Pwrtyp;
         boolean xSize;
         int xSize2;
         int guiLeft;
@@ -1067,7 +855,7 @@ public class StartingGui extends AbstractJRMCGui2 {
                 posXm = 1.0F;
                 buttonText = JRMCoreH.trl("jrmc", "Color");
                 ni3 = this.fontRendererObj.getStringWidth(buttonText) / 2;
-                GL11.glColor4f(1.0F * h2, 1.0F * h3, 1.0F * h4, 1.0F);
+                GL11.glColor4f(h2, h3, h4, 1.0F);
                 mc.renderEngine.bindTexture(new ResourceLocation(button1));
                 this.drawTexturedModalRect(gui2Left + 50 - ni3, gui2Left2 + 10, 0, 0, this.fontRendererObj.getStringWidth(buttonText) + 20, 10);
             } else if (RaceSlcted == 4) {
@@ -1178,12 +966,12 @@ public class StartingGui extends AbstractJRMCGui2 {
 
             if (RaceSlcted == 1 && !tail) {
                 tail = true;
-                JRMCoreH.Char((byte) 103, (byte) (true ? 1 : 0));
+                JRMCoreH.Char((byte) 103, (byte) (1));
             }
 
             JRMCoreClient.mc.mouseHelper.mouseXYChange();
-            posXm = (float) Mouse.getX() * 1.0F / ((float) JRMCoreClient.mc.displayWidth * 1.0F);
-            posYm = (float) Mouse.getY() * 1.0F / ((float) JRMCoreClient.mc.displayHeight * 1.0F);
+            posXm = (float) Mouse.getX() / ((float) JRMCoreClient.mc.displayWidth);
+            posYm = (float) Mouse.getY() / ((float) JRMCoreClient.mc.displayHeight);
             var10000 = (int) ((float) var6 * posXm);
             var10000 = var7 - (int) ((float) var7 * posYm);
 
@@ -1260,7 +1048,7 @@ public class StartingGui extends AbstractJRMCGui2 {
             h18 = (float) (i5 >> 8 & 255) / 255.0F;
             h19 = (float) (i5 & 255) / 255.0F;
             h20 = 1.0F;
-            GL11.glColor4f(1.0F * h6, 1.0F * h18, 1.0F * h19, 1.0F);
+            GL11.glColor4f(h6, h18, h19, 1.0F);
             mc.renderEngine.bindTexture(new ResourceLocation(button1));
             this.drawTexturedModalRect(guiLeft2 + 180, guiTop2 + 65, 0, 0, 50, 10);
             j3 = new String[]{"Red", "Green", "Blue"};
@@ -1289,7 +1077,7 @@ public class StartingGui extends AbstractJRMCGui2 {
         this.drawDetails(x, y, var8);
     }
 
-
+    @Override
     public void updateScreen() {
         ++this.panoramaTimer;
         if (this.inputField != null) {
@@ -1310,11 +1098,11 @@ public class StartingGui extends AbstractJRMCGui2 {
 
     private void drawDetails(int x, int y, FontRenderer var8) {
         if (!detailList.isEmpty()) {
-            Object[] o = (Object[]) ((Object[]) detailList.get(0));
+            Object[] o = (Object[]) detailList.get(0);
             String desc = (String) o[0];
             int ll = Integer.parseInt("" + o[6]);
             int descw = var8.getStringWidth(desc);
-            int var10000 = 1 + var8.getStringWidth(desc) / ll;
+            var8.getStringWidth(desc);
             mc.renderEngine.bindTexture(new ResourceLocation("jinryuumodscore:allw.png"));
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.8F);
             int desch = JRMCoreH.txt(desc, (String) o[1], Integer.parseInt("" + o[2]), false, 0, 0, ll);
@@ -1346,7 +1134,6 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         for (int id = 0; id < this.inputField2.length; ++id) {
             if (this.inputField2 != null && this.inputField2[id] != null) {
-                this.inputField2Ch = true;
                 this.inputField2[id].textboxKeyTyped(c, i);
             }
         }
@@ -1365,42 +1152,6 @@ public class StartingGui extends AbstractJRMCGui2 {
             }
         }
 
-    }
-
-    public static void head(int par0, int par1, int par2, float par3, float par4, EntityLivingBase par5EntityLivingBase) {
-        GL11.glEnable(2903);
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float) par0, (float) par1, 50.0F);
-        GL11.glScalef((float) (-par2), (float) par2, (float) par2);
-        GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        float f2 = par5EntityLivingBase.renderYawOffset;
-        float f3 = par5EntityLivingBase.rotationYaw;
-        float f4 = par5EntityLivingBase.rotationPitch;
-        float f5 = par5EntityLivingBase.prevRotationYawHead;
-        float f6 = par5EntityLivingBase.rotationYawHead;
-        GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-((float) Math.atan((double) (par4 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        par5EntityLivingBase.renderYawOffset = (float) Math.atan((double) (par3 / 40.0F)) * 20.0F;
-        par5EntityLivingBase.rotationYaw = (float) Math.atan((double) (par3 / 40.0F)) * 40.0F;
-        par5EntityLivingBase.rotationPitch = -((float) Math.atan((double) (par4 / 40.0F))) * 20.0F;
-        par5EntityLivingBase.rotationYawHead = par5EntityLivingBase.rotationYaw;
-        par5EntityLivingBase.prevRotationYawHead = par5EntityLivingBase.rotationYaw;
-        GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
-        RenderManager.instance.playerViewY = 180.0F;
-        renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        par5EntityLivingBase.renderYawOffset = f2;
-        par5EntityLivingBase.rotationYaw = f3;
-        par5EntityLivingBase.rotationPitch = f4;
-        par5EntityLivingBase.prevRotationYawHead = f5;
-        par5EntityLivingBase.rotationYawHead = f6;
-        GL11.glPopMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(32826);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        GL11.glDisable(3553);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
     public static void renderEntityWithPosYaw(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
@@ -1444,12 +1195,12 @@ public class StartingGui extends AbstractJRMCGui2 {
 
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
         if (hr) {
-            GL11.glRotatef(-((float) Math.atan((double) (par4 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(-((float) Math.atan(par4 / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
         }
 
-        entity.renderYawOffset = hr ? (float) (i ? -1 : 1) * (float) Math.atan((double) (par3 / 40.0F)) * 20.0F : 0.0F;
-        entity.rotationYaw = hr ? (float) (i ? -1 : 1) * (float) Math.atan((double) (par3 / 40.0F)) * 40.0F : 0.0F;
-        entity.rotationPitch = hr ? -((float) Math.atan((double) (par4 / 40.0F))) * 20.0F : 0.0F;
+        entity.renderYawOffset = hr ? (float) (i ? -1 : 1) * (float) Math.atan(par3 / 40.0F) * 20.0F : 0.0F;
+        entity.rotationYaw = hr ? (float) (i ? -1 : 1) * (float) Math.atan(par3 / 40.0F) * 40.0F : 0.0F;
+        entity.rotationPitch = hr ? -((float) Math.atan(par4 / 40.0F)) * 20.0F : 0.0F;
         entity.rotationYawHead = hr ? entity.rotationYaw : 0.0F;
         entity.prevRotationYawHead = hr ? entity.rotationYaw : 0.0F;
         GL11.glTranslatef(0.0F, entity.yOffset, 0.0F);
@@ -1468,25 +1219,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
-    public void current(String var35, int posx, int posy, FontRenderer var8, int var6, int var7) {
-        int wid = var8.getStringWidth(var35) / 2;
-        int posX = var6 / 2 + posx - wid;
-        int posY = var7 / 2 + posy;
-        var8.drawString(var35, posX + 1, posY, 0);
-        var8.drawString(var35, posX - 1, posY, 0);
-        var8.drawString(var35, posX, posY + 1, 0);
-        var8.drawString(var35, posX, posY - 1, 0);
-        var8.drawString(var35, posX, posY, 8388564);
-    }
-
-    public static void drawStringWithBorder(FontRenderer fontRendererObj, String text, int x, int y, int color, int borderColor) {
-        fontRendererObj.drawString(text, x + 1, y + 2, borderColor);
-        fontRendererObj.drawString(text, x - 1, y + 2, borderColor);
-        fontRendererObj.drawString(text, x, y + 1 + 2, borderColor);
-        fontRendererObj.drawString(text, x, y - 1 + 2, borderColor);
-        fontRendererObj.drawString(text, x, y + 2, color);
-    }
-
     private void updateMajinHairToBodyColor() {
         if (JRMCoreH.isRaceMajin(RaceSlcted) && ColorSlcted != BodyColMainSlcted) {
             ColorSlcted = BodyColMainSlcted;
@@ -1496,7 +1228,7 @@ public class StartingGui extends AbstractJRMCGui2 {
     }
 
     private void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_) {
-        this.mc.getFramebuffer().unbindFramebuffer();
+        mc.getFramebuffer().unbindFramebuffer();
         GL11.glViewport(0, 0, 256, 256);
         this.drawPanorama(p_73971_1_, p_73971_2_, p_73971_3_);
         this.rotateAndBlurSkybox(p_73971_3_);
@@ -1506,8 +1238,8 @@ public class StartingGui extends AbstractJRMCGui2 {
         this.rotateAndBlurSkybox(p_73971_3_);
         this.rotateAndBlurSkybox(p_73971_3_);
         this.rotateAndBlurSkybox(p_73971_3_);
-        this.mc.getFramebuffer().bindFramebuffer(true);
-        GL11.glViewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+        mc.getFramebuffer().bindFramebuffer(true);
+        GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         float f1 = this.width > this.height ? 120.0F / (float) this.width : 120.0F / (float) this.height;
@@ -1516,15 +1248,15 @@ public class StartingGui extends AbstractJRMCGui2 {
         tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
         int k = this.width;
         int l = this.height;
-        tessellator.addVertexWithUV(0.0D, (double) l, (double) this.zLevel, (double) (0.5F - f2), (double) (0.5F + f3));
-        tessellator.addVertexWithUV((double) k, (double) l, (double) this.zLevel, (double) (0.5F - f2), (double) (0.5F - f3));
-        tessellator.addVertexWithUV((double) k, 0.0D, (double) this.zLevel, (double) (0.5F + f2), (double) (0.5F - f3));
-        tessellator.addVertexWithUV(0.0D, 0.0D, (double) this.zLevel, (double) (0.5F + f2), (double) (0.5F + f3));
+        tessellator.addVertexWithUV(0.0D, l, this.zLevel, 0.5F - f2, 0.5F + f3);
+        tessellator.addVertexWithUV(k, l, this.zLevel, 0.5F - f2, 0.5F - f3);
+        tessellator.addVertexWithUV(k, 0.0D, this.zLevel, 0.5F + f2, 0.5F - f3);
+        tessellator.addVertexWithUV(0.0D, 0.0D, this.zLevel, 0.5F + f2, 0.5F + f3);
         tessellator.draw();
     }
 
     private void rotateAndBlurSkybox(float p_73968_1_) {
-        this.mc.getTextureManager().bindTexture(this.field_110351_G);
+        mc.getTextureManager().bindTexture(this.field_110351_G);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
@@ -1541,10 +1273,10 @@ public class StartingGui extends AbstractJRMCGui2 {
             int j = this.width;
             int k = this.height;
             float f1 = (float) (i - b0 / 2) / 256.0F;
-            tessellator.addVertexWithUV((double) j, (double) k, (double) this.zLevel, (double) (0.0F + f1), 1.0D);
-            tessellator.addVertexWithUV((double) j, 0.0D, (double) this.zLevel, (double) (1.0F + f1), 1.0D);
-            tessellator.addVertexWithUV(0.0D, 0.0D, (double) this.zLevel, (double) (1.0F + f1), 0.0D);
-            tessellator.addVertexWithUV(0.0D, (double) k, (double) this.zLevel, (double) (0.0F + f1), 0.0D);
+            tessellator.addVertexWithUV(j, k, this.zLevel, 0.0F + f1, 1.0D);
+            tessellator.addVertexWithUV(j, 0.0D, this.zLevel, 1.0F + f1, 1.0D);
+            tessellator.addVertexWithUV(0.0D, 0.0D, this.zLevel, 1.0F + f1, 0.0D);
+            tessellator.addVertexWithUV(0.0D, k, this.zLevel, 0.0F + f1, 0.0D);
         }
 
         tessellator.draw();
@@ -1603,14 +1335,14 @@ public class StartingGui extends AbstractJRMCGui2 {
                     GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
                 }
 
-                this.mc.getTextureManager().bindTexture(titlePanoramaPaths[l]);
+                mc.getTextureManager().bindTexture(titlePanoramaPaths[l]);
                 tessellator.startDrawingQuads();
                 tessellator.setColorRGBA_I(16777215, 255 / (k + 1));
                 float f4 = 0.0F;
-                tessellator.addVertexWithUV(-1.0D, -1.0D, 1.0D, (double) (0.0F + f4), (double) (0.0F + f4));
-                tessellator.addVertexWithUV(1.0D, -1.0D, 1.0D, (double) (1.0F - f4), (double) (0.0F + f4));
-                tessellator.addVertexWithUV(1.0D, 1.0D, 1.0D, (double) (1.0F - f4), (double) (1.0F - f4));
-                tessellator.addVertexWithUV(-1.0D, 1.0D, 1.0D, (double) (0.0F + f4), (double) (1.0F - f4));
+                tessellator.addVertexWithUV(-1.0D, -1.0D, 1.0D, 0.0F + f4, 0.0F + f4);
+                tessellator.addVertexWithUV(1.0D, -1.0D, 1.0D, 1.0F - f4, 0.0F + f4);
+                tessellator.addVertexWithUV(1.0D, 1.0D, 1.0D, 1.0F - f4, 1.0F - f4);
+                tessellator.addVertexWithUV(-1.0D, 1.0D, 1.0D, 0.0F + f4, 1.0F - f4);
                 tessellator.draw();
                 GL11.glPopMatrix();
             }
@@ -1628,80 +1360,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
-    }
-
-    static {
-        owner = JRMCoreClient.mc.thePlayer.getCommandSenderName();
-        type = JRMCoreH.techBase[3];
-        speed = JRMCoreH.techBase[4];
-        dam = JRMCoreH.techBase[5];
-        effect = JRMCoreH.techBase[6];
-        cost = JRMCoreH.techBase[7];
-        casttime = JRMCoreH.techBase[8];
-        cooldown = JRMCoreH.techBase[9];
-        color = JRMCoreH.techBase[10];
-        density = JRMCoreH.techBase[11];
-        sincantation = JRMCoreH.techBase[12];
-        sfire = JRMCoreH.techBase[13];
-        smove = JRMCoreH.techBase[14];
-        techCrt = new int[]{1, acquired, 1, type, speed, dam, effect, cost, casttime, cooldown, color, density, sincantation, sfire, smove};
-        button1 = JRMCoreH.tjjrmc + ":button1.png";
-        button2 = JRMCoreH.tjjrmc + ":button2.png";
-        guiBG2 = JRMCoreH.tjjrmc + ":gui2.png";
-        pc = JRMCoreH.tjjrmc + ":gui_pc.png";
-        gui_help_tabs = JRMCoreH.tjjrmc + ":help/tab0.png";
-        wishsep = JRMCoreH.tjjrmc + ":guidev.png";
-        icons = JRMCoreH.tjjrmc + ":icons.png";
-        colorType = 0;
-        StateSlcted = 0;
-        RaceSlcted = 0;
-        GenderSlcted = 0;
-        YearsSlcted = 3;
-        HairSlcted = 10;
-        Hair2Slcted = 0;
-        ColorSlcted = 0;
-        BreastSizeSlcted = 4;
-        SkinTypeSlcted = 0;
-        BodyTypeSlcted = 0;
-        BodyColPresetSlcted = 0;
-        BodyColMainSlcted = 0;
-        BodyColSub1Slcted = 0;
-        BodyColSub2Slcted = 0;
-        BodyColSub3Slcted = 0;
-        FaceNoseSlcted = 0;
-        FaceMouthSlcted = 0;
-        EyesSlcted = 0;
-        EyeColPresetSlcted = 0;
-        EyeCol1Slcted = 0;
-        EyeCol2Slcted = 0;
-        BodyauColMainSlcted = 0;
-        BodyauColSub1Slcted = 0;
-        BodyauColSub2Slcted = 0;
-        BodyauColSub3Slcted = 0;
-        HairPrstsSlcted = 0;
-        canSavePreset = true;
-        BrghtSlcted = 0.8F;
-        PwrtypSlcted = 0;
-        ClassSlcted = 0;
-        tail = true;
-        KiColorSlcted = 0;
-        PresetList = new ArrayList();
-        tick = 0;
-        dnsau = JRMCoreH.dnsau;
-        dns = JRMCoreH.dns;
-        dnsSent = "";
-        dnsOrig = "";
-        dnsH = JRMCoreH.dnsH;
-        dnsHSent = "";
-        dnsHOrig = "";
-        detailList = new ArrayList();
-        ssc = "";
-        sscr = 0;
-        field_110408_a = new ResourceLocation("textures/gui/container/inventory.png");
-        count = 0;
-        warn = 0;
-        startcount = 0;
-        scrlld = 0;
     }
 
     private void nametf(FontRenderer var8, int id, int i, int j) {
@@ -1916,12 +1574,53 @@ public class StartingGui extends AbstractJRMCGui2 {
         return selct >= 0 ? selct : l - 1;
     }
 
-
     private static String ntl(int i) {
         return JRMCoreH.numToLet(i);
     }
 
     private static String ntl5(int i) {
         return JRMCoreH.numToLet5(i);
+    }
+
+    static {
+        button1 = JRMCoreH.tjjrmc + ":button1.png";
+        colorType = 0;
+        StateSlcted = 0;
+        RaceSlcted = 0;
+        GenderSlcted = 0;
+        YearsSlcted = 3;
+        HairSlcted = 10;
+        Hair2Slcted = 0;
+        ColorSlcted = 0;
+        BreastSizeSlcted = 4;
+        SkinTypeSlcted = 0;
+        BodyTypeSlcted = 0;
+        BodyColPresetSlcted = 0;
+        BodyColMainSlcted = 0;
+        BodyColSub1Slcted = 0;
+        BodyColSub2Slcted = 0;
+        BodyColSub3Slcted = 0;
+        FaceNoseSlcted = 0;
+        FaceMouthSlcted = 0;
+        EyesSlcted = 0;
+        EyeColPresetSlcted = 0;
+        EyeCol1Slcted = 0;
+        EyeCol2Slcted = 0;
+        BodyauColMainSlcted = 0;
+        BodyauColSub1Slcted = 0;
+        BodyauColSub2Slcted = 0;
+        BodyauColSub3Slcted = 0;
+        BrghtSlcted = 0.8F;
+        tail = true;
+        KiColorSlcted = 0;
+        PresetList = new ArrayList();
+        tick = 0;
+        dnsau = JRMCoreH.dnsau;
+        dns = JRMCoreH.dns;
+        dnsSent = "";
+        dnsH = JRMCoreH.dnsH;
+        dnsHSent = "";
+        detailList = new ArrayList();
+        titlePanoramaPaths = new ResourceLocation[]{new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_0.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_1.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_2.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_3.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_4.png"), new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/background/panorama_5.png")};
     }
 }
