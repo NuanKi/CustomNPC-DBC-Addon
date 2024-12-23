@@ -455,17 +455,10 @@ public class StartingGui extends AbstractJRMCGui2 {
         if (button.id >= 5100 && button.id <= 5104) {
             this.guiIDprev = this.guiID;
             dnsH = JRMCoreH.dnsH;
-            this.guiID = button.id - 5080;
-        }
-
-        if (id == 4 || id == 5003 || id == 5004 || id == 5005 || id == 5009 || id == 5010 || id == 5014 || id == 5015 || id == 5016 || id == 5017 || id == 5018 || id == 5019) {
-            this.inputField2Cl = id;
-            this.guiIDprev = this.guiID;
-            this.guiID = 1;
-//            JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
-//            ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(1);
-//            FMLCommonHandler.instance().showGuiScreen(DBCScreen);
-            colorType = button.id;
+            int test = button.id - 5080;
+            JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
+            ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(test);
+            FMLCommonHandler.instance().showGuiScreen(DBCScreen);
         }
 
         if (button.id == 4999) {
@@ -594,7 +587,80 @@ public class StartingGui extends AbstractJRMCGui2 {
         }
 
         if (button.id == 33000) {
-            updateColorRGB();
+            String[] s2 = new String[this.inputField2.length];
+
+            for (i7 = 0; i7 < this.inputField2.length; ++i7) {
+                s2[i7] = this.inputField2[i7].getText();
+            }
+
+            int[] n = new int[this.inputField2.length];
+
+            try {
+                for (i8 = 0; i8 < this.inputField2.length; ++i8) {
+                    n[i8] = Integer.parseInt(s2[i8]);
+                    if (n[i8] < 0) {
+                        n[i8] = 0;
+                    }
+
+                    if (n[i8] > 255) {
+                        n[i8] = 255;
+                    }
+                }
+
+                i8 = n[0];
+                i8 = (i8 << 8) + n[1];
+                i8 = (i8 << 8) + n[2];
+                switch (colorType) {
+                    case 4:
+                        ColorSlcted = i8;
+                        break;
+                    case 5003:
+                        BodyColMainSlcted = i8;
+                        break;
+                    case 5004:
+                        BodyColSub1Slcted = i8;
+                        break;
+                    case 5005:
+                        BodyColSub2Slcted = i8;
+                        break;
+                    case 5009:
+                        EyeCol1Slcted = i8;
+                        break;
+                    case 5010:
+                        EyeCol2Slcted = i8;
+                        break;
+                    case 5014:
+                        BodyColSub3Slcted = i8;
+                        break;
+                    case 5015:
+                        KiColorSlcted = i8;
+                        break;
+                    case 5016:
+                        BodyauColMainSlcted = i8;
+                        setdnsau();
+                        JRMCoreH.jrmcDataFC(3, dnsau);
+                        break;
+                    case 5017:
+                        BodyauColSub1Slcted = i8;
+                        setdnsau();
+                        JRMCoreH.jrmcDataFC(3, dnsau);
+                        break;
+                    case 5018:
+                        BodyauColSub2Slcted = i8;
+                        setdnsau();
+                        JRMCoreH.jrmcDataFC(3, dnsau);
+                        break;
+                    case 5019:
+                        BodyauColSub3Slcted = i8;
+                        setdnsau();
+                        JRMCoreH.jrmcDataFC(3, dnsau);
+                }
+                setdns();
+            } catch (Exception var20) {
+            }
+
+            this.inputField2Ch = false;
+            this.updateMajinHairToBodyColor();
         }
 
         if (button.id == 20) {
@@ -1013,7 +1079,7 @@ public class StartingGui extends AbstractJRMCGui2 {
 
             ++i9;
             if (GenderSlcted == 1) {
-                this.buttonList.add(new JRMCoreGuiSlider01(5001, guiLeft + 11 - var8.getStringWidth(powerType) / 2, guiLeft2 + 146, 50, 10, "", (float) BreastSizeSlcted * 0.1F, 1.0F));
+                this.buttonList.add(new JRMCoreGuiSlider01(5001, guiLeft + 31 - var8.getStringWidth(powerType) / 2, guiLeft2 + 146, 50, 10, "", (float) BreastSizeSlcted * 0.1F, 1.0F));
             }
 
             ++i9;
@@ -1133,10 +1199,7 @@ public class StartingGui extends AbstractJRMCGui2 {
             guiLeft2 = (this.width - 256) / 2;
             guiTop2 = (this.height - 159) / 2;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            //new ResourceLocation(CustomNpcPlusDBC.ID + ":textures/gui/gui_dark.png");
-            mc.renderEngine.bindTexture(new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui_dark.png"));
-//            guiLocation2 = new ResourceLocation(wish);
-//            mc.renderEngine.bindTexture(guiLocation2);
+            mc.renderEngine.bindTexture(new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui_yellow.png"));
             this.drawTexturedModalRect(guiLeft2, guiTop2, 0, 0, 256, 159);
             gn = false;
 
@@ -1245,15 +1308,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         return xpos < mX && xpos + w > mX && ypos - 3 < mY && ypos + h > mY;
     }
 
-    public static void drawDetails(String s1, int xpos, int ypos, int w, int h, int x, int y, FontRenderer var8) {
-        if (hovered(x, y, xpos, ypos, w, h)) {
-            int ll;
-            Object[] txt = new Object[]{s1, "§8", 0, true, x + 5, y + 5, 200};
-            detailList.add(txt);
-        }
-
-    }
-
     private void drawDetails(int x, int y, FontRenderer var8) {
         if (!detailList.isEmpty()) {
             Object[] o = (Object[]) ((Object[]) detailList.get(0));
@@ -1282,20 +1336,6 @@ public class StartingGui extends AbstractJRMCGui2 {
             detailList.clear();
         }
 
-    }
-
-    public static int y4NUu(String l) {
-        String w = "0123456789ABCDEF";
-        l = l.toUpperCase();
-        int a = 0;
-
-        for (int i = 0; i < l.length(); ++i) {
-            char c = l.charAt(i);
-            int d = "0123456789ABCDEF".indexOf(c);
-            a = 16 * a + d;
-        }
-
-        return a;
     }
 
     protected void keyTyped(char c, int i) {
@@ -1386,10 +1426,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         func_110423_a(par0, par1, scale, par3, par4, entity, true, true, false);
     }
 
-    public static void func_110423_a(int par0, int par1, int scale, float par3, float par4, EntityLivingBase entity) {
-        func_110423_a(par0, par1, scale, par3, par4, entity, true, true, true);
-    }
-
     public static void func_110423_a(int par0, int par1, int scale, float par3, float par4, EntityLivingBase entity, boolean hr, boolean l, boolean i) {
         GL11.glEnable(2903);
         GL11.glPushMatrix();
@@ -1432,92 +1468,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
-    public static void hairCheck(int par0, int par1, int scale, float par3, float par4, EntityLivingBase par5EntityLivingBase, int side) {
-        GL11.glEnable(2903);
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float) par0, (float) par1 - (side == 4 ? 20.0F : 0.0F), 50.0F);
-        GL11.glScalef((float) (-scale), (float) scale, (float) scale);
-        GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        switch (side) {
-            case 1:
-                GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-                break;
-            case 2:
-                GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-                break;
-            case 3:
-                GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-                break;
-            case 4:
-                GL11.glRotatef(40.0F, 1.0F, 0.0F, 0.0F);
-        }
-
-        float f2 = par5EntityLivingBase.renderYawOffset;
-        float f3 = par5EntityLivingBase.rotationYaw;
-        float f4 = par5EntityLivingBase.rotationPitch;
-        float f5 = par5EntityLivingBase.prevRotationYawHead;
-        float f6 = par5EntityLivingBase.rotationYawHead;
-        GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        par5EntityLivingBase.renderYawOffset = headRoton ? -((float) Math.atan((double) (par3 / 40.0F))) * 20.0F : 0.0F;
-        par5EntityLivingBase.rotationYaw = headRoton ? -((float) Math.atan((double) (par3 / 40.0F))) * 40.0F : (float) headRotX;
-        par5EntityLivingBase.rotationPitch = headRoton ? -((float) Math.atan((double) (par4 / 40.0F))) * 20.0F : (float) headRotZ;
-        par5EntityLivingBase.rotationYawHead = par5EntityLivingBase.rotationYaw;
-        par5EntityLivingBase.prevRotationYawHead = par5EntityLivingBase.rotationYaw;
-        GL11.glTranslatef(0.0F, par5EntityLivingBase.yOffset, 0.0F);
-        RenderManager.instance.playerViewY = 180.0F;
-        RenderManager.instance.renderEntityWithPosYaw(par5EntityLivingBase, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        par5EntityLivingBase.renderYawOffset = f2;
-        par5EntityLivingBase.rotationYaw = f3;
-        par5EntityLivingBase.rotationPitch = f4;
-        par5EntityLivingBase.prevRotationYawHead = f5;
-        par5EntityLivingBase.rotationYawHead = f6;
-        GL11.glPopMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(32826);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        GL11.glDisable(3553);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-    }
-
-    private void setRotation(ModelRenderer model, float x, float y, float z) {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
-    }
-
-    public boolean doesGuiPauseGame() {
-        return false;
-    }
-
-    public void drawLine(int startX, int startY, int endX, int endY, int lineWidth, int color) {
-        Tessellator tessellator = Tessellator.instance;
-
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        GL11.glColor4ub((byte) (color >> 16 & 255), (byte) (color >> 8 & 255), (byte) (color & 255), (byte) (color >> 24 & 255));
-
-        ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-        GL11.glScaled(scaledresolution.getScaleFactor(), scaledresolution.getScaleFactor(), 1.0);
-
-        GL11.glLineWidth(lineWidth);
-
-        tessellator.startDrawing(GL11.GL_LINES);
-        tessellator.addVertex(startX, startY, 0);
-        tessellator.addVertex(endX, endY, 0);
-        tessellator.draw();
-
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glPopMatrix();
-    }
-
     public void current(String var35, int posx, int posy, FontRenderer var8, int var6, int var7) {
         int wid = var8.getStringWidth(var35) / 2;
         int posX = var6 / 2 + posx - wid;
@@ -1529,24 +1479,12 @@ public class StartingGui extends AbstractJRMCGui2 {
         var8.drawString(var35, posX, posY, 8388564);
     }
 
-    public static void dataSend(String c, String d) {
-        PD.sendToServer(new JRMCorePData2(c, d));
-    }
-
-    public void dri(int id) {
-        PD.sendToServer(new DBCPdri(id));
-    }
-
     public static void drawStringWithBorder(FontRenderer fontRendererObj, String text, int x, int y, int color, int borderColor) {
         fontRendererObj.drawString(text, x + 1, y + 2, borderColor);
         fontRendererObj.drawString(text, x - 1, y + 2, borderColor);
         fontRendererObj.drawString(text, x, y + 1 + 2, borderColor);
         fontRendererObj.drawString(text, x, y - 1 + 2, borderColor);
         fontRendererObj.drawString(text, x, y + 2, color);
-    }
-
-    public static void drawStringWithBorder(FontRenderer fontRendererObj, String text, int x, int y, int color) {
-        drawStringWithBorder(fontRendererObj, text, x, y, color, 0);
     }
 
     private void updateMajinHairToBodyColor() {
@@ -1816,13 +1754,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         BodyauColSub3Slcted = JRMCoreH.dnsauC3(dnsau);
     }
 
-    public static void csau_df() {
-        BodyauColMainSlcted = 14208118;
-        BodyauColSub1Slcted = 10317733;
-        BodyauColSub2Slcted = 6966676;
-        BodyauColSub3Slcted = 11045420;
-    }
-
     public static void setdnsau() {
         String BCM = ntl5(BodyauColMainSlcted);
         String BC1 = ntl5(BodyauColSub1Slcted);
@@ -1865,29 +1796,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         dns = JRMCoreH.dnsHairFSet(dns, Hair2Slcted);
         dns = JRMCoreH.dnsHairCSet(dns, ColorSlcted);
     }
-
-    public static void HairCstmNextPreset() {
-        int selct = HairPrstsSlcted + 1;
-        if (selct < PresetList.size()) {
-            HairPrstsSlcted = selct;
-        } else {
-            HairPrstsSlcted = 0;
-        }
-
-        dnsH = (String) PresetList.get(HairPrstsSlcted);
-    }
-
-    public static void HairCstmPrevPreset() {
-        int selct = HairPrstsSlcted - 1;
-        if (selct >= 0) {
-            HairPrstsSlcted = selct;
-        } else {
-            HairPrstsSlcted = PresetList.size() - 1;
-        }
-
-        dnsH = (String) PresetList.get(HairPrstsSlcted);
-    }
-
 
     public static void StateViewF() {
         if (RaceSlcted == JRMCoreH.RACES) {
@@ -1998,26 +1906,6 @@ public class StartingGui extends AbstractJRMCGui2 {
 
     }
 
-    public static void Hair2SlctF() {
-        int selct = Hair2Slcted + 1;
-        if (selct < JRMCoreH.Hairs2.length) {
-            Hair2Slcted = selct;
-        } else {
-            Hair2Slcted = 0;
-        }
-
-    }
-
-    public static void Hair2SlctB() {
-        int selct = Hair2Slcted - 1;
-        if (selct >= 0) {
-            Hair2Slcted = selct;
-        } else {
-            Hair2Slcted = JRMCoreH.Hairs2.length - 1;
-        }
-
-    }
-
     public static int SlctF(int s, int l) {
         int selct = s + 1;
         return selct < l ? selct : 0;
@@ -2028,105 +1916,6 @@ public class StartingGui extends AbstractJRMCGui2 {
         return selct >= 0 ? selct : l - 1;
     }
 
-    public static int Slct(String dir, int Select, String[] allow) {
-        if (dir.contains("B")) {
-            int selct = Select - 1;
-            boolean loop = true;
-
-            while (loop) {
-                if (JRMCoreH.RaceCanHavePwr[RaceSlcted].contains("" + selct) && selct < allow.length && JRMCoreH.Allow(allow[selct])) {
-                    Select = selct;
-                    loop = false;
-                    break;
-                }
-
-                --selct;
-                if (selct <= 0) {
-                    selct = allow.length - 1;
-                }
-            }
-        } else {
-            int selct = Select + 1;
-            boolean loop = true;
-
-            while (loop) {
-                if (JRMCoreH.RaceCanHavePwr[RaceSlcted].contains("" + selct) && selct < allow.length && JRMCoreH.Allow(allow[selct])) {
-                    Select = selct;
-                    loop = false;
-                    break;
-                }
-
-                ++selct;
-                if (selct >= allow.length) {
-                    selct = 0;
-                }
-            }
-        }
-
-        return Select;
-    }
-
-    public static int Slct2(String dir, int Select, String[] allow, int allowsel, String[] cur) {
-        if (dir.contains("B")) {
-            int selct = Select - 1;
-            if (selct >= 0 && JRMCoreH.Allow(allow[allowsel])) {
-                Select = selct;
-            } else {
-                Select = cur.length - 1;
-            }
-        } else {
-            int selct = Select + 1;
-            if (selct < cur.length && JRMCoreH.Allow(allow[allowsel])) {
-                Select = selct;
-            } else {
-                Select = 0;
-            }
-        }
-
-        return Select;
-    }
-
-    public static int SlctCol(String dir, int Select, String[] allow) {
-        if (dir.contains("B")) {
-            int selct = Select - 1;
-            if (selct >= 0) {
-                Select = selct;
-            } else {
-                Select = allow.length - 1;
-            }
-        } else {
-            int selct = Select + 1;
-            if (selct < allow.length) {
-                Select = selct;
-            } else {
-                Select = 0;
-            }
-        }
-
-        return Select;
-    }
-
-    public static int SlctSpec(String dir, int Select, int[] allow) {
-        if (dir.contains("B")) {
-            int selct = Select - 1;
-            int max = allow[RaceSlcted];
-            if (selct >= 0) {
-                Select = selct;
-            } else {
-                Select = max - 1;
-            }
-        } else {
-            int selct = Select + 1;
-            int max = allow[RaceSlcted];
-            if (selct < max) {
-                Select = selct;
-            } else {
-                Select = 0;
-            }
-        }
-
-        return Select;
-    }
 
     private static String ntl(int i) {
         return JRMCoreH.numToLet(i);
@@ -2134,74 +1923,5 @@ public class StartingGui extends AbstractJRMCGui2 {
 
     private static String ntl5(int i) {
         return JRMCoreH.numToLet5(i);
-    }
-
-
-    private void updateColorRGB() {
-        int r = Integer.parseInt(this.inputField2[0].getText());
-        int g = Integer.parseInt(this.inputField2[1].getText());
-        int b = Integer.parseInt(this.inputField2[2].getText());
-
-        r = Math.max(0, Math.min(255, r));
-        g = Math.max(0, Math.min(255, g));
-        b = Math.max(0, Math.min(255, b));
-
-        int color = (r << 16) + (g << 8) + b;
-
-        switch (colorType) {
-            case 4:
-                ColorSlcted = color;
-                break;
-            case 5003:
-                BodyColMainSlcted = color;
-                break;
-            case 5004:
-                BodyColSub1Slcted = color;
-                break;
-            case 5005:
-                BodyColSub2Slcted = color;
-                break;
-            case 5009:
-                EyeCol1Slcted = color;
-                break;
-            case 5010:
-                EyeCol2Slcted = color;
-                break;
-            case 5014:
-                BodyColSub3Slcted = color;
-                break;
-            case 5015:
-                KiColorSlcted = color;
-                break;
-            case 5016:
-                BodyauColMainSlcted = color;
-                setdnsau();
-                JRMCoreH.jrmcDataFC(3, dnsau);
-                break;
-            case 5017:
-                BodyauColSub1Slcted = color;
-                setdnsau();
-                JRMCoreH.jrmcDataFC(3, dnsau);
-                break;
-            case 5018:
-                BodyauColSub2Slcted = color;
-                setdnsau();
-                JRMCoreH.jrmcDataFC(3, dnsau);
-                break;
-            case 5019:
-                BodyauColSub3Slcted = color;
-                setdnsau();
-                JRMCoreH.jrmcDataFC(3, dnsau);
-                break;
-        }
-
-        if (this.guiIDprev == 8) {
-            setdnsForHair();
-        } else {
-            setdns();
-        }
-
-        this.updateMajinHairToBodyColor();
-
     }
 }
