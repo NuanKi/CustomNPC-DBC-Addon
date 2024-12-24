@@ -1261,7 +1261,7 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             if (fc) {
                 func_110423_a(guiLeft + 71, guiTop + 155 + 190, 180, (float)(guiLeft + 51) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer, false, false, false);
             } else {
-                func_110423_a_I(guiLeft + 40, guiTop + 118, 60, (float)(guiLeft + 40) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer);
+                func_110423_a_I(guiLeft + 40, guiTop + 118, 60, (float)(guiLeft + 40) - this.xSize_lo, (float)(guiTop + 50) - this.ySize_lo, mc.thePlayer);
             }
 
             String s = JRMCoreH.trl("jrmc", "Appearance");
