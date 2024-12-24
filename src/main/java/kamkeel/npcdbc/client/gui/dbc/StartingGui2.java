@@ -156,6 +156,7 @@ public class StartingGui2 extends AbstractJRMCGui2 {
     public static String button1;
     public static String button2;
     public static String wish;
+    public static String wish2;
     public static String guiBG2;
     public static String pc;
     public static String gui_help_tabs;
@@ -267,6 +268,8 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             this.inputField2[i].setText("255");
         }
 
+        wish2 = CustomNpcPlusDBC.ID + ":textures/gui/gui.png";
+        wish = CustomNpcPlusDBC.ID + ":textures/gui/gui_yellow.png";
         pc = JRMCoreH.tjjrmc + ":gui_pc.png";
         button1 = JRMCoreH.tjjrmc + ":button1.png";
         icons = JRMCoreH.tjjrmc + ":icons.png";
@@ -415,323 +418,418 @@ public class StartingGui2 extends AbstractJRMCGui2 {
         }
     }
 
+    public Object actionPerformed(int par1, int par2, int par3, int par4, int par5, String par6Str) {
+        int selct = par1 - 20;
+        int KA = 0;
+        GuiButton ret;
+        if (KA == 1) {
+            ret = new JRMCoreGuiButtons00(par1, par2, par3, par4, par5, par6Str, 0);
+        } else {
+            ret = new JRMCoreGuiButtons00(par1, par2, par3, par4, par5, par6Str, 0);
+        }
+
+        return ret;
+    }
+
     @Override
     public void actionPerformed(GuiButton button) {
         super.actionPerformed(button);
         int id = button.id;
-        int i7;
-        int i8;
 
-        if (id == 10) {
-            mc.thePlayer.closeScreen();
-        }
+        if (this.isGUIOpen(0)) {
 
-        if (id == 11) {
-            JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
-            ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(2);
-            FMLCommonHandler.instance().showGuiScreen(DBCScreen);
-        }
-
-        if (button.id == 1) {
-            RaceSlctF();
-            JRMCoreH.Char((byte) 0, (byte) RaceSlcted);
-            setchangerace();
-            setdns();
-        }
-
-        if (button.id == -1) {
-            RaceSlctB();
-            JRMCoreH.Char((byte) 0, (byte) RaceSlcted);
-            setchangerace();
-            setdns();
-        }
-
-        if (button.id == 2) {
-            GenderSlctF();
-            setdns();
-        }
-
-        if (button.id == -2) {
-            GenderSlctF();
-            setdns();
-        }
-
-        if (button.id == 3) {
-            HairSlctF();
-            setdns();
-        }
-
-        if (button.id == -3) {
-            HairSlctB();
-            setdns();
-        }
-
-        if (button.id >= 5100 && button.id <= 5104) {
-            dnsH = JRMCoreH.dnsH;
-            int test = button.id - 5080;
-            JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
-            ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(test);
-            FMLCommonHandler.instance().showGuiScreen(DBCScreen);
-        }
-
-        if (button.id == 4999) {
-            StateViewF();
-            JRMCoreH.Char((byte) 106, (byte) StateSlcted);
-            setdns();
-        }
-
-        if (button.id == -4999) {
-            StateViewB();
-            JRMCoreH.Char((byte) 106, (byte) StateSlcted);
-            setdns();
-        }
-
-        if (button.id == 5001) {
-            BreastSizeSlcted = (int) (((JRMCoreGuiSlider01) button).sliderValue * 10.0F);
-            setdns();
-        }
-        if (button.id == 8) {
-            YearsSlctF();
-            setdns();
-            JRMCoreH.Char((byte) 7, (byte) YearsSlcted);
-        }
-
-        if (button.id == -8) {
-            YearsSlctB();
-            setdns();
-            JRMCoreH.Char((byte) 7, (byte) YearsSlcted);
-        }
-        if (button.id == 106) {
-            tail = !tail;
-
-            JRMCoreH.Char((byte) 103, (byte) (tail ? 1 : 0));
-        }
-        if (button.id == 5002) {
-            SkinTypeSlcted = SlctF(SkinTypeSlcted, 2);
-            setchangerace();
-            setdns();
-        }
-
-        if (button.id == -5002) {
-            SkinTypeSlcted = SlctB(SkinTypeSlcted, 2);
-            setchangerace();
-            setdns();
-        }
-
-        if (button.id == 5) {
-            BodyTypeSlcted = SlctF(BodyTypeSlcted, JRMCoreH.customSknLimits[RaceSlcted][0]);
-            setdns();
-        }
-
-        if (button.id == -5) {
-            BodyTypeSlcted = SlctB(BodyTypeSlcted, JRMCoreH.customSknLimits[RaceSlcted][0]);
-            setdns();
-        }
-
-        if (button.id == 5012) {
-            BodyColPresetSlcted = SlctF(BodyColPresetSlcted, JRMCoreH.customSknLimitsBCP[RaceSlcted]);
-            setchangebodycol();
-            setdns();
-            this.updateMajinHairToBodyColor();
-        }
-
-        if (button.id == -5012) {
-            BodyColPresetSlcted = SlctB(BodyColPresetSlcted, JRMCoreH.customSknLimitsBCP[RaceSlcted]);
-            setchangebodycol();
-            setdns();
-            this.updateMajinHairToBodyColor();
-        }
-
-        if (id == 4 || id == 5003 || id == 5004 || id == 5005 || id == 5009 || id == 5010 || id == 5014 || id == 5015 || id == 5016 || id == 5017 || id == 5018 || id == 5019) {
-            this.inputField2Cl = id;
-            this.guiID = 1;
-            colorType = button.id;
-        }
-
-        if (button.id == 5006) {
-            FaceNoseSlcted = SlctF(FaceNoseSlcted, JRMCoreH.customSknLimits[RaceSlcted][2]);
-            setdns();
-        }
-
-        if (button.id == -5006) {
-            FaceNoseSlcted = SlctB(FaceNoseSlcted, JRMCoreH.customSknLimits[RaceSlcted][2]);
-            setdns();
-        }
-        if (button.id == 5007) {
-            FaceMouthSlcted = SlctF(FaceMouthSlcted, JRMCoreH.customSknLimits[RaceSlcted][3]);
-            setdns();
-        }
-
-        if (button.id == -5007) {
-            FaceMouthSlcted = SlctB(FaceMouthSlcted, JRMCoreH.customSknLimits[RaceSlcted][3]);
-            setdns();
-        }
-
-        if (button.id == 5008) {
-            EyesSlcted = SlctF(EyesSlcted, JRMCoreH.customSknLimits[RaceSlcted][4]);
-            setdns();
-        }
-
-        if (button.id == -5008) {
-            EyesSlcted = SlctB(EyesSlcted, JRMCoreH.customSknLimits[RaceSlcted][4]);
-            setdns();
-        }
-
-        if (button.id == 5013) {
-            EyeColPresetSlcted = SlctF(EyeColPresetSlcted, JRMCoreH.defeyecols.length);
-            setchangeeyecol();
-            setdns();
-        }
-
-        if (button.id == -5013) {
-            EyeColPresetSlcted = SlctB(EyeColPresetSlcted, JRMCoreH.defeyecols.length);
-            setchangeeyecol();
-            setdns();
-        }
-
-        if (button.id == 5011) {
-            EyeCol2Slcted = EyeCol1Slcted;
-            setdns();
-        }
-
-        if (button.id == 33000) {
-            String[] s2 = new String[this.inputField2.length];
-
-            for (i7 = 0; i7 < this.inputField2.length; ++i7) {
-                s2[i7] = this.inputField2[i7].getText();
+            if (id == 10) {
+                mc.thePlayer.closeScreen();
             }
 
-            int[] n = new int[this.inputField2.length];
+            if (id == 11) {
+                this.guiID = 2;
+//                JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
+//                ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(2);
+//                FMLCommonHandler.instance().showGuiScreen(DBCScreen);
+            }
 
-            try {
-                for (i8 = 0; i8 < this.inputField2.length; ++i8) {
-                    n[i8] = Integer.parseInt(s2[i8]);
-                    if (n[i8] < 0) {
-                        n[i8] = 0;
-                    }
+            if (button.id == 1) {
+                RaceSlctF();
+                JRMCoreH.Char((byte)0, (byte)RaceSlcted);
+                setchangerace();
+                setdns();
+            }
 
-                    if (n[i8] > 255) {
-                        n[i8] = 255;
-                    }
+            if (button.id == -1) {
+                RaceSlctB();
+                JRMCoreH.Char((byte)0, (byte)RaceSlcted);
+                setchangerace();
+                setdns();
+            }
+
+            if (button.id == 2) {
+                GenderSlctF();
+                setdns();
+            }
+
+            if (button.id == -2) {
+                GenderSlctF();
+                setdns();
+            }
+
+            if (button.id == 3) {
+                HairSlctF();
+                setdns();
+            }
+
+            if (button.id == -3) {
+                HairSlctB();
+                setdns();
+            }
+
+            if (button.id >= 5100 && button.id <= 5104) {
+                this.guiIDprev = this.guiID;
+                dnsH = JRMCoreH.dnsH;
+                int test = button.id - 5080;
+                //this.guiID = button.id - 5080;
+                JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
+                ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(test);
+                FMLCommonHandler.instance().showGuiScreen(DBCScreen);
+            }
+
+            if (id == 4 || id == 5003 || id == 5004 || id == 5005 || id == 5009 || id == 5010 || id == 5014) {
+                this.inputField2Cl = id;
+                this.guiIDprev = this.guiID;
+                this.guiID = 1;
+                colorType = button.id;
+            }
+
+            if (button.id == 4999) {
+                StateViewF();
+                JRMCoreH.Char((byte)106, (byte)StateSlcted);
+                setdns();
+            }
+
+
+            if (button.id == -4999) {
+                StateViewB();
+                JRMCoreH.Char((byte)106, (byte)StateSlcted);
+                setdns();
+            }
+
+            if (button.id == 5001) {
+                BreastSizeSlcted = (int)(((JRMCoreGuiSlider01)button).sliderValue * 10.0F);
+                setdns();
+            }
+
+            if (button.id == 8) {
+                YearsSlctF();
+                setdns();
+                JRMCoreH.Char((byte)7, (byte)YearsSlcted);
+            }
+
+            if (button.id == -8) {
+                YearsSlctB();
+                setdns();
+                JRMCoreH.Char((byte)7, (byte)YearsSlcted);
+            }
+
+            if (button.id == 106) {
+                if (tail) {
+                    tail = false;
+                } else {
+                    tail = true;
                 }
 
-                i8 = n[0];
-                i8 = (i8 << 8) + n[1];
-                i8 = (i8 << 8) + n[2];
+                JRMCoreH.Char((byte)103, (byte)(tail ? 1 : 0));
+            }
+
+            if (button.id == 5002) {
+                SkinTypeSlcted = SlctF(SkinTypeSlcted, 2);
+                setchangerace();
+                setdns();
+            }
+
+            if (button.id == -5002) {
+                SkinTypeSlcted = SlctB(SkinTypeSlcted, 2);
+                setchangerace();
+                setdns();
+            }
+
+            if (button.id == 5) {
+                BodyTypeSlcted = SlctF(BodyTypeSlcted, JRMCoreH.customSknLimits[RaceSlcted][0]);
+                setdns();
+            }
+
+            if (button.id == -5) {
+                BodyTypeSlcted = SlctB(BodyTypeSlcted, JRMCoreH.customSknLimits[RaceSlcted][0]);
+                setdns();
+            }
+
+            if (button.id == 5012) {
+                BodyColPresetSlcted = SlctF(BodyColPresetSlcted, JRMCoreH.customSknLimitsBCP[RaceSlcted]);
+                setchangebodycol();
+                setdns();
+                this.updateMajinHairToBodyColor();
+            }
+
+            if (button.id == -5012) {
+                BodyColPresetSlcted = SlctB(BodyColPresetSlcted, JRMCoreH.customSknLimitsBCP[RaceSlcted]);
+                setchangebodycol();
+                setdns();
+                this.updateMajinHairToBodyColor();
+            }
+
+            if (button.id == 5006) {
+                FaceNoseSlcted = SlctF(FaceNoseSlcted, JRMCoreH.customSknLimits[RaceSlcted][2]);
+                setdns();
+            }
+
+            if (button.id == -5006) {
+                FaceNoseSlcted = SlctB(FaceNoseSlcted, JRMCoreH.customSknLimits[RaceSlcted][2]);
+                setdns();
+            }
+
+            if (button.id == 5007) {
+                FaceMouthSlcted = SlctF(FaceMouthSlcted, JRMCoreH.customSknLimits[RaceSlcted][3]);
+                setdns();
+            }
+
+            if (button.id == -5007) {
+                FaceMouthSlcted = SlctB(FaceMouthSlcted, JRMCoreH.customSknLimits[RaceSlcted][3]);
+                setdns();
+            }
+
+            if (button.id == 5008) {
+                EyesSlcted = SlctF(EyesSlcted, JRMCoreH.customSknLimits[RaceSlcted][4]);
+                setdns();
+            }
+
+            if (button.id == -5008) {
+                EyesSlcted = SlctB(EyesSlcted, JRMCoreH.customSknLimits[RaceSlcted][4]);
+                setdns();
+            }
+
+            if (button.id == 5013) {
+                EyeColPresetSlcted = SlctF(EyeColPresetSlcted, JRMCoreH.defeyecols.length);
+                setchangeeyecol();
+                setdns();
+            }
+
+            if (button.id == -5013) {
+                EyeColPresetSlcted = SlctB(EyeColPresetSlcted, JRMCoreH.defeyecols.length);
+                setchangeeyecol();
+                setdns();
+            }
+
+            if (button.id == 5011) {
+                EyeCol2Slcted = EyeCol1Slcted;
+                setdns();
+            }
+        }
+
+        if (this.isGUIOpen(1)) {
+
+            if (button.id == -4) {
+                int col = ((JRMCoreGuiButtonC)button).getBgCol();
                 switch (colorType) {
                     case 4:
-                        ColorSlcted = i8;
+                        ColorSlcted = col;
                         break;
                     case 5003:
-                        BodyColMainSlcted = i8;
+                        BodyColMainSlcted = col;
                         break;
                     case 5004:
-                        BodyColSub1Slcted = i8;
+                        BodyColSub1Slcted = col;
                         break;
                     case 5005:
-                        BodyColSub2Slcted = i8;
+                        BodyColSub2Slcted = col;
                         break;
                     case 5009:
-                        EyeCol1Slcted = i8;
+                        EyeCol1Slcted = col;
                         break;
                     case 5010:
-                        EyeCol2Slcted = i8;
+                        EyeCol2Slcted = col;
                         break;
                     case 5014:
-                        BodyColSub3Slcted = i8;
+                        BodyColSub3Slcted = col;
                         break;
                     case 5015:
-                        KiColorSlcted = i8;
+                        KiColorSlcted = col;
                         break;
                     case 5016:
-                        BodyauColMainSlcted = i8;
+                        BodyauColMainSlcted = col;
                         setdnsau();
                         JRMCoreH.jrmcDataFC(3, dnsau);
                         break;
                     case 5017:
-                        BodyauColSub1Slcted = i8;
+                        BodyauColSub1Slcted = col;
                         setdnsau();
                         JRMCoreH.jrmcDataFC(3, dnsau);
                         break;
                     case 5018:
-                        BodyauColSub2Slcted = i8;
+                        BodyauColSub2Slcted = col;
                         setdnsau();
                         JRMCoreH.jrmcDataFC(3, dnsau);
                         break;
                     case 5019:
-                        BodyauColSub3Slcted = i8;
+                        BodyauColSub3Slcted = col;
                         setdnsau();
                         JRMCoreH.jrmcDataFC(3, dnsau);
                 }
+
+                if (this.guiIDprev == 8) {
+                    setdnsForHair();
+                } else {
+                    setdns();
+                }
+
+                this.updateMajinHairToBodyColor();
+            }
+
+            if (button.id == 20) {
+                BrghtSlcted = ((JRMCoreGuiSlider00)button).sliderValue;
+            }
+
+            if (button.id == 33000) {
+                String[] s = new String[this.inputField2.length];
+
+                for(int idd = 0; idd < this.inputField2.length; ++idd) {
+                    s[idd] = this.inputField2[idd].getText();
+                }
+
+                int[] n = new int[this.inputField2.length];
+
+                try {
+                    for(int idd = 0; idd < this.inputField2.length; ++idd) {
+                        n[idd] = Integer.parseInt(s[idd]);
+                        if (n[idd] < 0) {
+                            n[idd] = 0;
+                        }
+
+                        if (n[idd] > 255) {
+                            n[idd] = 255;
+                        }
+                    }
+
+                    int col = n[0];
+                    col = (col << 8) + n[1];
+                    col = (col << 8) + n[2];
+                    switch (colorType) {
+                        case 4:
+                            ColorSlcted = col;
+                            break;
+                        case 5003:
+                            BodyColMainSlcted = col;
+                            break;
+                        case 5004:
+                            BodyColSub1Slcted = col;
+                            break;
+                        case 5005:
+                            BodyColSub2Slcted = col;
+                            break;
+                        case 5009:
+                            EyeCol1Slcted = col;
+                            break;
+                        case 5010:
+                            EyeCol2Slcted = col;
+                            break;
+                        case 5014:
+                            BodyColSub3Slcted = col;
+                            break;
+                        case 5015:
+                            KiColorSlcted = col;
+                            break;
+                        case 5016:
+                            BodyauColMainSlcted = col;
+                            setdnsau();
+                            JRMCoreH.jrmcDataFC(3, dnsau);
+                            break;
+                        case 5017:
+                            BodyauColSub1Slcted = col;
+                            setdnsau();
+                            JRMCoreH.jrmcDataFC(3, dnsau);
+                            break;
+                        case 5018:
+                            BodyauColSub2Slcted = col;
+                            setdnsau();
+                            JRMCoreH.jrmcDataFC(3, dnsau);
+                            break;
+                        case 5019:
+                            BodyauColSub3Slcted = col;
+                            setdnsau();
+                            JRMCoreH.jrmcDataFC(3, dnsau);
+                    }
+
+                    if (this.guiIDprev == 8) {
+                        setdnsForHair();
+                    } else {
+                        setdns();
+                    }
+                } catch (Exception var23) {
+                }
+
+                this.inputField2Ch = false;
+                this.updateMajinHairToBodyColor();
+            }
+
+            if (button.id == 0) {
+                colorType = 0;
+                this.guiID = this.guiIDprev == 8 ? this.guiIDprev : (this.guiIDprev == 19 ? this.guiIDprev : 0);
+            }
+        }
+
+        if (this.isGUIOpen(2)) {
+
+            if (button.id == 0) {
+                this.guiID = this.guiIDprev == 8 ? this.guiIDprev : (this.guiIDprev == 19 ? this.guiIDprev : 0);
+            }
+
+            if (button.id == 12) {
+                this.guiID = 3;
+//                JRMCoreGuiScreen DBCScreen = new JRMCoreGuiScreen(0);
+//                ((IDBCGuiScreen) DBCScreen).setGuiIDPostInit(3);
+//                FMLCommonHandler.instance().showGuiScreen(DBCScreen);
+            }
+
+            if (button.id == 6) {
+                PwrtypSlcted = Slct("F", PwrtypSlcted, JRMCoreH.PwrtypAllow);
+            }
+
+            if (button.id == -6) {
+                PwrtypSlcted = Slct("B", PwrtypSlcted, JRMCoreH.PwrtypAllow);
+            }
+
+            if (button.id == 7) {
+                ClassSlcted = Slct2("F", ClassSlcted, JRMCoreH.PwrtypAllow, PwrtypSlcted, cl());
+            }
+
+            if (button.id == -7) {
+                ClassSlcted = Slct2("B", ClassSlcted, JRMCoreH.PwrtypAllow, PwrtypSlcted, cl());
+            }
+
+            if (id == 5015) {
+                this.inputField2Cl = id;
+                this.guiIDprev = this.guiID;
+                this.guiID = 1;
+                colorType = button.id;
+            }
+        }
+
+        if (this.isGUIOpen(3)) {
+
+            if (button.id == 11) {
+                this.guiID = 2;
+            }
+
+            if (button.id == 13) {
                 setdns();
-            } catch (Exception var20) {
-                throw new RuntimeException(var20);
+                JRMCoreH.jrmcDataFC(0, dns);
+                JRMCoreH.jrmcDataFC(1, dnsH);
+                JRMCoreH.jrmcDataFC(2, KiColorSlcted + "");
+                JRMCoreH.Char((byte)7, (byte)YearsSlcted);
+                JRMCoreH.Char((byte)0, (byte)RaceSlcted);
+                JRMCoreH.Char((byte)2, (byte)PwrtypSlcted);
+                JRMCoreH.Char((byte)3, (byte)ClassSlcted);
+                JRMCoreH.Char((byte)4, (byte)1);
+                mc.thePlayer.closeScreen();
             }
-
-            this.updateMajinHairToBodyColor();
-        }
-
-        if (button.id == 20) {
-            BrghtSlcted = ((JRMCoreGuiSlider00) button).sliderValue;
-        }
-
-        int k;
-        if (button.id == -4) {
-            k = ((JRMCoreGuiButtonC) button).getBgCol();
-            switch (colorType) {
-                case 4:
-                    ColorSlcted = k;
-                    break;
-                case 5003:
-                    BodyColMainSlcted = k;
-                    break;
-                case 5004:
-                    BodyColSub1Slcted = k;
-                    break;
-                case 5005:
-                    BodyColSub2Slcted = k;
-                    break;
-                case 5009:
-                    EyeCol1Slcted = k;
-                    break;
-                case 5010:
-                    EyeCol2Slcted = k;
-                    break;
-                case 5014:
-                    BodyColSub3Slcted = k;
-                    break;
-                case 5015:
-                    KiColorSlcted = k;
-                    break;
-                case 5016:
-                    BodyauColMainSlcted = k;
-                    setdnsau();
-                    JRMCoreH.jrmcDataFC(3, dnsau);
-                    break;
-                case 5017:
-                    BodyauColSub1Slcted = k;
-                    setdnsau();
-                    JRMCoreH.jrmcDataFC(3, dnsau);
-                    break;
-                case 5018:
-                    BodyauColSub2Slcted = k;
-                    setdnsau();
-                    JRMCoreH.jrmcDataFC(3, dnsau);
-                    break;
-                case 5019:
-                    BodyauColSub3Slcted = k;
-                    setdnsau();
-                    JRMCoreH.jrmcDataFC(3, dnsau);
-                    break;
-            }
-            setdns();
-            this.updateMajinHairToBodyColor();
-        }
-
-
-        if (button.id == 0) {
-            colorType = 0;
-            this.guiID = 0;
         }
     }
 
@@ -853,7 +951,7 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             int buttonRight = guiLeft - 20;
             int buttonText = guiLeft - 70;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            ResourceLocation guiLocation = new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui.png");
+            ResourceLocation guiLocation = new ResourceLocation(wish2);
             mc.renderEngine.bindTexture(guiLocation);
             this.drawTexturedModalRect(guiLeft, guiTop, 123, 1, 80, 120);
             this.drawTexturedModalRect(guiLeft - 131, guiTop - 20, 1, 1, 120, 140);
@@ -1032,24 +1130,24 @@ public class StartingGui2 extends AbstractJRMCGui2 {
 
             ++i;
             if (CanColor) {
+                if (RaceSlcted != 4 && RaceSlcted != 3) {
+                    float h2 = (float)(ColorSlcted >> 16 & 255) / 255.0F;
+                    float h3 = (float)(ColorSlcted >> 8 & 255) / 255.0F;
+                    float h4 = (float)(ColorSlcted & 255) / 255.0F;
+                    float h1 = 1.0F;
+                    GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
+                    mc.renderEngine.bindTexture(new ResourceLocation(button1));
+                    this.drawTexturedModalRect(buttonText - 25, guiTop -6 + i * 10, 0, 0, 50, 10);
+                } else if (RaceSlcted == 4) {
+                    String TransNms = TRState + ": " + JRMCoreH.cldgy + JRMCoreH.trl("jrmc", JRMCoreH.TransNms[RaceSlcted][JRMCoreH.State]);
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-4999, buttonLeft, guiTop - 5 + i * 10 - 1, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(4999, buttonRight, guiTop - 5 + i * 10 - 1, ">"));
+                    var8.drawString(TransNms, buttonText - var8.getStringWidth(TransNms) / 2, guiTop - 5 + i * 10, 0);
+                }
+
                 String s = JRMCoreH.trl("jrmc", "Color");
                 int sw = this.fontRendererObj.getStringWidth(s) / 2;
                 this.buttonList.add((new JRMCoreGuiButtons01(4, buttonText - sw, guiTop - 5 + i * 10, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
-            }
-
-            if (RaceSlcted != 4 && RaceSlcted != 3) {
-                float h2 = (float)(ColorSlcted >> 16 & 255) / 255.0F;
-                float h3 = (float)(ColorSlcted >> 8 & 255) / 255.0F;
-                float h4 = (float)(ColorSlcted & 255) / 255.0F;
-                float h1 = 1.0F;
-                GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
-                mc.renderEngine.bindTexture(new ResourceLocation(button1));
-                this.drawTexturedModalRect(buttonText - 25, guiTop + 4 + i * 10, 0, 0, 50, 10);
-            } else if (RaceSlcted == 4) {
-                String TransNms = TRState + ": " + JRMCoreH.cldgy + JRMCoreH.trl("jrmc", JRMCoreH.TransNms[RaceSlcted][JRMCoreH.State]);
-                this.buttonList.add(new JRMCoreGuiButtonsA2(-4999, buttonLeft, guiTop - 5 + i * 10 - 1, "<"));
-                this.buttonList.add(new JRMCoreGuiButtonsA2(4999, buttonRight, guiTop - 5 + i * 10 - 1, ">"));
-                var8.drawString(TransNms, buttonText - var8.getStringWidth(TransNms) / 2, guiTop - 5 + i * 10, 0);
             }
 
             ++i;
@@ -1163,7 +1261,7 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             if (fc) {
                 func_110423_a(guiLeft + 71, guiTop + 155 + 190, 180, (float)(guiLeft + 51) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer, false, false, false);
             } else {
-                func_110423_a_I(guiLeft + 40, guiTop + 118, 60, (float)(guiLeft + 51) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer);
+                func_110423_a_I(guiLeft + 40, guiTop + 118, 60, (float)(guiLeft + 40) - this.xSize_lo, (float)(guiTop + 80) - this.ySize_lo, mc.thePlayer);
             }
 
             String s = JRMCoreH.trl("jrmc", "Appearance");
@@ -1172,15 +1270,13 @@ public class StartingGui2 extends AbstractJRMCGui2 {
         }
 
         ufc = false;
-
-
         if (this.isGUIOpen(1)) {
             int xSize = 256;
             int ySize = 159;
             int guiLeft = (this.width - xSize) / 2;
             int guiTop = (this.height - ySize) / 2;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            ResourceLocation guiLocation = new ResourceLocation(CustomNpcPlusDBC.ID, "textures/gui/gui_yellow.png");
+            ResourceLocation guiLocation = new ResourceLocation(wish);
             mc.renderEngine.bindTexture(guiLocation);
             this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
             int a = 0;
@@ -1267,6 +1363,273 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             this.buttonList.add(new JRMCoreGuiButtons00(0, posX - 130 - sw, posY + 65, sw, 20, s, 0));
         }
 
+        if (this.isGUIOpen(2)) {
+            int xSize = 256;
+            int ySize = 159;
+            int guiLeft = (this.width - xSize) / 2;
+            int guiTop = (this.height - ySize) / 2;
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            ResourceLocation guiLocation = new ResourceLocation(wish);
+            mc.renderEngine.bindTexture(guiLocation);
+            this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+            String n = JRMCoreH.trl("jrmc", "Back");
+            int nw = this.fontRendererObj.getStringWidth(n) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(0, posX - 130 - nw, posY + 65, nw, 20, n, 0));
+            n = JRMCoreH.trl("jrmc", "Next");
+            nw = this.fontRendererObj.getStringWidth(n) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(12, posX + 130, posY + 65, nw, 20, n, 0));
+            if (JRMCoreH.Allow(JRMCoreH.PwrtypAllow[PwrtypSlcted])) {
+                CanPwr = true;
+            } else {
+                PwrtypSlcted = 0;
+                CanPwr = false;
+            }
+
+            if (JRMCoreH.Allow(JRMCoreH.PwrtypAllow[PwrtypSlcted]) && PwrtypSlcted != 3) {
+                CanClass = true;
+            } else {
+                ClassSlcted = 0;
+                CanClass = false;
+            }
+
+            if (cl().length - 1 < ClassSlcted) {
+                ClassSlcted = 0;
+            }
+
+            if (!JRMCoreH.RaceCanHavePwr[RaceSlcted].contains("" + PwrtypSlcted)) {
+                PwrtypSlcted = Slct("B", PwrtypSlcted, JRMCoreH.PwrtypAllow);
+            }
+
+            String Pwrtyp = JRMCoreH.trl("jrmc", JRMCoreH.Pwrtyps[PwrtypSlcted]);
+            String Class = JRMCoreH.trl("jrmc", cl()[ClassSlcted]);
+            String ClassDesc = JRMCoreH.trl("jrmc", clDesc()[ClassSlcted]);
+            String Stats = JRMCoreH.trl("jrmc", "Stats");
+            String StatIncreaseDesc = JRMCoreH.trl("jrmc", "StatIncreaseDesc");
+            String StartAttr = JRMCoreH.trl("jrmc", "StartAttr");
+            var8.drawString(JRMCoreH.trl("jrmc", "PowerType"), guiLeft + 5, guiTop + 5, 0);
+            int i = 1;
+            if (CanPwr) {
+                boolean yes = false;
+                if (!JRMCoreH.DBC() && !JRMCoreH.NC()) {
+                    if (JRMCoreH.SAOC()) {
+                        yes = true;
+                    }
+                } else {
+                    yes = true;
+                }
+
+                if (yes) {
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(-6, guiLeft + 130 - 125, guiTop + 4 + i * 10, "<"));
+                    this.buttonList.add(new JRMCoreGuiButtonsA2(6, guiLeft + 240 - 125, guiTop + 4 + i * 10, ">"));
+                }
+
+                String desc = JRMCoreH.trl(PwrtypSlcted == 3 ? "saoc" : "jrmc", JRMCoreH.PwrtypDesc[PwrtypSlcted]);
+                int wpos = var8.getStringWidth(Pwrtyp);
+                int xpos = guiLeft + 64 - wpos / 2;
+                int ypos = guiTop + 5 + i * 10;
+                drawDetails(Pwrtyp, desc, xpos, ypos, x, y, var8);
+            }
+
+            ++i;
+            if (CanClass) {
+                this.buttonList.add(new JRMCoreGuiButtonsA2(-7, guiLeft + 130 - 125, guiTop + 4 + i * 10, "<"));
+                this.buttonList.add(new JRMCoreGuiButtonsA2(7, guiLeft + 240 - 125, guiTop + 4 + i * 10, ">"));
+                int wpos = var8.getStringWidth(Class);
+                int xpos = guiLeft + 64 - wpos / 2;
+                int ypos = guiTop + 5 + i * 10;
+                drawDetails(Class, ClassDesc, xpos, ypos, x, y, var8);
+            }
+
+            ++i;
+            if (PwrtypSlcted == 1) {
+                int col = KiColorSlcted > 0 ? KiColorSlcted : 11075583;
+                float h2 = (float)(col >> 16 & 255) / 255.0F;
+                float h3 = (float)(col >> 8 & 255) / 255.0F;
+                float h4 = (float)(col & 255) / 255.0F;
+                float h1 = 1.0F;
+                GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
+                mc.renderEngine.bindTexture(new ResourceLocation(button1));
+                this.drawTexturedModalRect(guiLeft + 64 - 50 + 1, guiTop + 4 + i * 10, 0, 0, 100, 10);
+                String s = JRMCoreH.trl("jrmc", "AuraColor");
+                int sw = this.fontRendererObj.getStringWidth(s) / 2;
+                this.buttonList.add((new JRMCoreGuiButtons01(5015, guiLeft + 64 - sw, guiTop + 5 + i * 10, sw, s, JRMCoreH.techNCCol[1])).setShadow(false));
+            }
+
+            ++i;
+            var8.drawString(Stats, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            var8.drawString(StartAttr, guiLeft + 5 + 128, guiTop + 5 + i * 10, 0);
+            ++i;
+            int STR = JRMCoreH.attributeStart(PwrtypSlcted, 0, RaceSlcted, ClassSlcted);
+            int DEX = JRMCoreH.attributeStart(PwrtypSlcted, 1, RaceSlcted, ClassSlcted);
+            int CON = JRMCoreH.attributeStart(PwrtypSlcted, 2, RaceSlcted, ClassSlcted);
+            int WIL = JRMCoreH.attributeStart(PwrtypSlcted, 3, RaceSlcted, ClassSlcted);
+            int MND = JRMCoreH.attributeStart(PwrtypSlcted, 4, RaceSlcted, ClassSlcted);
+            int SPI = JRMCoreH.attributeStart(PwrtypSlcted, 5, RaceSlcted, ClassSlcted);
+            if (PwrtypSlcted != 1 && PwrtypSlcted != 2) {
+                if (PwrtypSlcted == 3) {
+                    int stat = JRMCoreH.stat(mc.thePlayer, 0, PwrtypSlcted, 0, STR, RaceSlcted, ClassSlcted, 0.0F);
+                    int inc = (int)JRMCoreH.statInc[PwrtypSlcted][0];
+                    String statNam = JRMCoreH.trl("saoc", JRMCoreH.attrStat[PwrtypSlcted][0]);
+                    String Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                    String statAttr = "STR";
+                    drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                    String startAttr = JRMCoreH.cldgy + "STR: " + JRMCoreH.cldr + STR;
+                    String AttrDesc = JRMCoreH.trl("saoc", JRMCoreH.attrDsc[PwrtypSlcted][0]);
+                    drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                    ++i;
+                    stat = JRMCoreH.stat(mc.thePlayer, 2, PwrtypSlcted, 2, CON, RaceSlcted, ClassSlcted, 0.0F);
+                    inc = (int)JRMCoreH.statInc[PwrtypSlcted][2];
+                    statNam = JRMCoreH.trl("saoc", JRMCoreH.attrStat[PwrtypSlcted][2]);
+                    Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                    statAttr = "VIT";
+                    drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                    startAttr = JRMCoreH.cldgy + "AGI: " + JRMCoreH.cldr + DEX;
+                    AttrDesc = JRMCoreH.trl("saoc", JRMCoreH.attrDsc[PwrtypSlcted][1]);
+                    drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                    ++i;
+                    startAttr = JRMCoreH.cldgy + "VIT: " + JRMCoreH.cldr + CON;
+                    AttrDesc = JRMCoreH.trl("saoc", JRMCoreH.attrDsc[PwrtypSlcted][2]);
+                    drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                    ++i;
+                } else {
+                    int stat = JRMCoreH.stat(mc.thePlayer, 0, PwrtypSlcted, 0, STR, RaceSlcted, ClassSlcted, 0.0F);
+                    float inc = JRMCoreH.statInc[PwrtypSlcted][0];
+                    String statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][0]);
+                    String Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                    String statAttr = "STR";
+                    drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                    String startAttr = JRMCoreH.cldgy + "STR: " + JRMCoreH.cldr + STR;
+                    String AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][0]);
+                    drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                    ++i;
+                    stat = JRMCoreH.stat(mc.thePlayer, 2, PwrtypSlcted, 2, CON, RaceSlcted, ClassSlcted, 0.0F);
+                    inc = JRMCoreH.statInc[PwrtypSlcted][2];
+                    statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][2]);
+                    Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                    statAttr = "CON";
+                    drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                    startAttr = JRMCoreH.cldgy + "CON: " + JRMCoreH.cldr + CON;
+                    AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][2]);
+                    drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                    ++i;
+                }
+            } else {
+                int stat = JRMCoreH.stat(mc.thePlayer, 0, PwrtypSlcted, 0, STR, RaceSlcted, ClassSlcted, 0.0F);
+                float inc = JRMCoreH.statInc(PwrtypSlcted, 0, 1, RaceSlcted, ClassSlcted, 0.0F);
+                String statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][0]);
+                String Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                String statAttr = "STR";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                String startAttr = JRMCoreH.cldgy + "STR: " + JRMCoreH.cldr + STR;
+                String AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][0]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+                stat = JRMCoreH.stat(mc.thePlayer, 1, PwrtypSlcted, 1, DEX, RaceSlcted, ClassSlcted, 0.0F);
+                inc = JRMCoreH.statInc(PwrtypSlcted, 1, 1, RaceSlcted, ClassSlcted, 0.0F);
+                statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][1]);
+                Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                statAttr = "DEX";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                startAttr = JRMCoreH.cldgy + "DEX: " + JRMCoreH.cldr + DEX;
+                AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][1]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+                stat = JRMCoreH.stat(mc.thePlayer, 2, PwrtypSlcted, 2, CON, RaceSlcted, ClassSlcted, 0.0F);
+                inc = JRMCoreH.statInc(PwrtypSlcted, 2, 1, RaceSlcted, ClassSlcted, 0.0F);
+                statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][2]);
+                Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                statAttr = "CON";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                startAttr = JRMCoreH.cldgy + "CON: " + JRMCoreH.cldr + CON;
+                AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][2]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+                stat = JRMCoreH.stat(mc.thePlayer, 2, PwrtypSlcted, 3, CON, RaceSlcted, ClassSlcted, 0.0F);
+                inc = JRMCoreH.statInc(PwrtypSlcted, 3, 1, RaceSlcted, ClassSlcted, 0.0F);
+                statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][3]);
+                Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                statAttr = "CON";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                startAttr = JRMCoreH.cldgy + "WIL: " + JRMCoreH.cldr + WIL;
+                AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][3]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+                stat = JRMCoreH.stat(mc.thePlayer, 3, PwrtypSlcted, 4, WIL, RaceSlcted, ClassSlcted, 0.0F);
+                inc = JRMCoreH.statInc(PwrtypSlcted, 4, 1, RaceSlcted, ClassSlcted, 0.0F);
+                statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][4]);
+                Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                statAttr = "WIL";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                startAttr = JRMCoreH.cldgy + "MND: " + JRMCoreH.cldr + MND;
+                AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][4]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+                stat = JRMCoreH.stat(mc.thePlayer, 5, PwrtypSlcted, 5, SPI, RaceSlcted, ClassSlcted, JRMCoreH.SklLvl_KiBs(this.pwr));
+                inc = JRMCoreH.statInc(PwrtypSlcted, 5, 1, RaceSlcted, ClassSlcted, 0.0F);
+                statNam = JRMCoreH.trl("jrmc", JRMCoreH.attrStat[PwrtypSlcted][5]);
+                Stat = JRMCoreH.cldgy + statNam + ": " + JRMCoreH.cldr + stat;
+                statAttr = "SPI";
+                drawDetails(Stat, JRMCoreH.cct(StatIncreaseDesc, new Object[]{statAttr, inc}), guiLeft + 5, guiTop + 5 + i * 10, x, y, var8);
+                startAttr = JRMCoreH.cldgy + "SPI: " + JRMCoreH.cldr + SPI;
+                AttrDesc = JRMCoreH.trl("jrmc", JRMCoreH.attrDsc[PwrtypSlcted][5]);
+                drawDetails(startAttr, AttrDesc, guiLeft + 5 + 128, guiTop + 5 + i * 10, x, y, var8);
+                ++i;
+            }
+        }
+
+        if (this.isGUIOpen(3)) {
+            int xSize = 256;
+            int ySize = 159;
+            int guiLeft = (this.width - xSize) / 2;
+            int guiTop = (this.height - ySize) / 2;
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            ResourceLocation guiLocation = new ResourceLocation(wish);
+            mc.renderEngine.bindTexture(guiLocation);
+            this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+            String n = JRMCoreH.trl("jrmc", "Back");
+            int nw = this.fontRendererObj.getStringWidth(n) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(11, posX - 130 - nw, posY + 65, nw, 20, n, 0));
+            n = JRMCoreH.trl("jrmc", "Accept");
+            nw = this.fontRendererObj.getStringWidth(n) + 8;
+            this.buttonList.add(new JRMCoreGuiButtons00(13, posX + 130, posY + 65, nw, 20, n, 0));
+            String Race = JRMCoreH.trl("jrmc", JRMCoreH.Races[RaceSlcted]);
+            String Gender = JRMCoreH.trl("jrmc", JRMCoreH.Genders[GenderSlcted]);
+            String Hair = JRMCoreH.trl("jrmc", "Hair") + " " + (HairSlcted + 1);
+            String Color = "" + ColorSlcted;
+            String Special = JRMCoreH.trl("jrmc", "BodyType") + " " + (BodyTypeSlcted + 1);
+            String Pwrtyp = JRMCoreH.trl("jrmc", JRMCoreH.Pwrtyps[PwrtypSlcted]);
+            String Class = JRMCoreH.trl("jrmc", cl()[ClassSlcted]);
+            String className = JRMCoreH.trl("jrmc", JRMCoreH.ClassNames[PwrtypSlcted]);
+            String SkinTyp = JRMCoreH.trl("jrmc", JRMCoreH.skinTyps[SkinTypeSlcted]);
+            int i = 0;
+            var8.drawString(JRMCoreH.trl("jrmc", "Race") + ": " + Race, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            var8.drawString(JRMCoreH.trl("jrmc", "Gender") + ": " + Gender, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            var8.drawString(JRMCoreH.trl("jrmc", "Hair") + ": " + Hair, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            var8.drawString(JRMCoreH.trl("jrmc", "Color") + ": ", guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            var8.drawString(JRMCoreH.trl("jrmc", "BodyType") + ": " + SkinTyp, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            var8.drawString(JRMCoreH.trl("jrmc", "PowerType") + ": " + Pwrtyp, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            ++i;
+            if (PwrtypSlcted != 3) {
+                var8.drawString(className + ": " + Class, guiLeft + 5, guiTop + 5 + i * 10, 0);
+            }
+
+            ++i;
+            float h2 = (float)(ColorSlcted >> 16 & 255) / 255.0F;
+            float h3 = (float)(ColorSlcted >> 8 & 255) / 255.0F;
+            float h4 = (float)(ColorSlcted & 255) / 255.0F;
+            float h1 = 1.0F;
+            GL11.glColor4f(h1 * h2, h1 * h3, h1 * h4, 1.0F);
+            mc.renderEngine.bindTexture(new ResourceLocation(button1));
+            this.drawTexturedModalRect(guiLeft + 5 + var8.getStringWidth("Color: "), guiTop + 3 + 30, 0, 0, 50, 10);
+            int k = guiLeft + xSize / 2;
+            func_110423_a_I(k + 51, guiTop + 155, 60, (float)(k + 51) - this.xSize_lo, (float)(guiTop + 120 - 40) - this.ySize_lo, mc.thePlayer);
+        }
+
         super.drawScreen(x, y, f);
         this.drawDetails(x, y, var8);
     }
@@ -1320,42 +1683,492 @@ public class StartingGui2 extends AbstractJRMCGui2 {
     private void drawDetails(int x, int y, FontRenderer var8) {
         if (!detailList.isEmpty()) {
             Object[] o = (Object[]) detailList.get(0);
-            String desc = (String) o[0];
+            String desc = (String)o[0];
             int ll = Integer.parseInt("" + o[6]);
             int descw = var8.getStringWidth(desc);
-            var8.getStringWidth(desc);
+            int var10000 = 1 + var8.getStringWidth(desc) / ll;
             mc.renderEngine.bindTexture(new ResourceLocation("jinryuumodscore:allw.png"));
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.8F);
-            int desch = JRMCoreH.txt(desc, (String) o[1], Integer.parseInt("" + o[2]), false, 0, 0, ll);
-            ScaledResolution var9 = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-            int var10 = var9.getScaledWidth();
-            int var11 = var9.getScaledHeight();
+            int desch = JRMCoreH.txt(desc, (String)o[1], Integer.parseInt("" + o[2]), false, 0, 0, ll);
+            ScaledResolution var5 = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+            int var6 = var5.getScaledWidth();
+            int var7 = var5.getScaledHeight();
             int xp = 0;
             int yp = 0;
-            if (var10 < x + (Math.min(descw, ll)) + 10) {
-                xp += var10 - (x + (Math.min(descw, ll))) - 10;
+            if (var6 < x + (descw < ll ? descw : ll) + 10) {
+                xp += var6 - (x + (descw < ll ? descw : ll)) - 10;
             }
 
-            if (var11 < y + desch * 10 + 10) {
+            if (var7 < y + desch * 10 + 10) {
                 yp = -(desch * 10 + 20);
             }
 
-            this.drawTexturedModalRect(x + xp, y + 10 + yp, 5, 5, (Math.min(descw, ll)) + 10, desch * 10 + 10);
-            JRMCoreH.txt(desc, (String) o[1], Integer.parseInt("" + o[2]), Boolean.parseBoolean("" + o[3]), Integer.parseInt("" + o[4]) + xp, Integer.parseInt("" + o[5]) + 10 + yp, ll);
+            this.drawTexturedModalRect(x + xp, y + 10 + yp, 5, 5, (descw < ll ? descw : ll) + 10, desch * 10 + 10);
+            JRMCoreH.txt(desc, (String)o[1], Integer.parseInt("" + o[2]), Boolean.parseBoolean("" + o[3]), Integer.parseInt("" + o[4]) + xp, Integer.parseInt("" + o[5]) + 10 + yp, ll);
             detailList.clear();
         }
 
+    }
+
+    private static void drawDetails(String s1, String s2, int xpos, int ypos, int x, int y, FontRenderer var8) {
+        int wpos = var8.getStringWidth(s1);
+        var8.drawString(s1, xpos, ypos, 0);
+        if (xpos < x && xpos + wpos > x && ypos - 3 < y && ypos + 10 > y) {
+            int ll = 200;
+            Object[] txt = new Object[]{s2, "§8", 0, true, x + 5, y + 5, ll};
+            detailList.add(txt);
+        }
+
+    }
+
+    public static void setchangebodycol() {
+        int[][] pres = JRMCoreH.defbodycols[BodyColPresetSlcted];
+        BodyColMainSlcted = pres[RaceSlcted].length > 0 ? pres[RaceSlcted][0] : 0;
+        BodyColSub1Slcted = pres[RaceSlcted].length > 1 ? pres[RaceSlcted][1] : 0;
+        BodyColSub2Slcted = pres[RaceSlcted].length > 2 ? pres[RaceSlcted][2] : 0;
+        BodyColSub3Slcted = pres[RaceSlcted].length > 3 ? pres[RaceSlcted][3] : 0;
+    }
+
+    public static void setchangeeyecol() {
+        int[] preseyes = JRMCoreH.defeyecols[EyeColPresetSlcted];
+        EyeCol1Slcted = preseyes[RaceSlcted];
+        EyeCol2Slcted = preseyes[RaceSlcted];
+    }
+
+    public static void setchangerace() {
+        GenderSlcted = JRMCoreH.RaceGenders[RaceSlcted] == 1 ? 0 : GenderSlcted;
+        if (RaceSlcted == 4) {
+            StateSlcted = 4;
+        } else {
+            StateSlcted = 0;
+        }
+
+        int bt = JRMCoreH.customSknLimits[RaceSlcted][0];
+        BodyTypeSlcted = BodyTypeSlcted > bt - 1 ? bt - 1 : BodyTypeSlcted;
+        setchangebodycol();
+        bt = JRMCoreH.customSknLimits[RaceSlcted][2];
+        FaceNoseSlcted = FaceNoseSlcted > bt - 1 ? bt - 1 : FaceNoseSlcted;
+        bt = JRMCoreH.customSknLimits[RaceSlcted][3];
+        FaceMouthSlcted = FaceMouthSlcted > bt - 1 ? bt - 1 : FaceMouthSlcted;
+        bt = JRMCoreH.customSknLimits[RaceSlcted][4];
+        EyesSlcted = EyesSlcted > bt - 1 ? bt - 1 : EyesSlcted;
+        setchangeeyecol();
+        setdns();
+    }
+
+    public static void csau_d() {
+        String dnsau = JRMCoreH.data(JRMCoreClient.mc.thePlayer.getCommandSenderName(), 16, "");
+        dnsau = dnsau.contains(";") ? dnsau.substring(1) : dnsau;
+        BodyauColMainSlcted = JRMCoreH.dnsauCM(dnsau);
+        BodyauColSub1Slcted = JRMCoreH.dnsauC1(dnsau);
+        BodyauColSub2Slcted = JRMCoreH.dnsauC2(dnsau);
+        BodyauColSub3Slcted = JRMCoreH.dnsauC3(dnsau);
+    }
+
+    public static void csau_df() {
+        BodyauColMainSlcted = 14208118;
+        BodyauColSub1Slcted = 10317733;
+        BodyauColSub2Slcted = 6966676;
+        BodyauColSub3Slcted = 11045420;
+    }
+
+    public static void setdnsau() {
+        String BCM = ntl5(BodyauColMainSlcted);
+        String BC1 = ntl5(BodyauColSub1Slcted);
+        String BC2 = ntl5(BodyauColSub2Slcted);
+        String BC3 = ntl5(BodyauColSub3Slcted);
+        dnsau = BCM + BC1 + BC2 + BC3;
+    }
+
+    public static void setdns() {
+        GenderSlcted = GenderSlcted > 9 ? 9 : (GenderSlcted < 0 ? 0 : GenderSlcted);
+        BreastSizeSlcted = BreastSizeSlcted > 9 ? 9 : (BreastSizeSlcted < 0 ? 0 : BreastSizeSlcted);
+        SkinTypeSlcted = SkinTypeSlcted > 9 ? 9 : (SkinTypeSlcted < 0 ? 0 : SkinTypeSlcted);
+        String R = ntl(RaceSlcted);
+        String G = GenderSlcted + "";
+        String H1 = ntl(HairSlcted);
+        String H2 = ntl(Hair2Slcted);
+        String HC = ntl5(ColorSlcted);
+        String BS = BreastSizeSlcted + "";
+        String ST = SkinTypeSlcted + "";
+        String BT = ntl(BodyTypeSlcted);
+        String BCM = ntl5(BodyColMainSlcted);
+        String BC1 = ntl5(BodyColSub1Slcted);
+        String BC2 = ntl5(BodyColSub2Slcted);
+        String BC3 = ntl5(BodyColSub3Slcted);
+        String FN = ntl(FaceNoseSlcted);
+        String FM = ntl(FaceMouthSlcted);
+        String ET = ntl(EyesSlcted);
+        String EC1 = ntl5(EyeCol1Slcted);
+        String EC2 = ntl5(EyeCol2Slcted);
+        if (SkinTypeSlcted == 0) {
+            dns = R + G + H1 + H2 + HC + BS + ST + BC1;
+        } else {
+            dns = R + G + H1 + H2 + HC + BS + ST + BT + BCM + BC1 + BC2 + BC3 + FN + FM + ET + EC1 + EC2;
+        }
+
+    }
+
+    public static void setdnsForHair() {
+        dns = JRMCoreH.dnsHairBSet(dns, HairSlcted);
+        dns = JRMCoreH.dnsHairFSet(dns, Hair2Slcted);
+        dns = JRMCoreH.dnsHairCSet(dns, ColorSlcted);
+    }
+
+    public static void HairCstmNextPreset() {
+        int selct = HairPrstsSlcted + 1;
+        if (selct < PresetList.size()) {
+            HairPrstsSlcted = selct;
+        } else {
+            HairPrstsSlcted = 0;
+        }
+
+        dnsH = (String)PresetList.get(HairPrstsSlcted);
+    }
+
+    public static void HairCstmPrevPreset() {
+        int selct = HairPrstsSlcted - 1;
+        if (selct >= 0) {
+            HairPrstsSlcted = selct;
+        } else {
+            HairPrstsSlcted = PresetList.size() - 1;
+        }
+
+        dnsH = (String)PresetList.get(HairPrstsSlcted);
+    }
+
+    public static void HairCstmSaveAsPreset() {
+        String s = JRMCoreH.rld("HairPresets", "jinryuujrmcore.dat");
+        List<String> stooges = Arrays.asList();
+        if (s.length() > 3) {
+            stooges = Arrays.asList(s.split(","));
+        }
+
+        ArrayList<String> saves = new ArrayList(stooges);
+        ArrayList<String> defpres = new ArrayList();
+        ArrayList<String> presets = new ArrayList();
+
+        for(String def : JRMCoreH.defHairPrsts) {
+            defpres.add(def);
+        }
+
+        saves.add(dnsH);
+        saves.removeAll(defpres);
+        String listString = "";
+
+        for(String strng : saves) {
+            listString = listString + "," + strng;
+        }
+
+        if (listString.length() > 2) {
+            listString = listString.substring(1);
+        }
+
+        presets.addAll(defpres);
+        presets.addAll(saves);
+        PresetList = presets;
+        dnsH = (String)PresetList.get(PresetList.size() - 1);
+        JRMCoreH.wld(listString, "HairPresets", "jinryuujrmcore.dat", false);
+        HairPrstsSlcted = PresetList.size() - 1;
+        dnsH = (String)PresetList.get(HairPrstsSlcted);
+    }
+
+    public static void HairCstmDelPreset() {
+        if (HairPrstsSlcted > JRMCoreH.defHairPrsts.length - 1) {
+            String s = JRMCoreH.rld("HairPresets", "jinryuujrmcore.dat");
+            List<String> stooges = Arrays.asList();
+            if (s.length() > 3) {
+                stooges = Arrays.asList(s.split(","));
+            }
+
+            ArrayList<String> saves = new ArrayList(stooges);
+            ArrayList<String> defpres = new ArrayList();
+            ArrayList<String> presets = new ArrayList();
+
+            for(String def : JRMCoreH.defHairPrsts) {
+                defpres.add(def);
+            }
+
+            if (saves.size() > HairPrstsSlcted - JRMCoreH.defHairPrsts.length) {
+                saves.remove(HairPrstsSlcted - JRMCoreH.defHairPrsts.length);
+            }
+
+            String listString = "";
+
+            for(String strng : saves) {
+                listString = listString + "," + strng;
+            }
+
+            if (listString.length() > 2) {
+                listString = listString.substring(1);
+            }
+
+            presets.addAll(defpres);
+            presets.addAll(saves);
+            PresetList = presets;
+            JRMCoreH.wld(listString, "HairPresets", "jinryuujrmcore.dat", false);
+            --HairPrstsSlcted;
+            dnsH = (String)PresetList.get(HairPrstsSlcted);
+        }
+
+    }
+
+    public static void HairCstmResetPreset() {
+        dnsH = (String)PresetList.get(HairPrstsSlcted);
+    }
+
+    public static void StateViewF() {
+        if (RaceSlcted == JRMCoreH.RACES) {
+            ++StateSlcted;
+            StateSlcted = StateSlcted > JRMCoreH.RACES + 1 ? 0 : StateSlcted;
+        } else {
+            StateSlcted = 0;
+        }
+
+    }
+
+    public static void StateViewB() {
+        if (RaceSlcted == JRMCoreH.RACES) {
+            --StateSlcted;
+            StateSlcted = StateSlcted < 0 ? JRMCoreH.RACES + 1 : StateSlcted;
+        } else {
+            StateSlcted = 0;
+        }
+
+    }
+
+    public static void RaceSlctF() {
+        if (JRMCoreH.isRaceArcosian(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
+            RaceSlcted = 5;
+        }
+
+        for(int selct = 1; selct < JRMCoreH.Races.length; ++selct) {
+            if (RaceSlcted < selct && (JRMCoreH.RaceAllow[selct].contains("DBC") && JRMCoreH.DBC() || JRMCoreH.RaceAllow[selct].contains("HHC") && JRMCoreH.HHC())) {
+                RaceSlcted = selct;
+                return;
+            }
+        }
+
+        int var1 = 0;
+        if (RaceSlcted > var1 || JRMCoreH.isRaceMajin(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
+            RaceSlcted = var1;
+        }
+    }
+
+    public static void RaceSlctB() {
+        if (JRMCoreH.isRaceHuman(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
+            RaceSlcted = 5;
+        }
+
+        for(int selct = JRMCoreH.Races.length - 1; selct >= 0; --selct) {
+            if (RaceSlcted > selct && JRMCoreH.Allow(JRMCoreH.RaceAllow[selct])) {
+                RaceSlcted = selct;
+                return;
+            }
+        }
+
+        for(int var1 = JRMCoreH.Races.length - 1; var1 >= 0; --var1) {
+            if (RaceSlcted < var1 && JRMCoreH.Allow(JRMCoreH.RaceAllow[var1])) {
+                RaceSlcted = var1;
+                return;
+            }
+        }
+
+    }
+
+    public static void GenderSlctF() {
+        int selct = GenderSlcted + 1;
+        if (selct < JRMCoreH.Genders.length && JRMCoreH.Allow(JRMCoreH.GenderAllow[selct])) {
+            GenderSlcted = selct;
+        } else {
+            GenderSlcted = 0;
+        }
+
+    }
+
+    public static void YearsSlctF() {
+        int selct = YearsSlcted + 1;
+        if (selct < JRMCoreH.YearsD.length) {
+            YearsSlcted = selct;
+        } else {
+            YearsSlcted = 0;
+        }
+
+    }
+
+    public static void YearsSlctB() {
+        int selct = YearsSlcted - 1;
+        if (selct >= 0) {
+            YearsSlcted = selct;
+        } else {
+            YearsSlcted = JRMCoreH.YearsD.length - 1;
+        }
+
+    }
+
+    public static void HairSlctF() {
+        int selct = HairSlcted + 1;
+        if (selct < JRMCoreH.Hairs.length) {
+            HairSlcted = selct;
+        } else {
+            HairSlcted = JRMCoreH.isRaceMajin(RaceSlcted) ? 10 : 0;
+        }
+
+    }
+
+    public static void HairSlctB() {
+        int selct = HairSlcted - 1;
+        if (selct >= 0) {
+            HairSlcted = selct;
+        } else {
+            HairSlcted = JRMCoreH.Hairs.length - 1;
+        }
+
+    }
+
+    public static void Hair2SlctF() {
+        int selct = Hair2Slcted + 1;
+        if (selct < JRMCoreH.Hairs2.length) {
+            Hair2Slcted = selct;
+        } else {
+            Hair2Slcted = 0;
+        }
+
+    }
+
+    public static void Hair2SlctB() {
+        int selct = Hair2Slcted - 1;
+        if (selct >= 0) {
+            Hair2Slcted = selct;
+        } else {
+            Hair2Slcted = JRMCoreH.Hairs2.length - 1;
+        }
+
+    }
+
+    public static int SlctF(int s, int l) {
+        int selct = s + 1;
+        return selct < l ? selct : 0;
+    }
+
+    public static int SlctB(int s, int l) {
+        int selct = s - 1;
+        return selct >= 0 ? selct : l - 1;
+    }
+
+    public static int Slct(String dir, int Select, String[] allow) {
+        if (dir.contains("B")) {
+            int selct = Select - 1;
+            boolean loop = true;
+
+            while(loop) {
+                if (JRMCoreH.RaceCanHavePwr[RaceSlcted].contains("" + selct) && selct < allow.length && JRMCoreH.Allow(allow[selct])) {
+                    Select = selct;
+                    loop = false;
+                    break;
+                }
+
+                --selct;
+                if (selct <= 0) {
+                    selct = allow.length - 1;
+                }
+            }
+        } else {
+            int selct = Select + 1;
+            boolean loop = true;
+
+            while(loop) {
+                if (JRMCoreH.RaceCanHavePwr[RaceSlcted].contains("" + selct) && selct < allow.length && JRMCoreH.Allow(allow[selct])) {
+                    Select = selct;
+                    loop = false;
+                    break;
+                }
+
+                ++selct;
+                if (selct >= allow.length) {
+                    selct = 0;
+                }
+            }
+        }
+
+        return Select;
+    }
+
+    public static int Slct2(String dir, int Select, String[] allow, int allowsel, String[] cur) {
+        if (dir.contains("B")) {
+            int selct = Select - 1;
+            if (selct >= 0 && JRMCoreH.Allow(allow[allowsel])) {
+                Select = selct;
+            } else {
+                Select = cur.length - 1;
+            }
+        } else {
+            int selct = Select + 1;
+            if (selct < cur.length && JRMCoreH.Allow(allow[allowsel])) {
+                Select = selct;
+            } else {
+                Select = 0;
+            }
+        }
+
+        return Select;
+    }
+
+    public static int SlctCol(String dir, int Select, String[] allow) {
+        if (dir.contains("B")) {
+            int selct = Select - 1;
+            if (selct >= 0) {
+                Select = selct;
+            } else {
+                Select = allow.length - 1;
+            }
+        } else {
+            int selct = Select + 1;
+            if (selct < allow.length) {
+                Select = selct;
+            } else {
+                Select = 0;
+            }
+        }
+
+        return Select;
+    }
+
+    public static int SlctSpec(String dir, int Select, int[] allow) {
+        if (dir.contains("B")) {
+            int selct = Select - 1;
+            int max = allow[RaceSlcted];
+            if (selct >= 0) {
+                Select = selct;
+            } else {
+                Select = max - 1;
+            }
+        } else {
+            int selct = Select + 1;
+            int max = allow[RaceSlcted];
+            if (selct < max) {
+                Select = selct;
+            } else {
+                Select = 0;
+            }
+        }
+
+        return Select;
     }
 
     public static void func_110423_a_I(int par0, int par1, int scale, float par3, float par4, EntityLivingBase entity) {
         func_110423_a(par0, par1, scale, par3, par4, entity, true, true, false);
     }
 
+    public static void func_110423_a(int par0, int par1, int scale, float par3, float par4, EntityLivingBase entity) {
+        func_110423_a(par0, par1, scale, par3, par4, entity, true, true, true);
+    }
+
     public static void func_110423_a(int par0, int par1, int scale, float par3, float par4, EntityLivingBase entity, boolean hr, boolean l, boolean i) {
         GL11.glEnable(2903);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) par0, (float) par1, 50.0F);
-        GL11.glScalef((float) (-scale), (float) scale, (float) scale);
+        GL11.glTranslatef((float)par0, (float)par1, 50.0F);
+        GL11.glScalef((float)(-scale), (float)scale, (float)scale);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         float f2 = entity.renderYawOffset;
         float f3 = entity.rotationYaw;
@@ -1369,17 +2182,17 @@ public class StartingGui2 extends AbstractJRMCGui2 {
 
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
         if (hr) {
-            GL11.glRotatef(-((float) Math.atan(par4 / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(-((float)Math.atan((par4 / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
         }
 
-        entity.renderYawOffset = hr ? (float) (i ? -1 : 1) * (float) Math.atan(par3 / 40.0F) * 20.0F : 0.0F;
-        entity.rotationYaw = hr ? (float) (i ? -1 : 1) * (float) Math.atan(par3 / 40.0F) * 40.0F : 0.0F;
-        entity.rotationPitch = hr ? -((float) Math.atan(par4 / 40.0F)) * 20.0F : 0.0F;
+        entity.renderYawOffset = hr ? (float)(i ? -1 : 1) * (float)Math.atan((par3 / 40.0F)) * 20.0F : 0.0F;
+        entity.rotationYaw = hr ? (float)(i ? -1 : 1) * (float)Math.atan((par3 / 40.0F)) * 40.0F : 0.0F;
+        entity.rotationPitch = hr ? -((float)Math.atan(par4 / 40.0F)) * 20.0F : 0.0F;
         entity.rotationYawHead = hr ? entity.rotationYaw : 0.0F;
         entity.prevRotationYawHead = hr ? entity.rotationYaw : 0.0F;
         GL11.glTranslatef(0.0F, entity.yOffset, 0.0F);
         RenderManager.instance.playerViewY = 180.0F;
-        RenderManager.instance.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+        RenderManager.instance.renderEntityWithPosYaw(entity, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
         entity.renderYawOffset = f2;
         entity.rotationYaw = f3;
         entity.rotationPitch = f4;
@@ -1393,29 +2206,43 @@ public class StartingGui2 extends AbstractJRMCGui2 {
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
+    public static String[] clDesc(int pwr) {
+        String[] cl = JRMCoreH.PwrtypAllow[pwr].contains("DBC") ? JRMCoreH.ClassesDBCDesc : (JRMCoreH.PwrtypAllow[pwr].contains("NC") ? JRMCoreH.ClansDesc : JRMCoreH.ClassesDesc);
+        return cl;
+    }
+
+    public static String[] clDesc() {
+        return clDesc(PwrtypSlcted);
+    }
+
+    public static String[] cl() {
+        return JRMCoreH.cl(PwrtypSlcted);
+    }
+
+    private static String ntl(int i) {
+        return JRMCoreH.numToLet(i);
+    }
+
+    private static String ntl5(int i) {
+        return JRMCoreH.numToLet5(i);
+    }
+
+    public static boolean hovered(int mX, int mY, int xpos, int ypos, int w, int h) {
+        return xpos < mX && xpos + w > mX && ypos - 3 < mY && ypos + h > mY;
+    }
+
+    private void nametf(FontRenderer var8, int id, int i, int j) {
+        this.inputField2[id].setMaxStringLength(3);
+        this.inputField2[id].setEnableBackgroundDrawing(true);
+        this.inputField2[id].setCanLoseFocus(true);
+    }
+
     private void updateMajinHairToBodyColor() {
         if (JRMCoreH.isRaceMajin(RaceSlcted) && ColorSlcted != BodyColMainSlcted) {
             ColorSlcted = BodyColMainSlcted;
             setdnsForHair();
         }
 
-    }
-
-    private void renderSkybox(float p_73971_3_) {
-        mc.getFramebuffer().unbindFramebuffer();
-        GL11.glViewport(0, 0, 256, 256);
-        this.drawPanorama(p_73971_3_);
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        this.rotateAndBlurSkybox();
-        mc.getFramebuffer().bindFramebuffer(true);
-        GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
-        Tessellator tessellator = getTessellator();
-        tessellator.draw();
     }
 
     private Tessellator getTessellator() {
@@ -1541,231 +2368,25 @@ public class StartingGui2 extends AbstractJRMCGui2 {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
-    private void nametf(FontRenderer var8, int id, int i, int j) {
-        this.inputField2[id].setMaxStringLength(3);
-        this.inputField2[id].setEnableBackgroundDrawing(true);
-        this.inputField2[id].setCanLoseFocus(true);
-    }
-
-    public static void setchangebodycol() {
-        int[][] pres = JRMCoreH.defbodycols[BodyColPresetSlcted];
-        BodyColMainSlcted = pres[RaceSlcted].length > 0 ? pres[RaceSlcted][0] : 0;
-        BodyColSub1Slcted = pres[RaceSlcted].length > 1 ? pres[RaceSlcted][1] : 0;
-        BodyColSub2Slcted = pres[RaceSlcted].length > 2 ? pres[RaceSlcted][2] : 0;
-        BodyColSub3Slcted = pres[RaceSlcted].length > 3 ? pres[RaceSlcted][3] : 0;
-    }
-
-    public static void setchangeeyecol() {
-        int[] preseyes = JRMCoreH.defeyecols[EyeColPresetSlcted];
-        EyeCol1Slcted = preseyes[RaceSlcted];
-        EyeCol2Slcted = preseyes[RaceSlcted];
-    }
-
-    public static void setchangerace() {
-        GenderSlcted = JRMCoreH.RaceGenders[RaceSlcted] == 1 ? 0 : GenderSlcted;
-        if (RaceSlcted == 4) {
-            StateSlcted = 4;
-        } else {
-            StateSlcted = 0;
-        }
-
-        int bt = JRMCoreH.customSknLimits[RaceSlcted][0];
-        BodyTypeSlcted = Math.min(BodyTypeSlcted, bt - 1);
-        setchangebodycol();
-        bt = JRMCoreH.customSknLimits[RaceSlcted][2];
-        FaceNoseSlcted = Math.min(FaceNoseSlcted, bt - 1);
-        bt = JRMCoreH.customSknLimits[RaceSlcted][3];
-        FaceMouthSlcted = Math.min(FaceMouthSlcted, bt - 1);
-        bt = JRMCoreH.customSknLimits[RaceSlcted][4];
-        EyesSlcted = Math.min(EyesSlcted, bt - 1);
-        setchangeeyecol();
-        setdns();
-    }
-
-    public static void csau_d() {
-        String dnsau = JRMCoreH.data(JRMCoreClient.mc.thePlayer.getCommandSenderName(), 16, "");
-        dnsau = dnsau.contains(";") ? dnsau.substring(1) : dnsau;
-        BodyauColMainSlcted = JRMCoreH.dnsauCM(dnsau);
-        BodyauColSub1Slcted = JRMCoreH.dnsauC1(dnsau);
-        BodyauColSub2Slcted = JRMCoreH.dnsauC2(dnsau);
-        BodyauColSub3Slcted = JRMCoreH.dnsauC3(dnsau);
-    }
-
-    public static void setdnsau() {
-        String BCM = ntl5(BodyauColMainSlcted);
-        String BC1 = ntl5(BodyauColSub1Slcted);
-        String BC2 = ntl5(BodyauColSub2Slcted);
-        String BC3 = ntl5(BodyauColSub3Slcted);
-        dnsau = BCM + BC1 + BC2 + BC3;
-    }
-
-    public static void setdns() {
-        GenderSlcted = GenderSlcted > 9 ? 9 : (Math.max(GenderSlcted, 0));
-        BreastSizeSlcted = BreastSizeSlcted > 9 ? 9 : (Math.max(BreastSizeSlcted, 0));
-        SkinTypeSlcted = SkinTypeSlcted > 9 ? 9 : (Math.max(SkinTypeSlcted, 0));
-        String R = ntl(RaceSlcted);
-        String G = GenderSlcted + "";
-        String H1 = ntl(HairSlcted);
-        String H2 = ntl(Hair2Slcted);
-        String HC = ntl5(ColorSlcted);
-        String BS = BreastSizeSlcted + "";
-        String ST = SkinTypeSlcted + "";
-        String BT = ntl(BodyTypeSlcted);
-        String BCM = ntl5(BodyColMainSlcted);
-        String BC1 = ntl5(BodyColSub1Slcted);
-        String BC2 = ntl5(BodyColSub2Slcted);
-        String BC3 = ntl5(BodyColSub3Slcted);
-        String FN = ntl(FaceNoseSlcted);
-        String FM = ntl(FaceMouthSlcted);
-        String ET = ntl(EyesSlcted);
-        String EC1 = ntl5(EyeCol1Slcted);
-        String EC2 = ntl5(EyeCol2Slcted);
-        if (SkinTypeSlcted == 0) {
-            dns = R + G + H1 + H2 + HC + BS + ST + BC1;
-        } else {
-            dns = R + G + H1 + H2 + HC + BS + ST + BT + BCM + BC1 + BC2 + BC3 + FN + FM + ET + EC1 + EC2;
-        }
-
-    }
-
-    public static void setdnsForHair() {
-        dns = JRMCoreH.dnsHairBSet(dns, HairSlcted);
-        dns = JRMCoreH.dnsHairFSet(dns, Hair2Slcted);
-        dns = JRMCoreH.dnsHairCSet(dns, ColorSlcted);
-    }
-
-    public static void StateViewF() {
-        if (RaceSlcted == JRMCoreH.RACES) {
-            ++StateSlcted;
-            StateSlcted = StateSlcted > JRMCoreH.RACES + 1 ? 0 : StateSlcted;
-        } else {
-            StateSlcted = 0;
-        }
-
-    }
-
-    public static void StateViewB() {
-        if (RaceSlcted == JRMCoreH.RACES) {
-            --StateSlcted;
-            StateSlcted = StateSlcted < 0 ? JRMCoreH.RACES + 1 : StateSlcted;
-        } else {
-            StateSlcted = 0;
-        }
-
-    }
-
-    public static void RaceSlctF() {
-        if (JRMCoreH.isRaceArcosian(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
-            RaceSlcted = 5;
-        }
-
-        for (int selct = 1; selct < JRMCoreH.Races.length; ++selct) {
-            if (RaceSlcted < selct && (JRMCoreH.RaceAllow[selct].contains("DBC") && JRMCoreH.DBC() || JRMCoreH.RaceAllow[selct].contains("HHC") && JRMCoreH.HHC())) {
-                RaceSlcted = selct;
-                return;
-            }
-        }
-
-        int var1 = 0;
-        if (RaceSlcted > var1 || JRMCoreH.isRaceMajin(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
-            RaceSlcted = var1;
-        }
-    }
-
-    public static void RaceSlctB() {
-        if (JRMCoreH.isRaceHuman(RaceSlcted) && !JGConfigRaces.CONFIG_MAJIN_ENABLED) {
-            RaceSlcted = 5;
-        }
-
-        for (int selct = JRMCoreH.Races.length - 1; selct >= 0; --selct) {
-            if (RaceSlcted > selct && JRMCoreH.Allow(JRMCoreH.RaceAllow[selct])) {
-                RaceSlcted = selct;
-                return;
-            }
-        }
-
-        for (int var1 = JRMCoreH.Races.length - 1; var1 >= 0; --var1) {
-            if (RaceSlcted < var1 && JRMCoreH.Allow(JRMCoreH.RaceAllow[var1])) {
-                RaceSlcted = var1;
-                return;
-            }
-        }
-
-    }
-
-    public static void GenderSlctF() {
-        int selct = GenderSlcted + 1;
-        if (selct < JRMCoreH.Genders.length && JRMCoreH.Allow(JRMCoreH.GenderAllow[selct])) {
-            GenderSlcted = selct;
-        } else {
-            GenderSlcted = 0;
-        }
-
-    }
-
-    public static void YearsSlctF() {
-        int selct = YearsSlcted + 1;
-        if (selct < JRMCoreH.YearsD.length) {
-            YearsSlcted = selct;
-        } else {
-            YearsSlcted = 0;
-        }
-
-    }
-
-    public static void YearsSlctB() {
-        int selct = YearsSlcted - 1;
-        if (selct >= 0) {
-            YearsSlcted = selct;
-        } else {
-            YearsSlcted = JRMCoreH.YearsD.length - 1;
-        }
-
-    }
-
-    public static void HairSlctF() {
-        int selct = HairSlcted + 1;
-        if (selct < JRMCoreH.Hairs.length) {
-            HairSlcted = selct;
-        } else {
-            HairSlcted = JRMCoreH.isRaceMajin(RaceSlcted) ? 10 : 0;
-        }
-
-    }
-
-    public static void HairSlctB() {
-        int selct = HairSlcted - 1;
-        if (selct >= 0) {
-            HairSlcted = selct;
-        } else {
-            HairSlcted = JRMCoreH.Hairs.length - 1;
-        }
-
-    }
-
-    public static int SlctF(int s, int l) {
-        int selct = s + 1;
-        return selct < l ? selct : 0;
-    }
-
-    public static int SlctB(int s, int l) {
-        int selct = s - 1;
-        return selct >= 0 ? selct : l - 1;
-    }
-
-    private static String ntl(int i) {
-        return JRMCoreH.numToLet(i);
-    }
-
-    private static String ntl5(int i) {
-        return JRMCoreH.numToLet5(i);
-    }
-
-    public static boolean hovered(int mX, int mY, int xpos, int ypos, int w, int h) {
-        return xpos < mX && xpos + w > mX && ypos - 3 < mY && ypos + h > mY;
+    private void renderSkybox(float p_73971_3_) {
+        mc.getFramebuffer().unbindFramebuffer();
+        GL11.glViewport(0, 0, 256, 256);
+        this.drawPanorama(p_73971_3_);
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        this.rotateAndBlurSkybox();
+        mc.getFramebuffer().bindFramebuffer(true);
+        GL11.glViewport(0, 0, mc.displayWidth, mc.displayHeight);
+        Tessellator tessellator = getTessellator();
+        tessellator.draw();
     }
 
     static {
+        wish = CustomNpcPlusDBC.ID + ":textures/gui/gui_yellow.png";
         pc = JRMCoreH.tjjrmc + ":gui_pc.png";
         gui_help_tabs = JRMCoreH.tjjrmc + ":help/tab0.png";
         wishsep = JRMCoreH.tjjrmc + ":guidev.png";
