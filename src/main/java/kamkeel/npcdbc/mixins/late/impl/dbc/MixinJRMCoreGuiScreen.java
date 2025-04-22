@@ -4,7 +4,6 @@ import JinRyuu.JRMCore.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import kamkeel.npcdbc.CustomNpcPlusDBC;
 import kamkeel.npcdbc.client.ColorMode;
-import kamkeel.npcdbc.client.gui.dbc.StartingGui;
 import kamkeel.npcdbc.client.gui.dbc.StartingGui2;
 import kamkeel.npcdbc.client.gui.dbc.StatSheetGui;
 import kamkeel.npcdbc.config.ConfigDBCClient;

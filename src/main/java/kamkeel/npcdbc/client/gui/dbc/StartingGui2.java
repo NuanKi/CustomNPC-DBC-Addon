@@ -12,10 +12,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import kamkeel.npcdbc.CustomNpcPlusDBC;
 import kamkeel.npcdbc.mixins.late.IDBCGuiScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -41,7 +38,7 @@ import java.util.List;
 
 import static kamkeel.npcdbc.util.Utility.t;
 
-public class StartingGui2 extends AbstractJRMCGui2 {
+public class StartingGui2 extends GuiScreen {
     public static final int ID_APPERANCE = 0;
     public static final int ID_APPERANCE_ARCO = 19;
     public static final int ID_COLOR_PICKER = 1;
@@ -947,8 +944,8 @@ public class StartingGui2 extends AbstractJRMCGui2 {
             int ySize = 107;
             int guiLeft = (this.width - xSize) / 2;
             int guiTop = (this.height - ySize) / 2;
-            int buttonLeft = guiLeft - 130;
-            int buttonRight = guiLeft - 20;
+            int buttonLeft = guiLeft - 128;
+            int buttonRight = guiLeft - 24;
             int buttonText = guiLeft - 70;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             ResourceLocation guiLocation = new ResourceLocation(wish2);
