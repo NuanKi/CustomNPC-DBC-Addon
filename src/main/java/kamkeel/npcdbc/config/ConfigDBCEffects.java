@@ -53,6 +53,15 @@ public class ConfigDBCEffects {
     public static double ZenkaiHALFWil = 1.0f;
     public static int ZenkaiHALFLength = 180;
 
+    public final static String DeathPenalty = "Death Penalty";
+    public static int DeathPenaltyPercent = 20;
+    public static int DeathPenaltyLength = 180;
+    public static boolean DeathPenaltyStr = true;
+    public static boolean DeathPenaltyDex = true;
+    public static boolean DeathPenaltyCon = true;
+    public static boolean DeathPenaltyWil = true;
+    public static boolean DeathPenaltySpi = true;
+
     public final static String Meditation = "Meditation";
     public static int MeditationSpiBoostPercent = 20;
 

@@ -58,6 +58,9 @@ public class DBCEffectController implements IDBCEffectHandler {
         standardEffects.put(Effects.HUMAN_SPIRIT, new HumanSpirit());
         standardEffects.put(Effects.EXHAUSTED, new Exhausted());
 
+        standardEffects.put(Effects.DEATH_PENALTY, new DeathEffect());
+        standardEffects.put(Effects.SNACK_BONUS, new SnackBonus());
+
         CustomEffectController.getInstance().registerEffectMap(DBC_EFFECT_INDEX, standardEffects);
     }
 

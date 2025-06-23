@@ -4,6 +4,7 @@ import JinRyuu.JRMCore.*;
 import cpw.mods.fml.common.FMLCommonHandler;
 import kamkeel.npcdbc.CustomNpcPlusDBC;
 import kamkeel.npcdbc.client.ColorMode;
+import kamkeel.npcdbc.client.gui.dbc.StartingGui2;
 import kamkeel.npcdbc.client.gui.dbc.StatSheetGui;
 import kamkeel.npcdbc.config.ConfigDBCClient;
 import kamkeel.npcdbc.constants.DBCForm;
@@ -70,6 +71,9 @@ public class MixinJRMCoreGuiScreen extends GuiScreen implements IDBCGuiScreen {
     private void onUpdateScreen(CallbackInfo ci) {
         if (this.guiID == 10 && (ConfigDBCClient.EnhancedGui || !ConfigDBCClient.EnableDebugStatSheetSwitching) && DBCData.getClient().Powertype == 1)
             FMLCommonHandler.instance().showGuiScreen(new StatSheetGui());
+        if (this.guiID == 0){
+            FMLCommonHandler.instance().showGuiScreen(new StartingGui2());
+        }
     }
 
     @Inject(method = "drawDetails", at = @At("HEAD"), remap = false, cancellable = true)

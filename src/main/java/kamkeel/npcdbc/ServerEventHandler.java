@@ -36,6 +36,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -156,11 +158,28 @@ public class ServerEventHandler {
             return;
 
         if (event.entityLiving.worldObj instanceof WorldServer && event.entityLiving instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.entityLiving;
+
             PlayerDBCInfo dbcInfo = PlayerDataUtil.getDBCInfo((EntityPlayer) event.entityLiving);
             DBCData dbcData = DBCData.get((EntityPlayer) event.entityLiving);
             dbcData.addonFormID = -1;
             dbcInfo.currentForm = -1;
             dbcInfo.updateClient();
+
+            NBTTagCompound playerData = dbcData.getRawCompound();
+            if (!playerData.hasKey("deathCount")) {
+                playerData.setInteger("deathCount", 0);
+            }
+            int deathCount = playerData.getInteger("deathCount");
+            deathCount++;
+            playerData.setInteger("deathCount", deathCount);
+
+            if (deathCount <= 3) {
+                String message = StatCollector.translateToLocal("message.death.shields").replace("%s", String.valueOf(3 - deathCount));
+                player.addChatMessage(new ChatComponentText(message));
+            } else if (ConfigDBCGameplay.EnableDeathPenalty) {
+                DBCEffectController.getInstance().applyEffect(dbcData.player, Effects.DEATH_PENALTY, ConfigDBCEffects.DeathPenaltyLength);
+            }
         }
     }
 
